@@ -51,9 +51,7 @@ Il existe bien sûr d'autres différences mais elles sont moins impactantes. L'u
 
 Nous allons donc maintenant nous intéresser plus directement au code et à la mise en place de nos premiers programmes. Nous devons cependant garder en tête que nos programmes sont exécutés dans un navigateur et que l'utilisateur peut changer la taille de sa fenêtre à tout moment et il ne faut pas que graphiquement cela change trop la donne : nous allons donc devoir travailler de manière **responsive** et donc d'exprimer les coordonnées de nos formes géométrique en fonction de la taille de notre canvas.
 
-## Une page web "responsive"
-
-### Dessiner un cercle qui reste au milieu de notre page web
+## Une page web "responsive" - Dessiner un cercle qui reste au milieu de notre page web
 
 Tout est dit dans le titre !
 
@@ -67,7 +65,7 @@ function setup() {
   background(180);
 }
 function draw(){
-    
+  background(180);
 }
 ```
 
@@ -113,7 +111,213 @@ ellipse(width*0.5, height*0.5, 50, 50);
 
 Si nous voulons que nos dessins / motifs soient responsifs et gardent un aspect similaire quelque soit la taille de notre fenêtre nous devons réussir à exprimer toutes les coordonnées de nos formes à l'aide de pourcentages (c'est à dire en multipliant ou *width* ou *height* par une valeur comprise entre 0 et 1)
 
+## Dessiner une grille - vive les boucles for !
 
+### Première grille
+
+Nous allons utiliser des boucles [**for()**](https://processing.org/reference/for.html). Le boucles for sont très pratiques pour automatiser une action qui va devoir se répéter plusieurs fois.
+
+La syntaxe générique d'une boucle for ressemble à ceci :
+
+```javascript
+for ( /* écrire les conditions qui régissent l'execution*/){
+    // écrire le code à exécuter si les conditions sont respectées
+}
+```
+
+Les **conditions d'éxecution** se précisent en trois étapes séparées par des points virgules, ces étapes doivent être spécifiées entre les paranthèses suivant le mot clé **for** :
+- déclarer et initialiser une variable
+- faire un test sur cette variable pour savoir si on doit executer le code entre accolade.
+- manipuler la variable pour la prochaine execution.
+
+Par exemple, si vous écrivez ceci dans le setup :
+
+```javascript
+for (let i = 0 ; i < 10 ; i = i+1){
+    println(i);
+}
+```
+Vous répeterez l'action "println(i)" dix fois; cela aura pour effet d'imprimer la valeur de la variable i dans la console tant que celle-ci est inférieur à 10.
+
+Voici ce que l'ordinateur va comprendre :
+
+1 - Première itération
+    - i vaut 0 
+    - 0 est inférieur à 10 
+    - j'imprime i (çàd 0) dans la console
+    - j'ajoute 1 à i
+    
+2 - Deuxième itération
+    - i vaut 1 (dernière étape de l'itération précédente)
+    - 1 est inférieur à 10
+    - j'imprime i (çàd 1) dans la console
+    - j'ajouter 1 à i (qui vaudra donc 2)
+    
+(..)
+
+11 - Onzième itération
+    - i vaut 10
+    - 10 n'est plus inférieur à 10
+    - je sors de la boucle et j'execute la prochaine ligne de code situé après l'accolade fermante.
+    
+En manipulant les condition d'initialisation, de fin et d'incrémentation de la boucle nous aurons la possibilité de créer bon nombre d'effets visuels. Commençons par essayer de dessiner des lignes verticales balayant l'écrant tous les 50 pixels.
+
+Dans le draw() vous pouvez taper cette boucle :
+
+```javascript
+for (let i = 0 ; i < width ; i += 50){
+    line(i,0,i,height);
+}
+```
+
+Vous obtiendrez ce genre de chose :
+
+![vert](images/vertical-lines.png)
+
+Vous devriez pouvoir écrire assez facilement une boucle qui vous permettrait d'obtenir une série de lignes horizontales aussi espacées de 50 pixels :
+
+![hor](images/horizontal-lines.png)
+
+Puis finalement une grille d'espacement 100 en combinant deux boucles for, l'une dans l'autre.
+
+![hor](images/grid.png)
+
+Remarquez ici que les coordonnées (i,j) qui sont calculées par l'imbrication de nos deux boucles nous donnent le point supérieur gauche de chaque case.
+
+```javascript
+for (let i = 0; i <= width; i += 100) {
+    for (let j = 0; j <= height; j+= 100) {
+        line(i,0,i,height);
+        line(0,j,width,j);
+    }
+}
+```
+
+### Une grille de cercles 
+
+Nous allons maintenant essayer de dessiner une grille de cercles :
+
+![circle-grid](images/circlegrid.gif)
+
+```javascript
+for (let i = 0; i <= width; i += 100) {
+    for (let j = 0; j <= height; j+= 100) {
+        ellipse(i,j,100,100);
+        line(i,0,i,height);
+        line(0,j,width,j);
+    }
+}
+```
+La fonction ellipse() prenant comme paramètres les coordonnées centre du cercle, notre cercle est dessiné autour de chaque intersection.
+
+![circles-inter](images/circles-intersection.png)
+
+Dans cet exemple nos cercles font une taille fixe de 100 pixels. Nous allons maintenant faire en sorte que ces cercles changent de taille à chaque fois que nous cliquons sur la souris.
+
+#### un peu d'interaction : des grilles à différentes granularités
+
+Tout d'abord il va nous falloir créer une variable qui sera la taille de chaque case et qui correspondra donc à la valeur dont nous augmentons chaque variable de la boucle for. Cette variable pourra par exemple s'appeler "slotSize" et nous l'initialiserons avec une valeur de 100.
+
+Avant le setup() (et ceci pour que notre variable soit disponible dans tout notre programme), nous pouvons donc écrire cette ligne qui sert à déclarer et initialiser une variable.
+
+```javascript
+let slotSize = 100;
+```
+Nous allons maintenant utiliser notre variable dans notre boucle for (qui se trouve dans le draw()) pour ajuster la taille de nos cases et de notre ellipse à la valeur contenue dans la variable slotSize (ici 100 pour l'instant mais nous allons pouvoir la changer ultérieurement) - il suffit de remplacer "100" par "slotSize" dans nos deux boucles for imbriquées :
+
+```javascript
+for (let i = 0; i <= width; i += slotSize) {
+    for (let j = 0; j <= height; j+= slotSize) {
+        ellipse(i,j,slotSize,slotSize);
+        line(i,0,i,height);
+        line(0,j,width,j);
+    }
+}
+```
+Il ne nous reste plus qu'à manipuler notre variable slotSize et lui donner de nouvelles valeurs : nous allons faire en sorte que cette valeur change pour une valeur aléatoire chaque fois que nous appuyons sur la souris. Pour cela il suffit d'utiliser la fonction [**mousePressed()**](https://p5js.org/reference/#/p5/mousePressed) : à chaque fois que nous appuyons sur la souris le code entre les accolades sera exécuté. Nous voulons alors utiliser [**random()**](https://p5js.org/reference/#/p5/random) pour attribuer à notre variable "slotSize" une nouvelle valeur aléatoire entre une valeur minimale et une valeur maximale.
+
+```
+function mousePressed() {
+    slotSize = random(10, 200);
+}
+```
+Notez bien que mousePressed() est une nouvelle fonction qui doit donc se situer en dehors du setup() et du draw().
+
+#### des cercles centrés dans nos cases
+
+Nous allons maintenant faire en sorte que nos cercles soient centrés dans nos cases. Nous allons donc manipuler les condition de démarrage et d'arrêt de nos boucles pour que "i" et "j" nous donnent le centre des cases plutôt que le coin supérieur gauche.
+
+![circles-cente](images/circles-centered.png)
+
+Nos cases sont carrées et de taille "slotSize", il nous suffit donc d'ajouter la moitié de slotSize à i et à j pour obtenir le centre de chaque case.
+
+```javascript
+fill(255);
+for (let i = 0; i <= width ; i += slotSize) {
+    for (let j = 0; j <= height ; j += slotSize) {
+        line(i, 0, i, height);
+        line(0, j, width, j);
+    }
+}
+
+for (let i = slotSize / 2; i <= width - slotSize / 2; i += slotSize) {
+    for (let j = slotSize / 2; j <= height - slotSize / 2; j += slotSize) {
+        ellipse(i, j, slotSize, slotSize);  
+    }
+}
+```
+
+Remarquez que lorsque vous redimensionnez votre fenêtre, certains cercles apparaissent ou disparaissent en bordure et que notre grille n'est pas centrée. Nous allons essayer de remédier à cela.
+
+#### un grille centrée dans notre page
+
+Il y a plusieures options ici : 
+
+- soit nous connaissons le nombre de case que nous voulons afficher en largeur et hauteur et nous calculons la taille de nos incréments (la partie 'i = i+100') pour que le bon nombre de cases soit créé.
+
+- soit nous connaissons la taille des cases que nous voulons afficher et nous calculons le nombre de cases en fonction de la taille de la fenêtre.
+
+Vu ce que nous avons réalisé jusqu'à maintenant, nous allons opter pour la seconde option. D'ailleurs la description de ce que nous devons réaliser n'est pas tout à fait exacte. Il n'est pas garanti que le nombre aléatoire sur lequel nous tomberons en cliquant sur la souris soit un multiple de la taille de notre fenêtre ... surtout que ce nombre est potentiellement un nombre à virgule et que notre utilisateur peut changer la taille de la fenêtre comme bon lui semble ...
+c'est donc un peu plus compliqué ...
+
+Il faut que nous calculions le nombre maximum de cases que l'on peut faire tenir dans notre fenêtre en fonction de la taille des cases et de la taille de notre fenêtre.
+
+En fonction du résultat de ce calcul il nous restera un espace vide qui sera inférieur à la taille d'un case. Cet valeur (en pixel) de l'espace restant nous pourrons la diviser par deux pour créer une marge en haut et en bas et une marge à droite et à gauche.
+
+Il faut donc que nous commencions par déclarer des variables globales (tout en haut de notre programme) en dehors de toute accolade
+
+```javascript
+let marginX;
+let marginY;
+```
+
+Ensuite dans le setup(), nous devons calculer la taille de nos marges. Il faut diviser respectivement la largeur et la hauteur de notre fenêtre par la taille de nos cases. Il faut prendre la partie entière de cette division et la multiplier par la taille de chacune de nos cases. Si l'on soustrait ce résultat à chaque dimension de notre fenêtre on obtien en pixel l'espace restant en pixel un fois que l'on a affiché un maximum de case soit deux fois notre marge.
+
+```javascript
+marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+```
+Ce calcul doit être effectué dans le setup() pour que nôtre grille s'affiche correctement au chargement de notre page et il doit être refait à chaque fois que notre page change de taille (càd dans la fonction *windowResized()* après l'appel *resizeCanvas()*) mais aussi quand on change la taille de nos cases (càd dans la fonction *mousePressed()* après l'appel à *random()* pour spécifier une nouvelle taille de case).
+
+Il faut maintenant utiliser ces deux nouvelles variables dans les conditions de départ et d'arrêt de notre boucle for :
+
+```javascript
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+        fill(255)
+        rect(i, j, slotSize, slotSize);
+        fill(255)
+        ellipse(i, j, slotSize, slotSize);        
+    }
+}
+```
+
+Et voilà nous arrivons enfin au résultat du gif affiché précédement. A partir maintenant le code que vous allez écrire ce situera principalement à l'intérieur de ces deux boucles for; il est possible de faire énormément de choses. Le code que nous avons écrit jusqu'à maintenant va être votre base de départ pour pouvoir créer des pavages géométriques tous plus beaux les uns que les autres !
+
+Le code complet de ce premier programme entiérement "responsif" est disponible [ici](https://github.com/b2renger/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid).
+
+
+## Un peu d'interaction avec la souris
 
 
 
