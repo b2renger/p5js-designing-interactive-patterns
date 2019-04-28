@@ -282,7 +282,7 @@ c'est donc un peu plus compliqué ...
 
 Il faut que nous calculions le nombre maximum de cases que l'on peut faire tenir dans notre fenêtre en fonction de la taille des cases et de la taille de notre fenêtre.
 
-En fonction du résultat de ce calcul il nous restera un espace vide qui sera inférieur à la taille d'un case. Cet valeur (en pixel) de l'espace restant nous pourrons la diviser par deux pour créer une marge en haut et en bas et une marge à droite et à gauche.
+En fonction du résultat de ce calcul il nous restera un espace vide qui sera inférieur à la taille d'un case. Cette valeur (en pixel) de l'espace restant nous pourrons la diviser par deux pour créer une marge en haut et en bas et une marge à droite et à gauche.
 
 Il faut donc que nous commencions par déclarer des variables globales (tout en haut de notre programme) en dehors de toute accolade
 
@@ -316,10 +316,265 @@ Et voilà nous arrivons enfin au résultat du gif affiché précédement. A part
 
 Le code complet de ce premier programme entiérement "responsif" est disponible [ici](https://github.com/b2renger/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid).
 
+Ce code sera la base de laquelle vous pour la plupart des programmes que nous crérons :
+
+```javascript
+let slotSize = 100;
+let marginX;
+let marginY;
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    background(180);
+    pixelDensity(1);
+
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+
+
+function draw() {
+    background(180)
+    for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            // code here
+
+        }
+    }
+}
+
+function mousePressed(){
+    slotSize = random(10, 200);
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+```
+
 
 ## Un peu d'interaction avec la souris
 
+### Un grille de cercles qui changent de taille en fonction de la position de la souris
 
+Notre prochaine programme est très simple et se base sur le code vu précédement, le voici :
+
+![circle grid map mouse](images/circlegrid-size.gif)
+
+Il s'agit ici de dessiner un cercle dans chaque case et de faire correspondre sa taille à la distance qui sépare la souris du centre de chaque cercle : si la souris est proche, le cercle est gros, si elle est loin le cercle est petit.
+
+Pour dessiner des cercles dans chaque case c'est facile : il suffit d'appeler la fonction [ellipse()](https://p5js.org/reference/#/p5/ellipse) à l'intérieur de la double boucle for en utilisant pour coordonnées du centre de chaque ellipse les variables i et j qui varient au fil de l'exécution des boucles.
+
+```javascript
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            // code here
+            ellipse(i,j, slotSize, slotSize);                                                                              
+        }
+}
+```
+
+Pour calculer la distance il existe la fonction [**dist()**](https://p5js.org/reference/#/p5/dist), qui permet de calculer la distance entre deux points.
+
+Nous devons calculer la distance entre la souris et chacun des points de notre grille. Cela devra donc être fait pour chaque case, nous allons donc créer une variable que nous allons nommer 'd' pour stocker cette distance.
+
+```javascript
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            // code here
+            let d = dist(mouseX,mouseY,i,j)
+            ellipse(i,j, slotSize, slotSize);                       
+        }
+}
+```
+
+Maintenant il ne nous reste plus qu'à calculer la taille de nos cercles en fonction de la distance calculée. Pour cela nous allons utiliser un règle de trois ou règle de proportionalité dont le calcul peut-être effectué par la fonction [**map()**](https://p5js.org/reference/#/p5/map). **map()** prend 5 paramètre, le premier et la valeur que l'on souhaitre transformer, les deux suivant sont les valeurs minimales et maximales que cette valeur peut prendre, et les deux derniers sont les valeurs minimales et maximales que l'on veut en sortie.
+
+Les valeurs minimales que l'on souhaite en sortie sont "5" pixels et "slotSize" pixels : pour que si la souris soit pile sur le centre d'un cercle celui-ci prenne le maximum de taille possible dans sa case.
+
+La valeur minimale que peut prendre la distance entre la souris et le centre d'un cercle est naturellement zéro, la distance maximale peut être résolue avec une application très simple du théorème de pythagore dans notre fenêtre de dessin. La plus grande distance possible dans notre fenêtre est le taille d'une diagonale (si notre souris est tout en haut à gauche on veut que notre point tout en bas à droite soit le plus petit possible). Il faut donc calculer la diagonale de notre fenêtre :
+
+```javascript
+let dmax = sqrt(width*width + height*height);
+```
+
+On peut maintenant appliquer notre règle de trois ou "mapping" - en faisant attention au sens dans lequel on veut qu'il s'applique (quand la distance vaut 0, le cercle doit être de taille maximum) :
+
+```javascript
+let s = map(d, 0, dmax, slotSize, 1)
+```
+
+On peut aussi combiner le calcul de 'd', 'dmax' et de 's' en une seule ligne si on le souhaite :
+
+```javascript
+let s = map(dist(i,j,mouseX,mouseY), 0, sqrt(width*width + height*height), slotSize, 1)
+```
+
+Voici donc pour résumer le contenu du **draw()** permettant d'obtenir le résultat présenté dans le gif précédant :
+
+```javascript
+background(0)
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+        let s = map(dist(i, j, mouseX, mouseY), 0, sqrt(width * width + height * height), slotSize, 1);
+        ellipse(i, j, s, s);
+    }
+}
+```
+
+### Une grille de cercles co-centriques
+
+Etant donné que plus on a de boucles for, plus on s'amuse ! nous allons rajouter une troisième boucle for à l'intérieur de nos deux boucles précédentes. Cela signifie que pour chaque case dessinée nous allons répéter plusieurs fois la même action.
+
+
+![circle grid of co-centric circles](images/circle-grid-of-circles-overlapping.gif)
+
+En partant d'à peu près la même base que précédement, nous allons faire attention à modifier le remplissage de nos formes pour ne plus en avoir avec [**noFill()](https://p5js.org/reference/#/p5/noFill) - exactement comme dans processing et avoir un contour de forme blanc avec [**stroke()**](https://p5js.org/reference/#/p5/stroke), aussi comme dans processing.
+
+```javascript
+background(0)
+noFill();
+stroke(255)
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+    
+           
+    }
+}
+```
+A l'intérieur de ces deux boucles for nous allons donc pouvoir en ajouter une troisième ! Cette troisième boucle va nous permettre de dessiner des cercles de même centre mais dont la taille diminue à chaque itération de la boucle :
+
+```javascript
+for (let k = slotSize; k > 0; k = k - 10) {
+    ellipse(i , j, k, k);                                                           
+}
+```
+Nous allons maintenant faire en sorte que ce nombre de cercle co-centriques puisse changer et cela notament aléatoirement lorsque nous appuyons sur la souris.
+
+Nous allons donc créer une nouvelle variable tout en haut de notre programme (en dehors du setup() et du draw())
+
+```javascript
+let niterations = 5;
+```
+
+et nous allons l'utiliser pour contrôler l'incrément de "k" dans notre boucle for. Le nombre de fois que nous allons répéter l'action et "niterations", il faut donc diminiuer la taillde notre ellipse de "slotSize/niterations".
+
+```javascript
+for (let k = slotSize; k > 0; k = k - slotSize/niterations) {
+    ellipse(i , j, k, k);                                                           
+}
+```
+
+Maintenant nous pouvons faire appel à la fonction **random()** à l'intérieur de notre fonction **mousePressed()**, mais attention cette fois nous voulons un nombre entier, alors que random() renvoit par défaut des nombres à virgules (ou float). Pour remédier à cela il suffit de prendre la partie entière du nombre renvoyé par random() à l'aide de la fonction [**int()**](https://p5js.org/reference/#/p5/int).
+
+```javascript
+niterations = int(random(2, 20))
+```
+Pour arriver au résultat présenté dans le gif il nous suffit maintenant de manipuler la taille des cercles en fonction de la position de la souris dans la fenêtre. Cette taille doit changer pour chaque cercle, nous allons donc la calculer à l'intérieur des trois boucles.
+
+Nous n'allons d'ailleur pas directement calculer la taille de chaque ellipse, mais plutôt un coefficient multiplicateur par lequel nous allons multiplier la tailler déjà précalculé par notre boucle for('k')
+
+```javascript
+let s = map(mouseX, 0, width, 0.5, 5);
+ellipse(i , j , k *s, k*s);
+```
+
+Voici donc le code complet du draw() représenté par le gif précédent.
+```javascript
+background(0);
+noFill();
+stroke(255);
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+        for (let k = slotSize; k > 0; k = k - slotSize/niteration) {
+            let s = map(mouseX, 0, width, 0.5, 5);
+            ellipse(i , j , k *s, k*s);
+         }
+    }
+}
+```
+    
+### Une grille de cercles co-centriques 2
+
+Nous allons repartir de notre précédent mais cette fois au lieu de manipuler la taille de nos cercles co-centriques, nous allons manipuler la position de leurs centre pour donner un effet de fausse 3D réalisée à partir de vraie 2D :
+
+![circle grid of co-centric circles](images/circle-grid-of-circles.gif)
+
+Laissons donc tomber la partie de manipulation du diamètre de nos cercles :
+
+```javascript
+background(0);
+noFill();
+stroke(255);
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+        for (let k = slotSize; k > 0; k = k - slotSize/niteration) {
+            ellipse(i , j , k , k);
+         }
+    }
+}
+```
+
+Nous voulons maintenant "mapper" (avec la fonction map() du coup!) la position de notre souris qui se déplace dans toute la fenêtre à la position du centre des cercles se déplaçant dans sa case.  
+
+Nous allons donc devoir calculer un décalage ou "offset". De la même manière que précédement nous n'allons pas directement calculer le décalage mais plutôt un coefficient càd une valeur que nous allons multiplier par une autre pour obtenir ce décalage. 
+
+Nous voulons que lorsque notre souris se déplace sur la largeur ou la hauteur nous ayons un décalage centré autout de zéro.
+
+```javascript
+let xOffset = map(mouseX, 0, width, -0.5, 0.5)
+let yOffset = map(mouseY, 0, height, -0.5, 0.5)
+```
+
+Suite à cela si nous observons bien notre animation, nous remarquons que le décalage est plus important pour les petits cercles - ceux proches du centre et inexistant pour les cercles les plus grands.
+
+Pour pouvoir faire cela, il faut que nous fassions en sorte que quand la taille de notre cercle est maximale, la valeur par laquelle nous multiplierons notre offset soit nulle : pour annuler le décalage. Et inversement quand notre taille de cercle est minimale cette valeur soit plus grande pour avoir tout l'effet du décallage; cette valeur est donc 
+
+```javascript
+(slotSize - k)
+```
+
+
+
+Il ne nous reste plus qu'à appliquer le résultat de nos calculs aux positions des centres de nos cercles.
+
+```javascript
+let centerX = i + xOffset * (slotSize-k);
+let centerY = j + yOffset * (slotSize-k);
+
+```
+
+et voilà !
+
+```javascript
+let xOffset = map(mouseX, 0, width, -0.5, 0.5)
+let yOffset = map(mouseY, 0, height, -0.5, 0.5)
+let centerX = i + xOffset * (slotSize-k);
+let centerY = j + yOffset * (slotSize-k);
+ellipse(centerX,centerY, k, k);
+
+```
+
+```javascript
+background(0);
+noFill();
+stroke(255);
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+        for (let k = slotSize; k > 0; k = k - slotSize/niteration) {
+            let xOffset = map(mouseX, 0, width, -0.5, 0.5)
+            let yOffset = map(mouseY, 0, height, -0.5, 0.5)
+            let centerX = i + xOffset * (slotSize-k);
+            let centerY = j + yOffset * (slotSize-k);
+            ellipse(centerX,centerY, k, k);
+         }
+    }
+}
+```
 
 
 
