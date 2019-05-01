@@ -497,10 +497,84 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
     }
 }
 ```
+
+### Une grille de lignes se déplaçant dans chaque case
+
+Nous allons maintenant nous nous attacher à réaliser ce motif :
+![Moving lines patterns](images/moving-lines-pattern.gif)
+    
+Ce motif est réalisé en reliant chaque coin de chaque case à un point se déplaçant à l'intérieur de chacune des case. La position de ce point est dépendante de la position de la souris dans la fenêtre : lorsque la souris est à droite de la fenêtre alors le point mobile est à droite de chacune des cases, lorsqu'elle est en haut de la fenêtre le point est aussi en haut de chaque case etc.
+
+Nous voulons donc "mapper" (avec la fonction map() du coup!) la position de notre souris qui se déplace dans toute la fenêtre à la position du point mobile se déplaçant dans sa case.  
+
+Nous allons donc devoir calculer un décalage ou "offset". De la même manière que précédement nous n'allons pas directement calculer le décalage mais plutôt un coefficient càd une valeur que nous allons multiplier par une autre pour obtenir ce décalage. 
+
+Nous voulons que lorsque notre souris se déplace sur la largeur ou la hauteur nous ayons un décalage centré autout de zéro.
+
+```javascript
+let xOffset = map(mouseX, 0, width, -0.5, 0.5)
+let yOffset = map(mouseY, 0, height, -0.5, 0.5)
+```
+
+Ce calcul étant le même pour chaque case nous pouvons le faire dans le draw() mais juste avant nos boucles for.
+
+Il ne nous reste plus qu'à dessiner nos lignes à l'aide de la fonction [**line()**](https://p5js.org/reference/#/p5/line). Il nous faut donc définir deux points pour chaque ligne : les coins de chaque case et le point mobile.
+
+Le point mobile à toujours pour coordonnées et ce dans chaque case :
+
+```
+(i + xOffset * (slotSize), j + yOffset * (slotSize))
+```
+
+(i,j) étant les coordonnées du centre d'une case on y ajoute ou on leur soustrait la moitié de la taille de notre case, en fonction de la valeur prise par 'xOffset' et 'yOffset' qui sont elles mêmes définies par la position de la souris dans la fenêtre.
+
+Les coordonnées des points supérieur gauche de chaque case (on décale de la moitié de la taille de la case en abscisses et en ordonnées)
+```
+(i - slotSize * 0.5, j - slotSize * 0.5)
+```
+
+Il est alors assez facile de calculer les coordonnées de chacune des coins de chaque case :
+
+- coin supérieur droit :
+```
+(i + slotSize * 0.5, j - slotSize * 0.5)
+```
+
+- coin inférieur droit :
+```
+(i + slotSize * 0.5, j + slotSize * 0.5)
+```
+
+- coin inférieur gauche :
+```
+(i - slotSize * 0.5, j + slotSize * 0.5)
+```
+
+Il reste alors à dessiner les quatres lignes :
+
+```javascript
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+
+        let xOffset = map(mouseX, 0, width, -0.5, 0.5)
+        let yOffset = map(mouseY, 0, height, -0.5, 0.5)
+        line(i + xOffset * (slotSize), j + yOffset * (slotSize),
+                i - slotSize * 0.5, j - slotSize * 0.5);
+        line(i + xOffset * (slotSize), j + yOffset * (slotSize),
+                i + slotSize * 0.5, j + slotSize * 0.5);
+        line(i + xOffset * (slotSize), j + yOffset * (slotSize),
+                i + slotSize * 0.5, j - slotSize * 0.5);
+        line(i + xOffset * (slotSize), j + yOffset * (slotSize),
+                i - slotSize * 0.5, j + slotSize * 0.5);
+
+    }
+}
+```
+    
     
 ### Une grille de cercles co-centriques 2
 
-Nous allons repartir de notre précédent mais cette fois au lieu de manipuler la taille de nos cercles co-centriques, nous allons manipuler la position de leurs centre pour donner un effet de fausse 3D réalisée à partir de vraie 2D :
+Nous allons maintenant combiner les deux effets précédents : nous allons manipuler la position des centres de cercles co-centriques pour donner un effet de fausse 3D réalisée à partir de vraie 2D 
 
 ![circle grid of co-centric circles](images/circle-grid-of-circles.gif)
 
@@ -519,11 +593,7 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Nous voulons maintenant "mapper" (avec la fonction map() du coup!) la position de notre souris qui se déplace dans toute la fenêtre à la position du centre des cercles se déplaçant dans sa case.  
-
-Nous allons donc devoir calculer un décalage ou "offset". De la même manière que précédement nous n'allons pas directement calculer le décalage mais plutôt un coefficient càd une valeur que nous allons multiplier par une autre pour obtenir ce décalage. 
-
-Nous voulons que lorsque notre souris se déplace sur la largeur ou la hauteur nous ayons un décalage centré autout de zéro.
+De la même façon que précédement nous allons calculer un décalage : 
 
 ```javascript
 let xOffset = map(mouseX, 0, width, -0.5, 0.5)
@@ -537,8 +607,6 @@ Pour pouvoir faire cela, il faut que nous fassions en sorte que quand la taille 
 ```javascript
 (slotSize - k)
 ```
-
-
 
 Il ne nous reste plus qu'à appliquer le résultat de nos calculs aux positions des centres de nos cercles.
 
