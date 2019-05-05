@@ -927,6 +927,114 @@ if (rd < 0.25) {
 }
 ```
 
+## Noise !
+
+Nous allons maintenant à nous intéresser à la notion de [**noise()**](https://p5js.org/reference/#/p5/noise)
+
+Le noise est une notion relativement compliquée; elle est reliée à la notion de *random()* mais est prévue pour générer des résultats moins aléatoire et plus proches les uns des autres. En réalité le noise est très imprégnée de la notion de "seed", évoquée précédement.
+
+Elle a été crée en 1983 par [Ken Perlin](https://en.wikipedia.org/wiki/Perlin_noise) dont le but était de créer un algorithme capable de reproduire des textures ou surface à l'aspect naturel. Il existe plusieurs types de noise, mais nous allons nous intéresser à l'unique version implémentée dans p5js.
+
+Si vous avez lu la référence, il faut comprendre que le noise peut-être utilisé jusqu'à 3 dimensions (nous allons voir cela plus en détail) et qu'il renvoit des valeurs comprises entre 0 et 1. Une notion plus subtile qu'il faut comprendre et qu'il faut "passer" au moins une variable (ou une dimension) à la fonction *noise()*, plus l'écart entre les différentes variables que nous passeront sera important plus le résultat sera proche de la fonction *random()*, plus l'écart sera petit plus le résultat sera lisse.
+
+### noise à 1 dimension
+
+Nous allons commencer par ne passer qu'une seule valeur à notre fonction noise, celle d'un temps qui se déroule pour obtenir ce genre de résultat :
+
+![noise-1D](images/noise-1D.gif)
+
+A partir de la même notion de temps nous allons créer un décalage en X et en Y depuis le centre de la case à l'aide de la fonction noise. Nous partirons de notre code habituel d'une grille de cases.
+
+Nous devons donc commencer par déclare une variable qui permettra créer un écoulement de temps. Cette variable nous sera utile dans notre *draw()* et nous voulons l'augmenter petit à petit, il faut donc qu'elle soit globale et donc créee en dehors de tout autre bloc de code (*setup()* ou *draw()*)
+
+```javascript
+let time = 0;
+```
+
+Ensuite nous allons incrémenter cette valeur à chaque itération de la fonction *draw()*
+
+```javascript
+time += 0.005;
+```
+Nous allons utiliser cette valeur pour notre *noise()*, pensez donc bien que vous pouvez la changer : si vous augmenter le temps de manière plus importante le résultat sera plus sacadé, il sera plus lisse sinon.
+
+Maintenant à l'intérieur de notre double boucle for et ce donc pour chaque case, nous allons calculer deux valeurs de noise :
+
+```
+let n1 = noise(time)
+let n2 = noise(time + 10)
+```
+ Nous donnons ici deux valeurs différentes pour que les mouvemement ne soient pas identiques en effet nous allons utiliser 'n1' pour calculer un décalage horizontal par rapport au centre de notre case et 'n2' pour calculer un décalage vertical. Si jamais nous avions fournit la même valeur (soit 'time' pour 'n2' à la place de 'time+10') notre décallage aurait été identique en X et en Y à chaque image et nous n'aurions alors pu dessiner qu'une diagonale.
+ 
+ Avant de dessiner il ne nous reste donc plus qu'à calculer un décalage pour que notre dessin reste à l'intérieur de notre case, comme d'habitude pour cela nous allons utiliser la fonction *map()* , en nous souvenant que le résultat de *noise()* est toujours compris entre 0 et 1: 
+ 
+```javascript
+let xoffset = map(n1, 0, 1, -slotSize/2, slotSize/2)
+let yoffset = map(n2, 0, 1, -slotSize/2, slotSize/2)  
+point(i+xoffset, j+yoffset)
+```
+Nous remarquons ici que le dessin dans chacune de nos cases est identique. Nous pouvons donc remédier à cela en utilisant une dimention supplémentaire pour notre fonction *noise()*
+
+### noise à 2 dimensions
+
+Pour obtenir un résultat différent dans chaque case nous allons passer un deuxième argument à notre noise.
+
+![noise-2D](images/noise-2D.gif)
+
+```javascript
+let n1 = noise(time , i) 
+let n2 = noise(time + 10 , j) 
+let xoffset = map(n1, 0, 1, -slotSize/2, slotSize/2)
+let yoffset = map(n2, 0, 1, -slotSize/2, slotSize/2)
+point(i+xoffset, j+yoffset)
+```
+Ici nous passons 'i' et 'j' directement comme argument pour chacun des calcul le résultat dans chaque case est donc différent.
+
+Mais nous pouvons faire en sorte d'obtenir différents résultats :
+
+```javascript
+let n1 = noise(time , i) 
+let n2 = noise(time + 10 , i) 
+```
+Par exemple en utilisant 'i' deux fois le résultat sera le même dans chaque colonne.
+De manière similaire en passant 'j' deux fois le résultat sera le même sur chaque ligne. Si vous passez 'i+j' le résultat sera le même sur chaque diagonale !
+
+### noise à 3 dimensions
+
+Pour cette 3ème dimension nous allons changer de mode de représentation. Au lieu de calculer un décalage en x et y d'un point qui se déplace en laissant une trainée, nous allons maintenant calculer la taille d'un rectangle qui sera dessiné dans chaque case.
+
+![noise-3D](images/noise-3D.gif)
+
+Du point de vue du code pas grand chose ne change. Nous avons toujours besoin de notre variable 'time' et de notre double boucle for.
+
+Afin de dessiner nos carrés en spécifiant le centre plutôt que le point supérieur gauche nous allons appeler la fonction [**rectMode()**](https://p5js.org/reference/#/p5/rectMode) dans le *setup()*
+
+```javascript
+rectMode(CENTER)
+```
+
+Dans la double boucle for, nous pouvons maintenant calculer une nouvelle variable que nous utiliserons comme la taille de nos carrés, puis dessiner nos carrés :
+
+```javascript
+let s = noise(i, j, time) * slotSize*1.25
+rect(i, j, s, s)
+```
+
+Si nous faisons cela le résultat est relativement différent du résultat du gif présenté plus haut.
+En observant de plus près le gif, vous remarquerez que les carrés qui sont proches les uns des autres ont des tailles similaires, ici ce n'est pas le cas.
+
+En se rappelant comment fonctionne *noise()* cela signifierait donc que les valeurs qui séparent les appels successifs à *noise()* présentent des écarts trop grands. Ce n'est pas le cas de time (comme vu précédement), mais entre deux éxecution  du code à l'intérieur des boucles for i a potentiellement augmenté de 'slotSize' et j aussi.
+
+Pour obtenir un résultat plus proche du gif on va donc diviser i et j par une valeur suffisament important pour que cet écart réduise :
+
+```javascript
+let s = noise(i/100, j/100, time) * slotSize*1.25
+rect(i, j, s, s)
+```
+
+
+
+
 
 
 
