@@ -1090,7 +1090,57 @@ function windowResized() {
 }
 ```
 
+### Noise et coordonnées polaires
 
+![polar noise](images/polar-noise.gif)
+
+Les coordonnées polaire sont une autre façon de définir l'emplacement d'un point dans l'espace en deux dimensions.
+
+Au lieu de donner une coordonnée en X (l'abscisse) et une en Y (l'ordonnée), nous allons donner un angle et un rayon. [Les coordonnées polaire](https://fr.wikipedia.org/wiki/Coordonn%C3%A9es_polaires) sur wikipédia.
+
+Ce système de coordonnée est très pratique pour décrire cercles et autres spirales. Pour obtenir les motifs présentés ci-dessus, nous faisons simplement varier l'angle et le rayon à l'aide d'un noise puis nous dessiner une ligne émanant du centre de notre case vers le point que nous déplaçons dans la case à l'aide des coordoonnées polaire.
+
+Processing ou p5js ne nous donnent pas la possibilité de dessiner des points en utilisant les coordonnées polaires, nous devons donc convertir les coordonnées polaires en coordonnées cartésiennes avant de pouvoir dessiner nos lignes.
+
+Heureusement il existe des formules mathématiques pour faire cette conversion. Ainsi un point exprimé en coordonnées polaire avec un angle 'theta' et un rayon 'r' aura pour coordoonées cartésienne dans un repère ce centre (x0, y0)
+
+```
+x = x0 + cos(theta) * r
+```
+et
+```
+y = y0 + sin(theta) * r
+```
+Vous pouvez aussi vous référer à [cet exemple](https://www.openprocessing.org/sketch/151087) qui détaille le cercle trigonométrique et les fonction trigonométriques de base.
+
+Une fois cela établie, il est assez simple d'arriver au résultat escompté :
+
+D'abord nous devons pour chaque case (et ce donc à l'intérieur de la double boucle for) calculer un rayon et un angle dont les valeurs sont animées par un appel à la fonction *noise()*
+
+```javascript
+let angle = noise(time/2 , i , j) 
+let r = noise(time , i , j) 
+```
+
+*noise()* renvoyant des valeurs entre 0 et 1, nous allons multiplier ces valeurs pour que notre angle balaye bien toute la circonférence d'un cercle (voire même deux) et que notre rayon puisse bien couvrir toute la largeur et la hauteur de chaque case
+
+```javascript
+let angle = noise(time/2 , i , j) * TWO_PI * 2
+let r = noise(time , i , j) * slotSize *0.5 
+```
+
+ensuite nous appliquons nos formules de trigonométrie :
+
+```javascript
+let xpos = i + cos(angle) * r
+let ypos = j + sin(angle) * r
+```
+
+puis nous dessinons nos lignes reliant le centre de chaque case à nos points calculés en coordonnées polaires
+
+```javascript
+line(xpos,ypos, i,j)
+```
 
 
 
