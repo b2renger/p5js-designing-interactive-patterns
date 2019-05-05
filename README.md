@@ -644,5 +644,298 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
+## Utilisation de conditions "if"
+
+Nous allons maintenant rester sur le même principe et voir comment une règle très simple peut nous apporter une multitude de motifs relativement variés : le principe est que dans chaque case nous allons au choix dessiner une des deux diagonales possible. 
+
+![10print](images/10print.gif)
+
+Nous allons comme d'habitude partir de notre code de base
+
+```javascript
+let slotSize = 100;
+let marginX;
+let marginY;
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    background(180);
+    pixelDensity(1);
+
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+
+
+function draw() {
+    background(180)
+    for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            // code here
+
+        }
+    }
+}
+
+function mousePressed(){
+    slotSize = random(10, 200);
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+```
+
+Pour rappel ce code nous permet d'obtenir une grille réactive aux changement de taille de notre fenêtre.
+
+Le code que nous allons écrire est assez simple, il s'agit de comprendre comme une condition **if()** s'écrit.
+
+Comme pour la boucle for, il faut comprendre la signification des symboles de ponctuation que nous utilisons : les parenthèses permettent de délimiter une condition / un test, et les accolades nous permettent de délimiter les actions à effectuer si notre condition est vraie :
+
+```javascript
+if( ma-condition-est-vraie ) {
+    // j'execute le code écrit ici.
+}
+```
+
+Un **if(){}** peut être suivi d'un **else{}* dans le but de définir une autre action à effectuer si la condition est fausse.
+
+```javascript
+if( ma-condition-est-vraie ) {
+    // j'execute le code écrit ici.
+}
+else{
+    // j'éxecute ce code plutôt
+}
+```
+
+On peut aussi chaîner des conditions :
+
+```javascript
+if( ma-condition-est-vraie ) {
+    // j'execute le code écrit ici.
+}
+else if( une-autre-condition-est-vraie){
+    // j'éxecute ceci
+}
+else{
+    // j'éxecute ce code plutôt
+}
+```
+
+Où les imbriquer :
+
+```javascript
+if( ma-condition-est-vraie ) {
+    if( une-seconde-condition-est-vraie){
+    // j'éxecute ceci
+    }
+    else {
+    // j'éxecute cela
+    }
+}
+else{
+    // j'éxecute ce code plutôt
+}
+```
+
+### if-else
+
+Dans notre premier exemple nous n'aurons qu'une condition simple à éxecuter : nous voulons aléatoirement dessiner l'une ou l'autre des diagonales.
+
+Dans chacune des case il faut donc déterminer les coordonnées des coins en fonction de (i,j) le point définissant le centre de notre case et 'slotSize' qui est la taille de notre case.
+
+Ainsi la première diagonale - celle partant du coin inférieur gauche  s'écrit comme ceci : 
+
+```javascript
+line(i - slotSize / 2, j - slotSize / 2, i + slotSize / 2, j + slotSize / 2)
+```
+
+et la seconde - celle partant du coin supérieur gauche s'écrit comme ceci :
+
+```javascript
+line(i - slotSize / 2, j + slotSize / 2, i + slotSize / 2, j - slotSize / 2)
+```
+
+Il ne nous reste donc plus qu'à écrire une condition permettant de dessiner l'une ou l'autre de ces diagonales. Pour cela nous allons effectuer un test (i.e. écrire une condition) en utilisant la fonction [**random()**](https://p5js.org/reference/#/p5/random) que nous connaissons déjà. 
+
+Si nous voulons une distribution à peu près uniforme de chacune des deux diagonales, nous allons tout simplement vérifier si le résultat de 'random(1)' est supérieur ou non à '0.5'
+
+```javascript
+if (random(1) > 0.5) {
+   
+} else {
+    
+}
+```
+
+et dessiner une des deux diagonales dans un cas, et l'autre sinon :
+
+```javascript
+ if (random(1) > 0.5) {
+    line(i - slotSize / 2, j - slotSize / 2, i + slotSize / 2, j + slotSize / 2)
+} else {
+    line(i - slotSize / 2, j + slotSize / 2, i + slotSize / 2, j - slotSize / 2)
+}
+```
+
+Malheureusement, random() nous renvoit par définition des résultats aléatoires. Cela signifie qu'à chaque fois qu'une image est calculée (à chaque fois que le draw() s'éxécute) un nouvelle valeur est tirée au sort et notre image ne cesse de changer.
+
+En réalité l'aléatoire n'existe pas réellement en informatique. Les fonctions random() de divers langages renvoient tous une suite de nombre pseudo aléatoire, même si cela peut paratire decevant c'est en réalité bien pratique dans notre cas (accessoirement cela permet aussi de recréer une image spécifique même en ayant recours de manière intensive à random()). 
+
+La fonction random() est donc toujours accompagnée d'une fonction [**randomSeed()**](https://p5js.org/reference/#/p5/randomSeed). Cette fonction permet de donner une "seed" à notre fonction random() et pour une "seed" donnée random() nous renverra toujous la même suite de nombres aléatoires.
+
+Nous allons donc créer une nouvelle variable tout en haut de notre programme (en dehors de setup() et de draw()):
+
+```javascript
+let seed;
+```
+
+Dans le *setup()*, nous allons donner une nouvelle valeur initiale à cette variable :
+
+```javascript
+seed = random(9999)
+```
+
+Ici nous utilisons random, mais pour obtenir une image précise on peut donner à "seed" un valeur précise.
+
+Maintenant dans le *draw()* nous pouvons utiliser cette "seed" en faisant appel la fonction **randomSeed()**. Cet appel doit être fait à chaque "frame" mais n'a pas besoin d'être réalisé pour chaque case de notre grille, on peut donc le mettre tout en haut de notre *draw()*
+
+```javascript
+randomSeed(seed)
+```
+
+Nos images restent donc maintenant fixes quoiqu'il se passe. Pour revenir à un côté plus génératif nous pouvons maintenant changer notre seed à chaque fois que l'utilisateur appuie sur la souris et donc ajouter une ligne de code permettant de changer aléatoirement la "seed" dans la fonction *mousePressed()*
+
+```javascript
+function mousePressed(){
+    seed = random(9999)
+}
+```
+
+Nous pouvons aussi rendre aléatoire l'épaisseur du trait quand l'utilisateur clique sur la souris
+
+```javascript
+strokeWeight(random(20))
+```
+
+Voici donc l'intégralité du programme génératif :
+
+```javascript
+let slotSize = 50;
+let marginX;
+let marginY;
+let seed
+
+function setup() {
+
+    createCanvas(windowWidth, windowHeight);
+    background(180);
+
+    pixelDensity(1);
+
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+
+    seed = random(9999)
+}
+
+
+function draw() {
+    randomSeed(seed)
+    background(0)
+    noFill();
+    stroke(255)
+    for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+
+            if (random(1) > 0.5) {
+                line(i - slotSize / 2, j - slotSize / 2, i + slotSize / 2, j + slotSize / 2)
+            } else {
+                line(i - slotSize / 2, j + slotSize / 2, i + slotSize / 2, j - slotSize / 2)
+            }
+
+        }
+    }
+}
+
+function mousePressed() {
+    seed = random(9999)
+    slotSize = random(10, 200)
+    strokeWeight(random(10))
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+```
+
+### Variation 1 : if imbriqués
+
+Comme précisé précédement nous pouvons aussi imbriquer des if entre eux. Nous pourrions par exemple faire en sorte que certaines lignes soient rouges et d'autres blanches assez facilement :
+
+![10-print2](images/10print-2.png)
+
+```javascript 
+ if (random(1) > 0.5) {
+                
+    if (random(1) > 0.75 ){
+        stroke(255,0,0)
+    }
+    else {
+        stroke(255)
+    }
+    line(i - slotSize / 2, j - slotSize / 2, i + slotSize / 2, j + slotSize / 2)
+                       
+} else {
+    if (random(1) > 0.75 ){
+        stroke(255,0,0)
+    }
+    else {
+        stroke(255)
+    }              
+    line(i - slotSize / 2, j + slotSize / 2, i + slotSize / 2, j - slotSize / 2)
+}
+
+```
+
+### Variation 2 : if - else if
+
+Avec l'utilisation de plusieures condition s'enchainant il est aussi relativement simple d'arriver à dessiner en labyrinthe, et ne choisissant de ne dessiner qu'une paroie de chaque case (soit celle du dessus, soit celle du dessous, celle de gauche ou celle de droite) :
+
+![10-pint_3](images/10print-3.png)
+
+```javascript
+var rd = random(1)
+if (rd < 0.25) {
+    line(i -slotSize/2, j - slotSize/2, i-slotSize/2, j + slotSize/2); // left
+} else if (rd > 0.25 && rd < 0.50) {
+    line(i + slotSize/2, j-slotSize/2, i + slotSize/2, j + slotSize/2); // down
+} else if (rd > 0.50 && rd < 0.75) {
+    line(i-slotSize/2, j-slotSize/2, i + slotSize/2, j-slotSize/2); // up
+} else if (rd > 0.25 && rd < 0.50) {
+    line(i + slotSize/2, j - slotSize/2, i + slotSize/2, j + slotSize/2); //right
+}
+```
+
+
+
+
+
+
+
+    
+
+
+
 
 
