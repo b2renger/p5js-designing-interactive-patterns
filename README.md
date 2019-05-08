@@ -1414,6 +1414,116 @@ let h = map(r, 0, slotSize * 0.5, 160, 220)
 stroke(h, 50, 100, 1)
 ```
 
+### Interlude unknown pleasures
+
+Écartons nous un peu de nos préocupations habituelles (grilles et pavages) pour continuer un peu sur la notion de noise et recréer un visuel proche de la pochette de l'album "unknown pleasures" de Joydivision.
+
+![joydivision](images/joydivision.jpg)
+![joy](images/noise-joydivision.gif)
+
+Ici nous allons utiliser des marges fixes, nous allons utiliser une fonction *noise()* dépendante du temps et nous allons permettre à l'utilisateur de changer la densité de lignes affichées horizontalement par un click de souris :
+
+```javascript
+let ySpacing = 25;
+let marginX = 400;
+let marginY = 200;
+let time = 0
+```
+
+Notre *setup()* est tout ce qu'il y a de plus classique :
+
+```javascript
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    pixelDensity(1);
+    background(0)
+}
+```
+
+et nous utilisons les fonctions classiques *mousePressed()* et *windowResized()* :
+
+```javascript
+function mousePressed() {
+    background(0)
+    ySpacing = random(5, 20)
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+Notre *draw()* comportera nos attributs classiques de dessin et l'incrémentation de notre variable 'time' :
+
+```javascript
+function draw() {
+
+    background(0)
+    fill(0);
+    stroke(255)
+    strokeWeight(2)
+    time += 0.005;
+
+}
+```
+
+Pour obtenir notre visuel, nous allons recréer une logique similaire à un exemple vu précédement : nous devons parcourir toute la largeur de notre fenêtre (moins les marges) avec une boucle for et créer des "montagnes" de *noise()* :
+
+```javascript
+beginShape()
+for (let i = marginX / 2; i < width - marginX / 2; i += 1) {
+     let n = noise(time, i/10)
+    let offset = map(n, 0, 1, 0, - 100)
+    curveVertex(i,j + offset)
+}
+endShape()
+```
+
+L'astuce ici est d'arriver à écraser nos "vagues" à la gauche et à la droite de l'image. Nous allons devoir mutliplier notre 'offset' par une valeur qui sera très proche de 0 à droite et à gauche de l'image et proche de 1 au centre.
+
+Pour cela nous allons devoir, comme précédement lorsque nous souhaitions obtenir un forme symétrique,
+mapper l'abscisse à une valeur que nous allons pouvoir utiliser dans une fonction sinusoïdale 
+
+```javascript
+let t = map(i, marginX/2, width-marginX/2,PI, PI*2)
+```
+
+Pour accentuer la courbe de notre fonction sinus, nous allons la mutliplier plusieurs fois par elle même à l'aide de la fonction [pow()](https://p5js.org/reference/#/p5/pow), en faisant cela il va falloir augmenter drastiquement la valeur de sortie de 'offset' pour compenser cet écrasement :
+
+```javascript
+let offset = map(n, 0, 1, 0, - 1000000)
+offset = offset *pow(sin(t)/PI, 8)
+```
+
+Chaque ligne sera donc composée de ce code :
+
+```javascript
+beginShape()
+for (let i = marginX / 2; i < width - marginX / 2; i += 1) { 
+    let n = noise(time, i/10   ,j)
+    let t = map(i, marginX/2, width-marginX/2,PI, PI*2)
+    let offset = map(n, 0, 1, 0, - 1000000)*pow(sin(t)/PI, 8)
+    curveVertex(i,j + offset)
+}
+endShape()
+```
+
+Il suffit maintenant de répéter cela verticalement :
+
+```javascript
+ for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += ySpacing) {
+    stroke(255)
+    beginShape()
+    for (let i = marginX / 2; i < width - marginX / 2; i += 1) {
+       
+        let n = noise(time, i/10   ,j)
+        let t = map(i, marginX/2, width-marginX/2,PI, PI*2)
+        let offset = map(n, 0, 1, 0, - 1000000)*pow(sin(t)/PI, 8)
+        curveVertex(i,j + offset)
+    }
+    endShape()
+}
+```
 
 
 
