@@ -1142,6 +1142,76 @@ puis nous dessinons nos lignes reliant le centre de chaque case à nos points ca
 line(xpos,ypos, i,j)
 ```
 
+### Noise et symétrie
+
+Le noise peut paraitre un peu compliqué à maitriser mais en comprenant bien son fonctionnement il est possible de créer des comportements symétriques.
+
+![symetric noise](images/noise-symetric.gif)
+
+Dans cet exemple le principe est de dans chaque case dessiner un ligne animée par du noise sans effacer le background d'une répétition du *draw()* à une autre.
+
+Comme précédement nous aurons besoin de créer une variable 'time' tout en haut de notre programme :  
+```javascript
+let time = 0
+````
+Puis nous allons augmenter sa valeur petit à petit dans le *draw()* :
+```javascript
+time += 0.005;
+```
+cette écriture est équivalente à 
+```javascript
+time = time + 0.005
+```
+
+Du coup dans chaque case nous allons utiliser une boucle for pour parcourir la largeur de chacune de nos cases :
+
+```javascript
+for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
+    
+}
+```
+
+à chaque itération de cette boucle *for()* nous allons donc dessiner un point dont l'abscisse sera 'k' et dont l'ordonnée sera calculée par un noise.
+
+```javascript
+let h = noise(time, k / 100)
+point(k+i,h+j)
+```
+Ce calcul nous donne pour chaque case des sortes de vagues dont le point de départ (à gauche) et le point d'arrivée (à droite) ne correspondent pas d'une case à l'autre. Nous allons donc faire en sorte que ce soit le cas en nous aidant d'une fonction sinusoidale. 
+
+![sinus](images/sinus-wiki.png)
+
+L'avantage des fonctions sinusoidales est qu'elles sont périodiques (elles se répetent dans le temps à intervalles réguliers ici entre sin(0) et sin(2*PI)) et qu'elles sont symétriques. Un autre avantage est que le résultat de ces fonctions est forcément compris entre -1 et 1, l'écart entre deux valeurs successives est donc relativement ramassé et nous pouvons donc utiliser ce résultat directement en paramètre de noise en obtenant un résultat relativement lisse. 
+
+Nous allons donc utiliser deux variables pour animer notre noise. La première sera donc le temps et la deuxième sera le résultat du calcul d'un sinus. Nous allons donc 'mapper' notre abscisse (soit 'k') pour obtenir une valeur comprise entre 0 et PI et utiliser le sinus de ce résultat comme paramètre de notre noise. Puis nous allons finalement calculer l'abscisse de notre point en utilisant encore une fois la fonction map.
+
+```javascript
+// abscisse dans notre case -> une valeur entre et PI
+let inc = map(k, -slotSize*0.5, slotSize*0.5, 0, PI) 
+// noise
+let n = noise((sin(inc) ), time)
+// résultat de noise -> une valeur comprise entre le haut et le bas de notre case
+let h = map(n, 0, 1, -slotSize*0.5 , slotSize*0.5)
+
+point(k+i, h+j)
+```
+Pour obtenir le résultat présenté en début de paragraphe il faut cependant que nous dessinions une ligne continue en lieu est place d'une succession de points.
+
+Pour cela nous allons utiliser [curveVertex()](https://p5js.org/reference/#/p5/curveVertex) combinée à [beginShape()](https://p5js.org/reference/#/p5/beginShape) et [endShape()](https://p5js.org/reference/#/p5/endShape). Ces fonctions nous permettent de créer une courbe dont tous les points sont reliés entre eux. *beginShape()* permet de préciser que nous allons commencer à dessiner une forme; à partir de l'appel de cette fonction nous pourrons préciser les différents points qui composent cette courbe à l'aide de *curveVertex()* puis nous pouvons terminer notre forme en appelant *endShape()*.
+
+Dans notre cas tous les points seront ajouté dans notre boucle for qui parcourt notre case horizontalement. Nous allons donc encadrer notre boucle for par *beginShape()* et *endShape()* et remplacer les appels à *point()* par des appels à *curveVertex()*.
+
+```javascript    
+beginShape()
+for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
+    let inc = map(k, -slotSize*0.5, slotSize*0.5, 0, PI)
+    let n = noise((sin(inc) ), time) 
+    let h = map(n, 0, 1, -slotSize*0.5 , slotSize*0.5)
+    curveVertex(k + i, j + h)
+}
+endShape()
+```
+
 
 
 
