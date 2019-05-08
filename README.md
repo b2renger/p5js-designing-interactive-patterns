@@ -1216,7 +1216,7 @@ endShape()
 
 Nous allons dans ce paragraphe combiner nos connaissance sur les coordonées polaires et le noise pour arriver à ce résultat :
 
-![noisy symetric circle](radial-noise.gif)
+![noisy symetric circle](images/radial-noise.gif)
 
 Nous allons commencer par créer une boucle for pour parcourir toute la périphérie d'un cercle, c'est à dire une boucle démarrant à 0 et finissant à 2 fois pi :
 
