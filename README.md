@@ -1212,6 +1212,211 @@ for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
 endShape()
 ```
 
+### Noise et symétrie et coordonnées polaires
+
+Nous allons dans ce paragraphe combiner nos connaissance sur les coordonées polaires et le noise pour arriver à ce résultat :
+
+![noisy symetric circle](radial-noise.gif)
+
+Nous allons commencer par créer une boucle for pour parcourir toute la périphérie d'un cercle, c'est à dire une boucle démarrant à 0 et finissant à 2 fois pi :
+
+```javascript
+for (let angle = 0 ; angle <= TWO_PI *2; angle = angle + PI * 0.05){
+    
+}
+```
+
+dans cette boucle nous allons calculer une valeur de rayon afin de pouvoir utiliser le système de coordonnées polaire afin de déterminer la position des points. Cette valeur va dépendre d'un noise : dans chaque case nous voulons une forme différente, mais nous voulons une forme symétrique. Nous allons donc utiliser un paramètre qui va être unique pour chaque case et qui évoluera en fonction du temps et deux paramètres qui boucleront et donc en utilisant des fonction sinusoïdales.
+
+Le premier paramètres sera donc dépendant du temps 'time' et nous allons ajouter 'i' et 'j' pour que dans chaque case la valeur de ce premier paramètre soit différent :
+```javascript
+noise(time + i +j*10)
+```
+
+Les deux paramètres suivants utiliseront 'cos()' et 'sin()', ensuite pour pouvoir définir un rayon qui puisse potentiellement prendre toute la case nous allons multiplier le résultat de *noise()* qui est compris entre 0 et 1 par 'slotSize/2'
+
+```javascript
+let r = noise(time + i + j *10, cos(angle) , sin(angle) )* slotSize *0.5
+```
+
+A l'aide de la formule permettant de convertir des coordonnées polaires en coordonnées cartésiennes, nous allons donc pouvoit définir les positions de chaque point qui va composer notre forme :
+
+```javascript
+let xpos = i + cos(angle) *r
+let ypos = j + sin(angle) *r
+```
+
+Il ne nous reste plus qu'à dessiner notre forme à l'aide de *curveVertex()* :
+
+```javascript
+beginShape()
+for (let angle = 0 ; angle <= TWO_PI *2; angle = angle + PI * 0.05){
+    let r = noise(time + i + j *10, cos(angle) , sin(angle) )* slotSize *0.5
+    let xpos = i + cos(angle) *r
+    let ypos = j + sin(angle) *r
+    curveVertex(xpos,ypos)    
+}
+endShape()
+```
+
+Par rapport au gif, il nous reste à gérer la couleur. Nous voulons dans chaque case une couleur différente, nous allons donc définir une liste de couleurs dans lesquelles nous pourrons venir piocher aléatoirement. Pour cela nous allons utiliser les couleurs sous forme hexadécimale que nous allons ranger dans un tableau. En js pour faire ceci il suffit de définir une nouvelle variable et de mettre de stocker à l'intérieur un tableau définit par un crochet ouvrant **[** et un crochet fermant **]**. Chaque code couleur sera encadré par des apostrophes et séparé par des virgules
+
+```javascript
+let colors = ['#72d6c9','#ffc785', '#df7599', '#7189bf']
+```
+
+Pour accéder à une couleur de cette liste il faut encore utiliser des crochets et mettre l'index de la position de la couleur que nous souhaitons utiliser. Par exemple
+
+```javascript
+colors[0] // sera '#72d6c9'
+colors[3] // sera '#7189bf'
+```
+
+Maintenant nous pouvons dans chaque case (et donc à l'intérieur de la double boucle for) et avant la boucle permettant de dessiner notre forme nous allons créer une variable nommée 'c' qui va être tirée au sort parmis notre liste de couleurs.
+
+Pour l'instant nous avons 4 couleurs dans notre liste, il faut donc que nous tirions au sort un index qui doit être un nombre entier :
+
+```javascript
+int(random(4))
+```
+
+Pour obtenir notre couleur nous allons donc stocker dans notre variable 'c' nous allons donc utiliser le résultat de ce calcul et le placer entre crochets :
+
+```javascript
+let c = colors[int(random(4))]
+```
+Nous pouvons aussi récupérer automatiquement la taille d'une liste (i.e le nombre d'élément qui la compose) en utilisant 'colors.length', idéalement c'est une bonne idée d'utiliser cette technique, car cela nous permettra de pouvoir ajouter ou enlever des couleurs à notre tableau sans avoir à modifier le code :
+
+```javascript
+let c = colors[int(random(colors.length))]
+stroke(c)
+```
+
+Nous allons aussi vouloir utiliser un peu de transparence, malheureusement lorsque nous utilisons une couleur sous la forme hexadécimale, il n'est pas possible d'ajouter un second paramètre pour gérer la transparence.
+
+Il faut donc que nous utilisions la syntaxe classique pour *stroke()* avec 4 paramètres, les fonctions [red()](https://p5js.org/reference/#/p5/red), [green()](https://p5js.org/reference/#/p5/green) et [blue()](https://p5js.org/reference/#/p5/blue) vont nous permettre d'extraire les composantes rouges, vertes et bleues de couleurs :
+
+```javascript
+stroke(red(c), green(c), blue(c), 25)
+```
+
+Pour obtenir chaque couleur nous utilisons *random()* dans le *draw()*, pour que nos couleurs ne changent pas à chaque répétition nous allons donc ré-utiliser *randomSeed()*. Il faut donc que nous définissions une 'seed' avec une variable globale (tout en haut de notre programme)
+
+```javascript
+let seed
+```
+
+Dans le *setup()* nous devons l'initialiser :
+```javascript
+seed = random(9999)
+````
+
+Dans le *draw()* nous pouvons donc l'utiliser conjointement avec *randomSeed()*
+```javascript
+randomSeed(seed)
+````
+
+et pour garder notre côté génératif nous allons changer cette valeur à chaque fois que l'utilisateur appuie sur la souris. Nous allons donc ajouter la ligne suivante dans *mousePressed()* :
+
+```javascript
+seed = random(9999)
+```
+
+Et voici donc le code final de notre exemple :
+
+```javascript
+let slotSize = 100;
+let marginX;
+let marginY;
+let time = 0
+let seed = 123
+
+let colors = ['#72d6c9','#ffc785', '#df7599', '#7189bf']
+
+function setup() {
+
+    createCanvas(windowWidth, windowHeight);
+    
+    pixelDensity(1);
+
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+    rectMode(CENTER)
+    background(0)
+}
+
+
+function draw() {
+    randomSeed(seed)
+    noFill();
+    stroke(255,25)
+    strokeWeight(0.15)
+    time += 0.005;
+    for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            let c = colors[int(random(colors.length))]
+            stroke(red(c), green(c), blue(c), 25)
+            beginShape()
+            for (let angle = 0 ; angle <= TWO_PI *2; angle = angle + PI * 0.05){
+                let r = noise(time + i + j *10, cos(angle) , sin(angle) )* slotSize *0.5
+                let xpos = i + cos(angle) *r
+                let ypos = j + sin(angle) *r
+                curveVertex(xpos,ypos)
+                
+            }
+            endShape()
+        }
+    }
+}
+
+function mousePressed() {
+    background(0)
+    seed = random(9999)
+    slotSize = random(50, 400)
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+
+function keyPressed(){
+    background(0)
+}
+
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+```
+
+### Noise, coordonnées polaires et asymétrie
+
+Modifions un peu notre code afin d'avoir un résultat assymétrique :
+
+![assymétric noise](images/noise-asymetric.gif)
+
+Les modifications à apporter sont minimes, ici nous allons juste changer un peu les paramètres de notre *noise()*
+
+```javascript
+let r = noise(time + i + j, cos(angle) + 1, sin(angle) + 1) * slotSize * 0.5
+```
+
+Nous allons aussi en profiter pour passer en mode de couleurs HSB dans le *setup()*
+
+````
+colorMode(HSB, 360, 100, 100)
+````
+
+et nous allons faire dépendre la couleur de notre ligne de la valeur du rayon :
+
+```javascript
+let h = map(r, 0, slotSize * 0.5, 160, 220)
+stroke(h, 50, 100, 1)
+```
+
+
+
+
 
 
 
