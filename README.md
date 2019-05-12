@@ -1650,14 +1650,312 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
         }
 }
 ```
+*rotate()* et *translate()* peuvent être combinés à l'infini avec *push()* et *pop()* pour obtenir toutes sortes d'effets qui peuvent être intéressant pour créer des "pinceaux" (brushes) : https://b2renger.github.io/Introduction_p5js/01_dessiner_04/index.html
 
 
+### Utiliser des fonts
 
+Nous allons continuer dans cette même logique, mais cette fois nous allons essayer de construire des motifs avec de la typographie :
 
+![typo relexion](images/typo_reflexion.gif)
 
+Cette animation est composée de deux lettres, qui se déplacent dans une case. La position de la souris en ordonnées conditionne la rotation de nos lettres, la position de la souris en abscisses détermine la translation de nos lettres le long des abscisses justement, mais en restant à l'intérieur de la case.
+Ces transformations s'appliquent à notre première lettre telles quelles et sont réléchies suivant un axe de symétrie horizontal pour dessiner notre seconde lettre.
+
+Commençons par notre première lettre. Ici rien de bien nouveau si ce n'est les fonction [**text()**](https://p5js.org/reference/#/p5/text),
+[**textSize()**](https://p5js.org/reference/#/p5/textSize) et [**textAlign()**](https://p5js.org/reference/#/p5/textAlign), qui sont assez transparentes.
+
+Comme précédement nous allons encadrer tout le code que nous allons taper dans notre double boucle for entre un appel à *push()* et un appel à *pop()*.
+
+Nous devons ensuite spécifier nos paramètres pour dessiner notre texte : sa taille (*textSize()*) et son indentation (*textAlign()*)
+
+Puis nous pouvons déplacer notre repère au centre de notre case (avec *translate()*). Ensuite nous calculerons en décalage en abscisse (*map()) et une rotation (*map()*) que nous appliquerons à notre texte :
+
+```javascript
+for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
+        for (var y = -slotSize ; y < height + slotSize; y += slotSize) {
+            push()
+                                                                        
+            textSize(slotSize) // définir la taille du texte
+            textAlign(CENTER, CENTER) // centrer le texte verticalement et horizontalement
     
+            translate(x,y)
+            
+            let xOffset = map(mouseX, 0, windowWidth, -slotSize/2, slotSize/2)
+            let angle = map(mouseY, 0, height, 0, TWO_PI)
+            translate(xOffset, 0)
+            rotate(angle)
+            text("%", 0, 0) // dessiner le caractère '%'
+  
+            pop()                                                                
+       }
+}
+```
+
+Ce code nous permet donc de dessiner notre premier caractère dans chaque case. Nous allons maintenant dessiner son symétrique. 
+
+Pour cela nous allons devoir effectuer de nouvelles transformation de l'espace et donc nous assurer que nos premières transformations sont bien circonscrites à notre premier caractère. Nous allons donc encadrer tout le code qui le concerne d'un *push()* et d'un *pop()*
+
+```javascript
+for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
+        for (var y = -slotSize ; y < height + slotSize; y += slotSize) {
+            push()
+                                                                        
+            textSize(slotSize) // définir la taille du texte
+            textAlign(CENTER, CENTER) // centrer le texte verticalement et horizontalement
+    
+            translate(x,y)
+                                                                        
+            let xOffset = map(mouseX, 0, windowWidth, -slotSize/2, slotSize/2)
+            let angle = map(mouseY, 0, height, 0, TWO_PI)
+                                                                        
+            push()
+            translate(xOffset, 0)
+            rotate(angle)
+            text("%", 0, 0) // dessiner le caractère '%'
+            pop()
+  
+            pop()                                                                
+       }
+}
+```
+
+Afin de réaliser notre réflexion nous allons utiliser la fonction [**scale()**](https://p5js.org/reference/#/p5/scale) qui permet de réaliser une transformation d'échelle indépendement sur l'axe des abscisses ou sur l'axe des ordoonées. Par exemple
+
+```javascript
+scale(1,1) // correspond au mode par défaut
+scale(2, 0.5) // toutes les grandeurs de l'axe des abscisses seront multipliées par deux et
+              // toutes les grandeurs de l'axes des ordonnées seront divisées par deux.
+```
+
+Ainsi pour effectuer une symétrie d'axe vertical il suffit d'utiliser :
+
+```javascript
+scale(-1,1)
+```
+
+Nous n'avons donc plus qu'à reproduire les même opérations que précédement mais en ayant changé la façon dont le programme va les intépréter à l'aide de scale.
+
+```javascript
+push()
+scale(-1,1)
+translate(xOffset, 0)
+rotate(angle)
+text("%", 0, 0) // dessiner le caractère '%'
+pop()
+```
+
+Nous obtenons donc nos deux formes réléchies de cette manière :
+
+```javascript
+for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
+        for (var y = -slotSize ; y < height + slotSize; y += slotSize) {
+            push()
+                                                                        
+            textSize(slotSize) // définir la taille du texte
+            textAlign(CENTER, CENTER) // centrer le texte verticalement et horizontalement
+    
+            translate(x,y)
+                                                                        
+            let xOffset = map(mouseX, 0, windowWidth, -slotSize/2, slotSize/2)
+            let angle = map(mouseY, 0, height, 0, TWO_PI)
+                                                                        
+            push()
+            translate(xOffset, 0)
+            rotate(angle)
+            text("%", 0, 0) // dessiner le caractère '%'
+            pop()
+                                                                        
+            push()
+            scale(-1,1)
+            translate(xOffset, 0)
+            rotate(angle)
+            text("%", 0, 0) // dessiner le caractère '%'
+            pop()
+  
+            pop()                                                                
+       }
+}
+```
+
+*push()* et *pop()* s'appliquant à toutes les transformations de l'espace, ils s'appliquent aussi à *scale()* : il faut donc bien penser à mettre *scale(-1,1)* après *push()* et avant *pop()*
+
+Il nous reste maintenant à être capable de changer dynamiquement le caractère que nous dessinons ainsi que la police et la couleur (même si pour la couleur cela a déjà été fait précédement)  
+
+Afin de pouvoir changer le caractère utilisé pour le dessin à chaque fois que l'utilisateur appuie, sur une touche du clavier. Il faut que nous déclarions une variable globale (et ce donc tout en haut de notre programme).
+
+```javascript
+let c = '%'
+````
+
+Nous allons donc maintenant pouvoir utiliser cette variable pour dessiner notre texte en rapplaçant '%' par 'c' dans l'appel à la fonction *text()*
+
+```javascript
+text(c, 0, 0)
+````
+Il ne nous reste plus qu'à modifier cette valeur quand l'utilisateur appuie sur une touche du clavier à l'aide de la fonction [**keyTyped()**](https://p5js.org/reference/#/p5/keyTyped)
+
+```javascript
+function keyTyped() {
+    c = key
+}
+```
+
+Attachons nous maintenant à pouvoir changer la police utilisée. Pour cela nous allons utiliser des polices déjà disponibles en ligne via [google fonts](https://fonts.google.com/).
+
+Ce site nous permet de choisir via une multitude de police et nous fournit même du code pour insérer ce polices dans nos pages web.
+
+![googlefonts](images/googlefonts.png)
+
+Il suffit de clicker sur les '+' en haut à droite de chaque case pour ajouter une police à notre liste de police. Une fois notre choix fait nous pouvons cliquer sur la barre noire en bas de notre fenêtre pour consulter le code pour insérer nos polices.
+
+![googlefonts selection](images/googlefonts-selection.png)
+
+Vous remarquez une chaine de code html que nous allons utiliser. Lorsque l'on code avec un fichier html comme un developpeur classique il suffit d'ajouter le code fournit au fichier "index.html" que nous utilisons.
+
+Ici étant donné que nous travaillons avec openprocessing, nous n'avons pas accès à notre fichier html, nous allons donc le modifier à l'éxecution avec un peu de code javascript.
+
+Nous devons d'abord créer un nouvel élément de type "link" :
+
+```javascript
+let link = document.createElement('link'); // on crée un nouvel 'élément link'
+```
+et nous allons peupler les champs nécessaires à cette balise avec les données fournies par google-fonts.
+
+```javascript
+let fontList  = "https://fonts.googleapis.com/css?family=Monoton|East+Sea+Dokdo|Fascinate+Inline|Righteous"; // on ajoute en source la lib (lien cdn)
+link.href = fontList
+link.rel="stylesheet"
+```
+
+Il nous reste alors à accoler l'objet link que nous avons créée à notre page web :
+
+```javascript
+document.body.appendChild(link);
+```
+
+Pour utiliser nos polices, nous allons créer un tableau remplit avec les noms des polices qui nous intéressent pour ensuite pouvoir tirer au sort quelle police nous utilisons.
+
+```javascript
+let fonts = ["Monoton", "East Sea  Dokdo", "Fascinate Inline ", "Righteous"]
+````
+
+Dès le *setup()* nous pouvons tirer au sort une première font à utiliser pour dessiner notre texte.
+
+```javascript
+let f = fonts[int(random(fonts.length))]
+````
+
+Il ne nous reste alors plus qu'à appliquer cette police à l'aide de la fonction [**textFont()**](https://p5js.org/reference/#/p5/textFont)
+
+```javascript
+textFont(f)
+```
+
+Nous pourrons répéter cette action à chaque fois que notre utilisateur cliques sur sa souris en copiant ces deux lignes de code dans la fonction *mousePressed()* déjà bien connue.
+
+En ré-appliquant les techniques que nous connaissons déjà pour changer les couleurs de manière aléatoire à l'aide d'une palette de couleur nous aboutissons à ce code :
+
+```javascript
+let link = document.createElement('link'); // on crée un nouvel 'élément link'
+let fontList  = "https://fonts.googleapis.com/css?family=Monoton|East+Sea+Dokdo|Fascinate+Inline|Righteous"; // on ajoute en source la lib (lien cdn)
+link.href = fontList
+link.rel="stylesheet"
+document.body.appendChild(link);
+
+	
+let slotSize = 100;
+let marginX
+let marginY
+let step = 1
+let c = '%'
+let colorsfront = ["#ffd3d3", "#fcffa5", "#fc7afa", "#8fbdf6"]
+let colorsback = ["#1a3a51", "#5c134a", "#3c415e", "#00677e"]
+
+let c1
+let c2
+
+let fonts = ["Monoton", "East Sea  Dokdo", "Fascinate Inline ", "Righteous"]
 
 
+function setup() {
+
+	createCanvas(windowWidth, windowHeight);
+
+	pixelDensity(1)
+	textSize(slotSize)
+	textAlign(CENTER, CENTER)
+
+	c1 = "#3c415e"
+	c2 = "#ffd3d3"
+
+	marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+	marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+
+	textFont('Righteous')
+
+}
+
+
+function draw() {
+
+	background(c1)
+
+
+	for (var x = -slotSize / 2; x < width + slotSize; x += slotSize) {
+		for (var y = -slotSize / 2; y < height + slotSize; y += slotSize) {
+			push()
+			textSize(slotSize)
+			textAlign(CENTER, CENTER)
+			fill(c2)
+			translate(x, y)
+
+			push()
+			scale(1, 1)
+			translate(map(mouseX, 0, windowWidth, -slotSize / 2, slotSize / 2), 0)
+			rotate(map(mouseY, 0, height, 0, TWO_PI))
+			text(c, 0, 0)
+			pop()
+
+			push()
+			scale(-1, 1)
+			translate(map(mouseX, 0, windowWidth, -slotSize / 2, slotSize / 2), 0)
+			rotate(map(mouseY, 0, height, 0, TWO_PI))
+			text(c, 0, 0)
+			pop()
+
+			pop()
+		}
+
+	}
+
+}
+
+function keyTyped() {
+	c = key
+}
+
+function mouseReleased() {
+	slotSize = int(random(5, 25)) * 10
+	step = int(random(1, 6))
+	c1 = colorsback[int(random(colorsback.length))]
+	c2 = colorsfront[int(random(colorsfront.length))]
+	let f = fonts[int(random(fonts.length))]
+	textFont(f)
+
+	marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+	marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+
+	console.log(slotSize, step, c1, c2, f)
+
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+	marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+	marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+```
 
 
 
