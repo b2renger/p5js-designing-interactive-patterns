@@ -1525,9 +1525,131 @@ Il suffit maintenant de répéter cela verticalement :
 }
 ```
 
+## Rotate-translate
 
+Nous allons maintenant nous intéresser aux transformations de l'espace, c'est à dire l'utilisation de fonction qui vont nous permettre de manipuler notre système de coordonnées pour nous offrir plus de souplesse dans la manière dont nous pourrons positionner et manipuler des formes.
 
+### Un exemple basique
 
+Nous allons nous attacher à recréer cet exemple :
+
+![rotate translate basic](images/rotate_translate.gif)
+
+Cette animation est composée de deux éléments, deux carrés par case. Le premier tourne autour de son centre qui coincide avec le centre de chaque case en fonction de la position de la souris en abscisses et change de taille en fonction de la position de la souris en ordonnées.
+Le second, deux fois plus petit, lui, va tourner autour du centre de la case avec un décalage qui va dépendre de sa position dans la grille.
+
+Commençons par dessiner le premier carré. Afin de pouvoir faire tourner un carré autour de son centre, nous allons utiliser la fonction [**rectMode()**](https://p5js.org/reference/#/p5/rectMode) que nous avons déjà vu, et deux nouvelles fonctions : [**rotate()**](https://p5js.org/reference/#/p5/rotate) et [**translate()**](https://p5js.org/reference/#/p5/translate).
+
+Vous l'aurez compris **rotate()** permet d'effectuer des rotation et **translate()** permet d'effectuer des translation; mais ces rotations et rotation s'appliquent à notre repère et pas aux formes que nous allons dessiner directement.
+
+On peut voir cela comme le fait d'avoir un stylo au dessus de la feuille et que pour dessiner au lieu de déplacer le stylo on déplacerait la feuille. Pour mieux comprendre, je vous invite à regarder ce programme : 
+
+https://www.openprocessing.org/sketch/388513
+
+Les différents carrés sont dessinés avec la même instruction à chaque fois :
+
+```javascript
+rect(50, 100, 25,25)
+```
+
+Le carré noir est dans le système de coordonnées d'origine.
+
+Le carré rouge est dessiné après avoir transformé ce système à l'aide de la fonction :
+
+```javascript
+translate(mouseX,mouseY)
+```
+
+Le carré bleu est dessiné après avoir successivement appelé :
+
+```javascript
+translate(mouseX,mouseY)
+```
+
+et
+
+```javascript
+rotate(PI/5)
+```
+
+Notre principal problème avec les fonctions **translate()** et **rotate()** et qu'elles impactent toutes les formes que nous allons dessiner après les avoir appelées. Il nous faut donc un moyen de limiter leur champ d'action : c'est à cela que servent les fonctions [**push()**](https://p5js.org/reference/#/p5/push) et [**pop()**](https://p5js.org/reference/#/p5/pop)
+
+Tous les appels faits à *rotate()* et *translate()* qui sont situés entre *push()* et *pop()* n'ont d'action que entre ces deux mots clés.
+
+Dans le cadre de l'objectif que l'on s'est fixé s'est parfait pour pouvoir appliquer des transformations dans chaque case de notre grille sans que les autres ne soient impactées.
+
+A l'intérieur de notre double boucle for utilisée habituellement, nous allons donc encadrer tout notre code entre un *push()* et un *pop()*.
+
+```javascript
+ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            push()
+            
+            pop()
+    }
+}
+```
+
+Pour faire tourner un rectangle autour de son centre, il faut que nous fixions sont mode de dessin à l'aide de *rectMode()*, puis nous allons d'abord placer notre repère au centre de la case puis luis appliquer une rotation. (Si nous avions d'abord appliqué une rotation avant d'appliquer notre translation notre forme aurait tourné autour du coin supérieur gauche de notre case).
+
+Pour calculer les valeurs de taille de notre carré et de rotation nous allons utiliser la fonction *map()* pour transformer les valeurs de la souris en valeur utiles pour animer notre rotation et notre modification de taille.
+
+```javascript
+let angle = map(mouseX, 0, width, 0, TWO_PI)
+let s = map(mouseY, 0, height, 25, slotSize*2)
+```
+
+Puis nous alllons appliquer les tranformations de l'espace décrites juste avant
+
+```javascript
+translate(i,j) // déplacer notre repère au centre de la case
+rotate(angle) // le faire tourner de la valeur 'angle'
+rect(0, 0, s, s);
+```
+
+Ce qui nous laisse avec ce code pour la première partie de notre animation :
+
+```javascript
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            push()
+                                                                                           
+            let angle = map(mouseX, 0, width, 0, TWO_PI)
+            let s = map(mouseY, 0, height, 25, slotSize*2)
+
+            translate(i,j)
+            rotate(angle)
+            rect(0, 0, s, s);
+            
+            pop()
+        }
+}
+```
+
+Pour la seconde partie de l'animation nous allons créer une seconde double boucle. Mais cette fois-ci au lieu de dessiner notre rectangle au milieu de notre repère (i.e aux coordonnées (0,0)) comme précédément nous allons le décaler. Ce décalage sera propotionel à sa position dans la grille (c'est à dire le numéro de la case) et nous allons donc utiliser encore une fois la fonction *map()*
+
+```javascript
+let xOffset = map (i, marginX/2, width-marginX/2, -slotSize*0.5 , slotSize *0.5)
+let yOffset = map (j, marginY/2, height-marginY/2, -slotSize*0.5 , slotSize *0.5)
+```
+
+Si notre carré et tout à gauche de la grille, il sera aussi par défaut tout à gauche de sa case et s'il est tout en haut il sera aussi tout en haut de sa case.
+
+```javascript
+for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
+        for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += slotSize) {
+            push()
+            translate(i,j)
+            let angle = map(mouseX, 0, width, 0, TWO_PI)
+            rotate(angle)
+            let xOffset = map (i, marginX/2, width-marginX/2, -slotSize*0.5 , slotSize *0.5)
+            let yOffset = map (j, marginY/2, height-marginY/2, -slotSize*0.5 , slotSize *0.5)
+            translate(xOffset,yOffset)
+            rect(xOffset, yOffset, slotSize*0.5, slotSize*0.5);
+            pop()
+        }
+}
+```
 
 
 
