@@ -19,6 +19,8 @@ J'en profite d'ailleurs pour vous donner d'autres liens vers des supports de cou
 Le premier lien dispose d'ailleurs de rubriques *ressources* et *références* en fin de page qui pointent vers d'autres tutoriels ou bibliothèques et vers des projets artistiques et / ou ludiques impliquant des technos web.
 
 <a name="contenu"/>
+<img src="images/10print.gif" width="200" height="180"><img src="images/circle-grid-of-circles.gif" width="200" height="180"><img src="images/circle-grid-of-circles-overlapping.gif" width="200" height="180"><img src="images/circlegrid-size.gif" width="200" height="180"><img src="images/moving-lines-pattern.gif" width="200" height="180"><img src="images/noise-1D.gif" width="200" height="180"><img src="images/noise-2D.gif" width="200" height="180"><img src="images/noise-3D.gif" width="200" height="180"><img src="images/noise-asymetric.gif" width="200" height="180"><img src="images/noise-joydivision.gif" width="200" height="180"><img src="images/noise-symetric.gif" width="200" height="180"><img src="images/pg_circles.gif" width="200" height="180"><img src="images/polar-noise.gif" width="200" height="180"><img src="images/radial-noise.gif" width="200" height="180"><img src="images/typo_reflexion.gif" width="200" height="180">
+
 
 ## Contenu
 
