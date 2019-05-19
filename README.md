@@ -1957,5 +1957,172 @@ function windowResized() {
 }
 ```
 
+## Dessiner dans des calques
 
+Pour plusieurs raisons il peut-être intéressant d'avoir recours à des calques. p5js permet cela en utilisant ce que nous appelons des "offscreen graphics" : il est possible de dessiner dans une image qui n'est pas affichée et que nous pourrons afficher ultérieument avec la fonction [**image()**](https://p5js.org/reference/#/p5/image).
+
+Il est possible de créer un tel objet avec la fonction [**createGraphics()**](https://p5js.org/reference/#/p5/createGraphics)
+
+Nous allons apprendre à nous en servir pour recréer ce type d'effet :
+
+![pg circles](images/pg_circles.gif)
+
+Pour ce faire nous allons créer une variable globale pour stocker notre image
+
+```javascript
+let pg
+````
+
+Puis dans le *setup()* nous allons pouvoir dans ce calque dessiner une ellipse positioner en haut au centre de la fenêtre. Puisque cette ellipse se dessine en précisant les coordonnées de son centre, elle sera alors coupée.
+
+Initialisons déjà notre calque pour qu'il fasse la taille d'une case :
+
+```javascript
+pg = createGraphics(slotSize, slotSize)
+pg.pixelDensity(1)
+```
+
+Nous pouvons maintenant dessiner à l'intérieur comme d'habitude, en faisant juste précéder toutes les instruction de dessin de 'pg.'. Toutes les notions vues précédement s'appliquent de la même façon dans un calque.
+
+```javascript
+pg.fill(0, 0, 0, 150)
+pg.noStroke()
+pg.ellipse(0, slotSize / 2, slotSize * 0.65, slotSize * 0.65)
+```
+
+Ce genre de technique va nous permettre de créer des images que l'ont va pouvoir afficher dans chaque case et au besoin pivoter.
+
+Dans notre animation utilisant des cercles, le principe est de dessiner une ellipse en haut au milieu de notre case, de part la taille du calque notre ellipse sera coupée. Nous garderons un fond transparent et nous feront pivoter notre calque pour dans chaque case dessiner 4 demies ellipses. En utilisant une combinaisons de *translate()* et de *rotate()* nous pourrons obtenir l'effet souhaité.
+
+Pour afficher nos calques nous allons utiliser la fonction [**image()**](https://p5js.org/reference/#/p5/image). Cette fonction permet d'afficher une image à l'écran. Elle peut prendre jusqu'à cinq paramètres : le premier est le nom de l'image à afficher, les deux suivant sont les coordonnées du point supérieur gauche de l'image et optionnellement on peut préciser la largeur et la hauteur de l'image que l'on souhaite afficher (au risque de déformer l'image originale).
+
+Depuis le début nous utilisons le centre de nos cases comme point de dessin, nous allons donc utiliser la fonction [**imageMode()**](https://p5js.org/reference/#/p5/imageMode), afin de pouvoir spécifier le centre de nos image comme point d'ancrage (de dessin), plutôt que le coin supérieur gauche. Nous allons effectuer cette manipulation dans le *setup()*
+
+```javascript
+imageMode(CENTER)
+```
+
+Ensuite dans le *draw()* nous allons dessiner notre premier calque de manière classique à l'intérieur de notre double boucle for
+
+```javascript
+ for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
+        for (var y = -slotSize * 5; y < height + slotSize * 5; y += slotSize * 1) {
+            push()
+            image(pg, x, y)
+            pop()
+        }
+}                                                                                
+```
+
+Nous allons maintenant superposer une seconde image mais cette fois si qui aura tourné autour de son centre d'un quart de tour. Etant donné que nous allons tourner autour du centre de notre image nous devons d'abord nous placer au centre de notre case à l'aide de *translate()* puis ensuite utiliser *rotate()*
+
+```javascript
+ for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
+        for (var y = -slotSize * 5; y < height + slotSize * 5; y += slotSize * 1) {
+            push()
+            image(pg, x, y)
+            pop()
+                            
+            push()         
+            translate(x, y)
+            rotate(PI/2)
+            image(pg,0,0)
+            pop()
+                                            
+        }
+}                                                                                
+```
+
+Nous allons répéter cette opération encore deux fois :
+```javascript
+for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
+        for (var y = -slotSize * 5; y < height + slotSize * 5; y += slotSize * 1) {
+            push()
+            image(pg, x, y)
+            pop()
+
+            push()
+            translate(x, y)
+            rotate(PI)
+            image(pg, 0,0)
+            pop()
+
+            push()
+            translate(x, y)
+            rotate(PI / 2)
+            image(pg, 0,0)
+            pop()
+
+            push()
+            translate(x, y)
+            rotate(-PI / 2)
+            image(pg, 0,0)
+            pop()
+        }
+
+}
+```
+Il nous reste maintenant à créer notre effet de décalage dépendant de la position de la souris. Comme d'habitude il s'agit de calculer deux coefficients de décalage : un en abscisses, et un en ordonnées. Cette opération devra se faire tout en haut du *draw()*
+
+```javascript
+let offsetX = map(mouseY, 0, width, -1, 1)
+let offsetY = map(mouseX, 0, height, -1, 1)
+```
+
+Nous allons donc les utiliser pour positionner nos images dans chaque case, en utilisant le deuxième et troisième paramètre de notre fonction *image()* : en multipliant 'xOffset' ou 'yOffset' par 'slotSize', nous obtiendrons une image qui glissera d'une case vers la gauche / vers le haut si notre souris et à gauche / en haut de notre fenêtre ou d'une case vers la droite / vers le bas si notre souris est à droite / en bas de notre fenêtre.
+
+```javascript
+offsetX = map(mouseY, 0, width, -1, 1)
+offsetY = map(mouseX, 0, height, -1, 1)
+
+for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
+        for (var y = -slotSize * 5; y < height + slotSize * 5; y += slotSize * 1) {
+            push()
+            translate(x,y)
+            image(pg, slotSize * offsetX, slotSize * offsetY)
+            pop()
+
+            push()
+            translate(x, y)
+            rotate(PI)
+            image(pg, slotSize * offsetX, slotSize * offsetY)
+            pop()
+
+            push()
+            translate(x, y)
+            rotate(PI / 2)
+            image(pg, slotSize * offsetX, slotSize * offsetY)
+            pop()
+
+            push()
+            translate(x, y)
+            rotate(-PI / 2)
+            image(pg, slotSize * offsetX, slotSize * offsetY)
+            pop()
+        }
+}
+```
+Remarquez cependant que lorsque nous cliquons sur la souris pour redimensionner les cases de notre grille, les calques ne s'adaptent pas automatiquement. Nous pourrions utiliser les quatrièmes et cinquièmes paramètres d' *image()*, mais cela risquerait de produire des images pixelisée (particulièrement si notre calque et plus petit que nos cases et que les calques auront donc à être agrandis).
+
+Nous allons donc redessiner le contenu de nos calques à chaque fois que l'utilisateur appuiera sur la souris :
+
+```javascript
+function mouseReleased() {
+
+    slotSize = int(random(2, 6)) * 25
+    ellipseSize = random(0.125, 1)
+
+    opacity = random(50, 200)
+
+    console.log(slotSize, ellipseSize, opacity)
+
+    pg = createGraphics(slotSize, slotSize)
+    pg.fill(0, 0, 0, opacity)
+    pg.noStroke()
+    pg.ellipse(0, slotSize / 2, slotSize * ellipseSize, slotSize * ellipseSize)
+    
+    marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+    marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
+}
+```
 
