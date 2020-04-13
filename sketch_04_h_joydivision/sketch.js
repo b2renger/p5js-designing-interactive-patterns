@@ -18,7 +18,7 @@ function draw() {
     strokeWeight(2)
     time += 0.005;
 
-    for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += ySpacing) {
+    for (let j = marginY / 2 ; j < height - marginY / 2; j += ySpacing) {
         stroke(255)
         beginShape()
         for (let i = marginX / 2; i < width - marginX / 2; i += 1) {
