@@ -8,15 +8,16 @@ Vous pouvez consulter [la référence de p5js](https://p5js.org/reference/) qui 
 
 De nombreuses bibliothèques viennent offrir de nouvelles possibilité, mais  p5js peut naturellement s'interfacer avec n'importe quelle bibliothèques js.
 
-Nous allons ici travailler avec [openprocessing.org](https://www.openprocessing.org/), il vous faudra donc créer un compte en ligne et vous pourrez ainsi écrire du code qui sera automatiquement hébergé en ligne et accessible à n'importe qui si vous le souhaitez.
+Les techniques décrites ici sont accessibles aux débutants il est cependant nécessaire de connaitre les bases de la programmation avec p5js dans un environnement de développement de votre choix c'est à dire par exemple d'avoir lu et intégrer les 3 premiers paragraphes de cette [ressource d'introduction](https://github.com/b2renger/Introduction_p5js) :
 
-Ce n'est pas la seule façon de procéder, si vous souhaitez plus de détails sur les différentes façon de travailler avec p5js vous pouvez vous référer à [cette portion de cours](https://github.com/b2renger/Introduction_p5js#p5js_tools) 
+- [Comment travailler avec p5js](https://github.com/b2renger/Introduction_p5js#p5js_tools)
+- [Les principes de base](https://github.com/b2renger/Introduction_p5js#bases)
+- [Dessiner avec la souris](https://github.com/b2renger/Introduction_p5js#dessiner)
 
-J'en profite d'ailleurs pour vous donner d'autres liens vers des supports de cours p5js :
-- https://github.com/b2renger/Introduction_p5js
-- https://github.com/b2renger/p5js_codecreatif
 
 Le premier lien dispose d'ailleurs de rubriques *ressources* et *références* en fin de page qui pointent vers d'autres tutoriels ou bibliothèques et vers des projets artistiques et / ou ludiques impliquant des technos web.
+
+Vous pourrez retrouver l'ensemble du code des différents exemples sur ce dépôt [github](https://github.com/b2renger/p5js-designing-interactive-patterns)
 
 <a name="contenu"/>
 <img src="images/10print.gif" width="200" height="180"><img src="images/circle-grid-of-circles.gif" width="200" height="180"><img src="images/circle-grid-of-circles-overlapping.gif" width="200" height="180"><img src="images/circlegrid-size.gif" width="200" height="180"><img src="images/moving-lines-pattern.gif" width="200" height="180"><img src="images/noise-1D.gif" width="200" height="180"><img src="images/noise-2D.gif" width="200" height="180"><img src="images/noise-3D.gif" width="200" height="180"><img src="images/noise-asymetric.gif" width="200" height="180"><img src="images/noise-joydivision.gif" width="200" height="180"><img src="images/noise-symetric.gif" width="200" height="180"><img src="images/pg_circles.gif" width="200" height="180"><img src="images/polar-noise.gif" width="200" height="180"><img src="images/radial-noise.gif" width="200" height="180"><img src="images/typo_reflexion.gif" width="200" height="180">
@@ -24,44 +25,44 @@ Le premier lien dispose d'ailleurs de rubriques *ressources* et *références* e
 
 ## Contenu
 
-* [Les grandes différences entre processing et p5js](https://github.com/b2renger/p5js-designing-interactive-patterns#les-grandes-diff%C3%A9rences-entre-processing-et-p5js)</br>
-    * [Les différences théoriques](https://github.com/b2renger/p5js-designing-interactive-patterns#les-diff%C3%A9rences-th%C3%A9oriques)
-    * [En pratique ...](https://github.com/b2renger/p5js-designing-interactive-patterns#en-pratique-)
-* [Une page web "responsive" - Dessiner un cercle qui reste au milieu de notre page web](https://github.com/b2renger/p5js-designing-interactive-patterns#une-page-web-responsive---dessiner-un-cercle-qui-reste-au-milieu-de-notre-page-web)
-* [Dessiner une grille - vive les boucles for !](https://github.com/b2renger/p5js-designing-interactive-patterns#dessiner-une-grille---vive-les-boucles-for-)
-    * [Première grille](https://github.com/b2renger/p5js-designing-interactive-patterns#premi%C3%A8re-grille)
-    * [Une grille de cercles](https://github.com/b2renger/p5js-designing-interactive-patterns#une-grille-de-cercles)
-        * [un peu d'interaction : une grille à différentes granularités](https://github.com/b2renger/p5js-designing-interactive-patterns#un-peu-dinteraction--des-grilles-%C3%A0-diff%C3%A9rentes-granularit%C3%A9s) 
-        * [des cercles centrés dans nos cases](https://github.com/b2renger/p5js-designing-interactive-patterns#des-cercles-centr%C3%A9s-dans-nos-cases)
-        * [une grille centrée dans notre page](https://github.com/b2renger/p5js-designing-interactive-patterns#un-grille-centr%C3%A9e-dans-notre-page)
-* [Un peu d'interaction avec la souris](https://github.com/b2renger/p5js-designing-interactive-patterns#un-peu-dinteraction-avec-la-souris)
-    * [Un grille de cercles qui changent de taille en fonction de la position de la souris](https://github.com/b2renger/p5js-designing-interactive-patterns#un-grille-de-cercles-qui-changent-de-taille-en-fonction-de-la-position-de-la-souris)
-    * [Une grille de cercles co-centriques](https://github.com/b2renger/p5js-designing-interactive-patterns#une-grille-de-cercles-co-centriques)
-    * [Une grille de lignes se déplaçant dans chaque case](https://github.com/b2renger/p5js-designing-interactive-patterns#une-grille-de-lignes-se-d%C3%A9pla%C3%A7ant-dans-chaque-case)
-    * [Un grille de cercles concentriques](https://github.com/b2renger/p5js-designing-interactive-patterns#une-grille-de-cercles-co-centriques-2)
-* [Utilisation de conditions 'if'](https://github.com/b2renger/p5js-designing-interactive-patterns#utilisation-de-conditions-if)
-    * [if - else et random() - randomSeed()](https://github.com/b2renger/p5js-designing-interactive-patterns#if-else-et-random()-randomSeed())
-    * [Variation 1 : if imbriqués](https://github.com/b2renger/p5js-designing-interactive-patterns#variation-1--if-imbriqu%C3%A9s)
-    * [Variation 2 : if - else if](https://github.com/b2renger/p5js-designing-interactive-patterns#variation-2--if---else-if)
-* [Make some Noise !](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-)
-    * [noise à une dimension](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-%C3%A0-1-dimension)
-    * [noise à deux dimensions](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-%C3%A0-2-dimensions)
-    * [noise à trois dimensions](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-%C3%A0-3-dimensions)
-    * [noise et coordonnées polaires](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-et-coordonn%C3%A9es-polaires)
-    * [noise et symétries](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-et-sym%C3%A9trie)
-    * [noise symétries et coordonnées polaires](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-et-sym%C3%A9trie-et-coordonn%C3%A9es-polaires)
-    * [noise asymétrie et coordonnées polaires](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-coordonn%C3%A9es-polaires-et-asym%C3%A9trie)
-    * [interlude unknonw pleasures](https://github.com/b2renger/p5js-designing-interactive-patterns#interlude-unknown-pleasures)
+* [Les grandes différences entre processing et p5js](#Les-grandes-differences-entre-processing-et-p5js)
+    * [Les différences theoriques](#Les-differences-theoriques)
+    * [En pratique](#En-pratique)
+* [Une page web responsive - Dessiner un cercle qui reste au milieu](#Une-page-web-responsive---Dessiner-un-cercle-qui-reste-au-milieu)
+* [Dessiner une grille - vive les boucles for !](#Dessiner-une-grille---vive-les-boucles-for-!)
+    * [Première grille](#premiere-grille)
+    * [Une grille de cercles](#une-grille-de-cercles)
+        * [un peu d'interaction : une grille à différentes granularités](#un-peu-d'interaction-changer-la-taille-des-cases) 
+        * [des cercles centrés dans nos cases](#des-cercles-centres-dans-nos-cases) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_b_responsive_grid/)
+        * [une grille centrée dans notre page](#une-grille-centree-dans-notre-page) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid/)
+* [Un peu d'interaction avec la souris](#Un-peu-d'interaction-avec-la-souris)
+    * [Un grille de cercles qui changent de taille en fonction de la position de la souris](#Une-grille-de-cercles-qui-changent-de-taille-en-fonction-de-la-position-de-la-souris) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_a_interactive_grid/)
+    * [Une grille de cercles concentriques](#une-grille-de-cercles-concentriques) - [**DEMO**]()
+    * [Une grille de lignes interactives](#une-grille-de-lignes-interactives) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_d_triple-for-lines/)
+    * [Une grille de cercles concentriques 2](#Une-grille-de-cercles-concentriques-2) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_c_triple-for/)
+* [Ecrire des conditions avec if()](#Ecrire-des-conditions-avec-if())
+    * [if - else et random() - randomSeed()](#if-else-et-random()---randomSeed()) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_a_if/)
+    * [Variation 1 avec if imbriques](#Variation-1-avec-if-imbriques) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_b_if/)
+    * [Variation 2 avec if - else if](#Variation-2-avec-if---else-if) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_c_if/)
+* [Make some Noise !](#Make-some-Noise-!)
+    * [noise à une dimension](#noise-1-dimension) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_a_noise-1D/)
+    * [noise à deux dimensions](#noise-2-dimensions) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_b_noise-2D/)
+    * [noise à trois dimensions](#noise-3-dimensions) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_c_noise-3D/)
+    * [noise et coordonnées polaires](#noise-et-coordonnees-polaires) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_d_noise-circle-rad-angle/)
+    * [noise et symetries](#noise-et-symetries) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_e_noise-symetric/)
+    * [noise symétrique et coordonnées polaires](#Noise-symetrique-et-coordonnees-polaires) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_f_noise-circle-symetric/)
+    * [noise asymetrique et coordonnes polaires](#Noise-asymetrique-et-coordonnees-polaires) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_g_noise-circle-asymetric/)
+    * [interlude unknown pleasures](#interlude-unknown-pleasures) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_h_joydivision/)
 * [rotate() et translate()](https://github.com/b2renger/p5js-designing-interactive-patterns#rotate-translate)
-    * [un exemple basique](https://github.com/b2renger/p5js-designing-interactive-patterns#un-exemple-basique)
-    * [utilisation de fonts](https://github.com/b2renger/p5js-designing-interactive-patterns#utiliser-des-fonts)
-* [Dessiner dans des calques](https://github.com/b2renger/p5js-designing-interactive-patterns#dessiner-dans-des-calques)
+    * [un exemple basique](#un-exemple-basique) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
+    * [utilisation de fonts](#utilisation-de-fonts) - [**DEMO1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_b_rotate_typo_reflection/) - [**DEMO2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
+* [Dessiner dans des calques](#Dessiner-dans-des-calques) - [**DEMO 1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/) - [**DEMO 2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
         
     
     
-## Les grandes différences entre processing et p5js
+## Les grandes differences entre processing et p5js
 
-### Les différences théoriques
+### Les differences theoriques
 
 Je vous conseille de commencer par lire les [principes de bases](https://github.com/b2renger/Introduction_p5js#les-principes-de-bases) permettant de comprendre comment s'articule une page web entre fichier html et fichier(s) javascript et qui pose les principes fondamentaux de processing et donc de p5js.
 
@@ -75,9 +76,9 @@ En réalité processing et p5js sont à la fois très similaires et très diffé
 
 En pratique nous allons nous concentrer sur une sous partie de javascript avec la découverte de  p5js, comme l'on s'intéresse à une sous partie de java lorsque l'on écrit du code processing. 
 
-[^ home](#contenu)<br>
+[**home**](#contenu)<br>
 
-### En pratique ...
+### En pratique
 
 1- Les types : plus de *float* etc. mais des *let*
 
@@ -94,9 +95,9 @@ Il existe bien sûr d'autres différences mais elles sont moins impactantes. L'u
 
 Nous allons donc maintenant nous intéresser plus directement au code et à la mise en place de nos premiers programmes. Nous devons cependant garder en tête que nos programmes sont exécutés dans un navigateur et que l'utilisateur peut changer la taille de sa fenêtre à tout moment et il ne faut pas que graphiquement cela change trop la donne : nous allons donc devoir travailler de manière **responsive** et donc d'exprimer les coordonnées de nos formes géométrique en fonction de la taille de notre canvas.
 
-[^ home](#contenu)<br>
+[**home**](#contenu)<br>
 
-## Une page web "responsive" - Dessiner un cercle qui reste au milieu de notre page web
+## Une page web responsive - Dessiner un cercle qui reste au milieu
 
 Tout est dit dans le titre !
 
@@ -156,11 +157,11 @@ ellipse(width*0.5, height*0.5, 50, 50);
 
 Si nous voulons que nos dessins / motifs soient responsifs et gardent un aspect similaire quelque soit la taille de notre fenêtre nous devons réussir à exprimer toutes les coordonnées de nos formes à l'aide de pourcentages (c'est à dire en multipliant ou *width* ou *height* par une valeur comprise entre 0 et 1)
 
-[^ home](#contenu)<br>
+[**home**](#contenu)<br>
 
 ## Dessiner une grille - vive les boucles for !
 
-### Première grille
+### Premiere grille
 
 Nous allons utiliser des boucles [**for()**](https://processing.org/reference/for.html). Le boucles for sont très pratiques pour automatiser une action qui va devoir se répéter plusieurs fois.
 
@@ -240,7 +241,7 @@ for (let i = 0; i <= width; i += 100) {
 }
 ```
 
-[^ home](#contenu)<br>
+[**home**](#contenu)<br>
 
 ### Une grille de cercles 
 
@@ -263,9 +264,9 @@ La fonction ellipse() prenant comme paramètres les coordonnées centre du cercl
 
 Dans cet exemple nos cercles font une taille fixe de 100 pixels. Nous allons maintenant faire en sorte que ces cercles changent de taille à chaque fois que nous cliquons sur la souris.
 
-[^ home](#contenu)<br>
+[**home**](#contenu)<br>
 
-#### un peu d'interaction : des grilles à différentes granularités
+#### un peu d'interaction changer la taille des cases
 
 Tout d'abord il va nous falloir créer une variable qui sera la taille de chaque case et qui correspondra donc à la valeur dont nous augmentons chaque variable de la boucle for. Cette variable pourra par exemple s'appeler "slotSize" et nous l'initialiserons avec une valeur de 100.
 
@@ -294,9 +295,12 @@ function mousePressed() {
 ```
 Notez bien que mousePressed() est une nouvelle fonction qui doit donc se situer en dehors du setup() et du draw().
 
-[^ home](#contenu)<br>
 
-#### des cercles centrés dans nos cases
+
+[**home**](#contenu)
+
+
+#### des cercles centres dans nos cases
 
 Nous allons maintenant faire en sorte que nos cercles soient centrés dans nos cases. Nous allons donc manipuler les condition de démarrage et d'arrêt de nos boucles pour que "i" et "j" nous donnent le centre des cases plutôt que le coin supérieur gauche.
 
@@ -322,9 +326,13 @@ for (let i = slotSize / 2; i <= width - slotSize / 2; i += slotSize) {
 
 Remarquez que lorsque vous redimensionnez votre fenêtre, certains cercles apparaissent ou disparaissent en bordure et que notre grille n'est pas centrée. Nous allons essayer de remédier à cela.
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_b_responsive_grid/)
 
-#### un grille centrée dans notre page
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_01_b_responsive_grid
+
+[**home**](#contenu)
+
+#### une grille centree dans notre page
 
 Il y a plusieures options ici : 
 
@@ -369,7 +377,6 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 
 Et voilà nous arrivons enfin au résultat du gif affiché précédement. A partir maintenant le code que vous allez écrire ce situera principalement à l'intérieur de ces deux boucles for; il est possible de faire énormément de choses. Le code que nous avons écrit jusqu'à maintenant va être votre base de départ pour pouvoir créer des pavages géométriques tous plus beaux les uns que les autres !
 
-Le code complet de ce premier programme entiérement "responsif" est disponible [ici](https://github.com/b2renger/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid).
 
 Ce code sera la base de laquelle vous pour la plupart des programmes que nous crérons :
 
@@ -411,11 +418,15 @@ function windowResized() {
 }
 ```
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid/)
+
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_01_c_responsive_grid
+
+[**home**](#contenu)
 
 ## Un peu d'interaction avec la souris
 
-### Un grille de cercles qui changent de taille en fonction de la position de la souris
+### Une grille de cercles qui changent de taille en fonction de la position de la souris
 
 Notre prochaine programme est très simple et se base sur le code vu précédement, le voici :
 
@@ -482,9 +493,13 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_a_interactive_grid/)
 
-### Une grille de cercles co-centriques
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_a_interactive_grid
+
+[**home**](#contenu)
+
+### Une grille de cercles concentriques
 
 Etant donné que plus on a de boucles for, plus on s'amuse ! nous allons rajouter une troisième boucle for à l'intérieur de nos deux boucles précédentes. Cela signifie que pour chaque case dessinée nous allons répéter plusieurs fois la même action.
 
@@ -555,10 +570,13 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
     }
 }
 ```
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_b_triple-for/)
 
-[^ home](#contenu)<br>
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_b_triple-for
 
-### Une grille de lignes se déplaçant dans chaque case
+[**home**](#contenu)
+
+### Une grille de lignes interactives
 
 Nous allons maintenant nous nous attacher à réaliser ce motif :
 ![Moving lines patterns](images/moving-lines-pattern.gif)
@@ -630,10 +648,15 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
     }
 }
 ```
-   
-[^ home](#contenu)<br>
-    
-### Une grille de cercles co-centriques 2
+
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_d_triple-for-lines/)
+
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_d_triple-for-lines
+
+
+[**home**](#contenu)
+
+### Une grille de cercles concentriques 2
 
 Nous allons maintenant combiner les deux effets précédents : nous allons manipuler la position des centres de cercles co-centriques pour donner un effet de fausse 3D réalisée à partir de vraie 2D 
 
@@ -705,9 +728,15 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_c_triple-for/)
 
-## Utilisation de conditions "if"
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_c_triple-for
+
+
+
+[**home**](#contenu)
+
+## Ecrire des conditions avec if()
 
 Nous allons maintenant rester sur le même principe et voir comment une règle très simple peut nous apporter une multitude de motifs relativement variés : le principe est que dans chaque case nous allons au choix dessiner une des deux diagonales possible. 
 
@@ -806,7 +835,8 @@ else{
 }
 ```
 
-[^ home](#contenu)<br>
+
+[**home**](#contenu)
 
 ### if-else et random() - randomSeed()
 
@@ -945,10 +975,13 @@ function windowResized() {
     marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
 }
 ```
+    Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_a_if/)
 
-[^ home](#contenu)<br>
+    Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_03_a_if  
 
-### Variation 1 : if imbriqués
+    [**home**](#contenu)
+
+### Variation 1 avec if imbriques
 
 Comme précisé précédement nous pouvons aussi imbriquer des if entre eux. Nous pourrions par exemple faire en sorte que certaines lignes soient rouges et d'autres blanches assez facilement :
 
@@ -977,9 +1010,13 @@ Comme précisé précédement nous pouvons aussi imbriquer des if entre eux. Nou
 
 ```
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_b_if/)
 
-### Variation 2 : if - else if
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_03_b_if
+
+[**home**](#contenu)
+
+### Variation 2 avec if - else if
 
 Avec l'utilisation de plusieures condition s'enchainant il est aussi relativement simple d'arriver à dessiner en labyrinthe, et ne choisissant de ne dessiner qu'une paroie de chaque case (soit celle du dessus, soit celle du dessous, celle de gauche ou celle de droite) :
 
@@ -998,7 +1035,13 @@ if (rd < 0.25) {
 }
 ```
 
-## Noise !
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_c_if/)
+
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_a_noise-1D
+
+[**home**](#contenu)
+
+## Make some Noise !
 
 Nous allons maintenant à nous intéresser à la notion de [**noise()**](https://p5js.org/reference/#/p5/noise)
 
@@ -1008,9 +1051,9 @@ Elle a été crée en 1983 par [Ken Perlin](https://en.wikipedia.org/wiki/Perlin
 
 Si vous avez lu la référence, il faut comprendre que le noise peut-être utilisé jusqu'à 3 dimensions (nous allons voir cela plus en détail) et qu'il renvoit des valeurs comprises entre 0 et 1. Une notion plus subtile qu'il faut comprendre et qu'il faut "passer" au moins une variable (ou une dimension) à la fonction *noise()*, plus l'écart entre les différentes variables que nous passeront sera important plus le résultat sera proche de la fonction *random()*, plus l'écart sera petit plus le résultat sera lisse.
 
-[^ home](#contenu)<br>
+[**home**](#contenu)<br>
 
-### noise à 1 dimension
+### noise 1 dimension
 
 Nous allons commencer par ne passer qu'une seule valeur à notre fonction noise, celle d'un temps qui se déroule pour obtenir ce genre de résultat :
 
@@ -1048,9 +1091,14 @@ point(i+xoffset, j+yoffset)
 ```
 Nous remarquons ici que le dessin dans chacune de nos cases est identique. Nous pouvons donc remédier à cela en utilisant une dimention supplémentaire pour notre fonction *noise()*.
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_a_noise-1D/)
 
-### noise à 2 dimensions
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_a_noise-1D
+
+[**home**](#contenu)<br>
+
+
+### noise 2 dimensions
 
 Pour obtenir un résultat différent dans chaque case nous allons passer un deuxième argument à notre noise.
 
@@ -1074,9 +1122,14 @@ let n2 = noise(time + 10 , i)
 Par exemple en utilisant 'i' deux fois le résultat sera le même dans chaque colonne.
 De manière similaire en passant 'j' deux fois le résultat sera le même sur chaque ligne. Si vous passez 'i+j' le résultat sera le même sur chaque diagonale !
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_b_noise-2D/)
 
-### noise à 3 dimensions
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_b_noise-2D
+
+[**home**](#contenu)<br>
+
+
+### noise 3 dimensions
 
 Pour cette 3ème dimension nous allons changer de mode de représentation. Au lieu de calculer un décalage en x et y d'un point qui se déplace en laissant une trainée, nous allons maintenant calculer la taille d'un rectangle qui sera dessiné dans chaque case.
 
@@ -1166,10 +1219,14 @@ function windowResized() {
 }
 }
 ```
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_c_noise-3D/)
 
-[^ home](#contenu)<br>
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_c_noise-3D
 
-### Noise et coordonnées polaires
+[**home**](#contenu)<br>
+
+
+### Noise et coordonnees polaires
 
 ![polar noise](images/polar-noise.gif)
 
@@ -1220,10 +1277,13 @@ puis nous dessinons nos lignes reliant le centre de chaque case à nos points ca
 ```javascript
 line(xpos,ypos, i,j)
 ```
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_d_noise-circle-rad-angle/)
 
-[^ home](#contenu)<br>
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_d_noise-circle-rad-angle
 
-### Noise et symétrie
+[**home**](#contenu)<br>
+
+### Noise et symetries
 
 Le noise peut paraitre un peu compliqué à maitriser mais en comprenant bien son fonctionnement il est possible de créer des comportements symétriques.
 
@@ -1292,10 +1352,13 @@ for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
 }
 endShape()
 ```
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_e_noise-symetric/)
 
-[^ home](#contenu)<br>
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_e_noise-symetric
 
-### Noise et symétrie et coordonnées polaires
+[**home**](#contenu)<br>
+
+### Noise symetrique et coordonnees polaires
 
 Nous allons dans ce paragraphe combiner nos connaissance sur les coordonées polaires et le noise pour arriver à ce résultat :
 
@@ -1392,12 +1455,12 @@ let seed
 Dans le *setup()* nous devons l'initialiser :
 ```javascript
 seed = random(9999)
-````
+```
 
 Dans le *draw()* nous pouvons donc l'utiliser conjointement avec *randomSeed()*
 ```javascript
 randomSeed(seed)
-````
+```
 
 et pour garder notre côté génératif nous allons changer cette valeur à chaque fois que l'utilisateur appuie sur la souris. Nous allons donc ajouter la ligne suivante dans *mousePressed()* :
 
@@ -1471,10 +1534,13 @@ function windowResized() {
     marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
 }
 ```
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_f_noise-circle-symetric/)
 
-[^ home](#contenu)<br>
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_f_noise-circle-symetric
 
-### Noise, coordonnées polaires et asymétrie
+[**home**](#contenu)<br>
+
+### Noise asymetrique et coordonnees polaires
 
 Modifions un peu notre code afin d'avoir un résultat assymétrique :
 
@@ -1499,7 +1565,11 @@ let h = map(r, 0, slotSize * 0.5, 160, 220)
 stroke(h, 50, 100, 1)
 ```
 
-[^ home](#contenu)<br>
+Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_g_noise-circle-asymetric/)
+
+Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_g_noise-circle-asymetric
+
+[**home**](#contenu)<br>
 
 ### Interlude unknown pleasures
 
@@ -1612,7 +1682,16 @@ Il suffit maintenant de répéter cela verticalement :
 }
 ```
 
-[^ home](#contenu)<br>
+
+Vous pouvez tester le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_h_joydivision/)
+
+et consulter le code qui y est associé :
+https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_h_joydivision
+
+
+
+
+[**home**](#contenu)<br>
 
 ## Rotate-translate
 
@@ -1741,9 +1820,18 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 ```
 *rotate()* et *translate()* peuvent être combinés à l'infini avec *push()* et *pop()* pour obtenir toutes sortes d'effets qui peuvent être intéressant pour créer des "pinceaux" (brushes) : https://b2renger.github.io/Introduction_p5js/01_dessiner_04/index.html
 
-[^ home](#contenu)<br>
 
-### Utiliser des fonts
+Vous pouvez tester le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
+
+et consulter le code qui y est associé :
+https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_05_a_rotate
+
+
+
+
+[**home**](#contenu)<br>
+
+### Utilisation de fonts
 
 Nous allons continuer dans cette même logique, mais cette fois nous allons essayer de construire des motifs avec de la typographie :
 
@@ -1787,6 +1875,7 @@ Ce code nous permet donc de dessiner notre premier caractère dans chaque case. 
 Pour cela nous allons devoir effectuer de nouvelles transformation de l'espace et donc nous assurer que nos premières transformations sont bien circonscrites à notre premier caractère. Nous allons donc encadrer tout le code qui le concerne d'un *push()* et d'un *pop()*
 
 ```javascript
+
 for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
         for (var y = -slotSize ; y < height + slotSize; y += slotSize) {
             push()
@@ -1876,13 +1965,13 @@ Afin de pouvoir changer le caractère utilisé pour le dessin à chaque fois que
 
 ```javascript
 let c = '%'
-````
+```
 
 Nous allons donc maintenant pouvoir utiliser cette variable pour dessiner notre texte en rapplaçant '%' par 'c' dans l'appel à la fonction *text()*
 
 ```javascript
 text(c, 0, 0)
-````
+```
 Il ne nous reste plus qu'à modifier cette valeur quand l'utilisateur appuie sur une touche du clavier à l'aide de la fonction [**keyTyped()**](https://p5js.org/reference/#/p5/keyTyped)
 
 ```javascript
@@ -1928,13 +2017,13 @@ Pour utiliser nos polices, nous allons créer un tableau remplit avec les noms d
 
 ```javascript
 let fonts = ["Monoton", "East Sea  Dokdo", "Fascinate Inline ", "Righteous"]
-````
+```
 
 Dès le *setup()* nous pouvons tirer au sort une première font à utiliser pour dessiner notre texte.
 
 ```javascript
 let f = fonts[int(random(fonts.length))]
-````
+```
 
 Il ne nous reste alors plus qu'à appliquer cette police à l'aide de la fonction [**textFont()**](https://p5js.org/reference/#/p5/textFont)
 
@@ -2047,7 +2136,19 @@ function windowResized() {
 }
 ```
 
-[^ home](#contenu)<br>
+Vous pouvez tester le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
+
+et consulter le code qui y est associé :
+https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_05_b_rotate_typo_reflection
+
+
+J'ai réalisé une seconde variation utilisant les coordonnées polaire que vous pouvez tester [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
+
+et vous pouvez aussi consulter le code qui y est associé :
+https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html
+
+[**home**](#contenu)<br>
+
 
 ## Dessiner dans des calques
 
@@ -2063,7 +2164,7 @@ Pour ce faire nous allons créer une variable globale pour stocker notre image
 
 ```javascript
 let pg
-````
+```
 
 Puis dans le *setup()* nous allons pouvoir dans ce calque dessiner une ellipse positioner en haut au centre de la fenêtre. Puisque cette ellipse se dessine en précisant les coordonnées de son centre, elle sera alors coupée.
 
@@ -2218,4 +2319,14 @@ function mouseReleased() {
 }
 ```
 
-[^ home](#contenu)<br>
+Vous pourrez retrouver la démo interactive de programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/)
+
+ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_06_a_layers_half-cirdles
+
+
+Vous pouvez aussi consulter une seconde variation autour de cette idée de superposition de grilles [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
+
+et le code associé :
+https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html
+
+[**home**](#contenu)<br>
