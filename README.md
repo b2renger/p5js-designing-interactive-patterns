@@ -19,7 +19,7 @@ Le premier lien dispose d'ailleurs de rubriques *ressources* et *références* e
 
 Vous pourrez retrouver l'ensemble du code des différents exemples sur ce dépôt [github](https://github.com/b2renger/p5js-designing-interactive-patterns)
 
-<a name="contenu"/>
+
 <img src="images/10print.gif" width="200" height="180"><img src="images/circle-grid-of-circles.gif" width="200" height="180"><img src="images/circle-grid-of-circles-overlapping.gif" width="200" height="180"><img src="images/circlegrid-size.gif" width="200" height="180"><img src="images/moving-lines-pattern.gif" width="200" height="180"><img src="images/noise-1D.gif" width="200" height="180"><img src="images/noise-2D.gif" width="200" height="180"><img src="images/noise-3D.gif" width="200" height="180"><img src="images/noise-asymetric.gif" width="200" height="180"><img src="images/noise-joydivision.gif" width="200" height="180"><img src="images/noise-symetric.gif" width="200" height="180"><img src="images/pg_circles.gif" width="200" height="180"><img src="images/polar-noise.gif" width="200" height="180"><img src="images/radial-noise.gif" width="200" height="180"><img src="images/typo_reflexion.gif" width="200" height="180">
 
 
@@ -57,6 +57,7 @@ Vous pourrez retrouver l'ensemble du code des différents exemples sur ce dépô
     * [un exemple basique](#un-exemple-basique) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
     * [utilisation de fonts](#utilisation-de-fonts) - [**DEMO1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_b_rotate_typo_reflection/) - [**DEMO2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
 * [Dessiner dans des calques](#Dessiner-dans-des-calques) - [**DEMO 1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/) - [**DEMO 2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
+* [References et liens](#References-et-liens)
         
     
     
@@ -2330,3 +2331,12 @@ et le code associé :
 https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html
 
 [**home**](#contenu)<br>
+
+# Références et liens
+Mon travail graphique sur teia (beaucoup de motifs au début) : https://teia.art/b2renger
+
+Mon travail graphique sur fxhash : https://www.fxhash.xyz/u/b2renger
+
+Beaucoup de code d'expérimentation et d'exemples qui ont servi à ces travaux : https://github.com/b2renger/p5js_patterns
+
+
