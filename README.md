@@ -2332,11 +2332,13 @@ https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layer
 
 [**home**](#contenu)<br>
 
-# Références et liens
+# References et liens
 Mon travail graphique sur teia (beaucoup de motifs au début) : https://teia.art/b2renger
 
 Mon travail graphique sur fxhash : https://www.fxhash.xyz/u/b2renger
 
 Beaucoup de code d'expérimentation et d'exemples qui ont servi à ces travaux : https://github.com/b2renger/p5js_patterns
+
+[**home**](#contenu)<br>
 
 
