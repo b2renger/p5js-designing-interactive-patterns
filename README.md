@@ -1,5 +1,4 @@
-🇫🇷 [version française](
-https://github.com/b2renger/p5js-designing-interactive-patterns/blob/master/README.md)
+🇫🇷 [version française](https://github.com/b2renger/p5js-designing-interactive-patterns/blob/master/README.md)
 🇫🇷
 
 # p5js-designing-interactive-patterns
