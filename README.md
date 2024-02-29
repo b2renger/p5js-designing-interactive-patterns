@@ -1,109 +1,116 @@
+
+
 # p5js-designing-interactive-patterns
 
-P5js est un projet issu de processing qui est un langage de programmation basé sur java orienté vers la création graphique et interactive. P5js a pour but de transposer l'esprit de processing au web et donc au langage javascript. C'est un framework simple d'accès pour les débutants avec une bonne documentation et une communauté active. 
+P5js is a project derived from Processing, which is a programming language based on Java, oriented towards graphical and interactive creation. P5js aims to transpose the spirit of Processing to the web and thus to the JavaScript language. It is a framework that is easily accessible for beginners, with comprehensive documentation and an active community.
 
-P5js propose l'intégration dans un canvas html5 d'un maximum de fonction pour le dessin et d'animation, des possibilités d'interaction à travers différentes interfaces homme machine (clavier, souris, webcam, micro ...), ou encore avec les composants d'une page web et un support partiel mais en développement de webgl.
+P5js offers integration into an HTML5 canvas with a wide range of functions for drawing and animation, possibilities for interaction through various human-machine interfaces (keyboard, mouse, webcam, microphone...), or even with the components of a web page and partial but developing support for WebGL.
 
-Vous pouvez consulter [la référence de p5js](https://p5js.org/reference/) qui va décrire avec des exemples l'ensemble des fonction de p5js, mais n'hésitez pas à aussi consulter [les exemples](https://p5js.org/examples/) - qui peuvent par contre s'avérer être un peu plus compliqués à comprendre.
+You can consult [the p5js reference](https://p5js.org/reference/) which will describe with examples the entire set of p5js functions, but do not hesitate to also consult [the examples](https://p5js.org/examples/) - which may, however, be a bit more complicated to understand.
 
-De nombreuses bibliothèques viennent offrir de nouvelles possibilité, mais  p5js peut naturellement s'interfacer avec n'importe quelle bibliothèques js.
+Numerous libraries offer new possibilities, but p5js can naturally interface with any JavaScript libraries.
 
-Les techniques décrites ici sont accessibles aux débutants il est cependant nécessaire de connaitre les bases de la programmation avec p5js dans un environnement de développement de votre choix c'est à dire par exemple d'avoir lu et intégrer les 3 premiers paragraphes de cette [ressource d'introduction](https://github.com/b2renger/Introduction_p5js) :
+The techniques described here are accessible to beginners, but it is necessary to know the basics of programming with p5js in a development environment of your choice, meaning, for example, having read and integrated the first three paragraphs of this [introductory resource](https://github.com/b2renger/Introduction_p5js):
 
-- [Comment travailler avec p5js](https://github.com/b2renger/Introduction_p5js#p5js_tools)
-- [Les principes de base](https://github.com/b2renger/Introduction_p5js#bases)
-- [Dessiner avec la souris](https://github.com/b2renger/Introduction_p5js#dessiner)
+- [How to work with p5js](https://github.com/b2renger/Introduction_p5js#p5js_tools)
+- [The basic principles](https://github.com/b2renger/Introduction_p5js#bases)
+- [Drawing with the mouse](https://github.com/b2renger/Introduction_p5js#dessiner)
 
+The first link also has *resources* and *references* sections at the end of the page that point towards other tutorials or libraries and towards artistic and/or playful projects involving web technologies.
 
-Le premier lien dispose d'ailleurs de rubriques *ressources* et *références* en fin de page qui pointent vers d'autres tutoriels ou bibliothèques et vers des projets artistiques et / ou ludiques impliquant des technos web.
-
-Vous pourrez retrouver l'ensemble du code des différents exemples sur ce dépôt [github](https://github.com/b2renger/p5js-designing-interactive-patterns)
+You can find all the code from the different examples on this [GitHub repository](https://github.com/b2renger/p5js-designing-interactive-patterns).
 
 
 <img src="images/10print.gif" width="200" height="180"><img src="images/circle-grid-of-circles.gif" width="200" height="180"><img src="images/circle-grid-of-circles-overlapping.gif" width="200" height="180"><img src="images/circlegrid-size.gif" width="200" height="180"><img src="images/moving-lines-pattern.gif" width="200" height="180"><img src="images/noise-1D.gif" width="200" height="180"><img src="images/noise-2D.gif" width="200" height="180"><img src="images/noise-3D.gif" width="200" height="180"><img src="images/noise-asymetric.gif" width="200" height="180"><img src="images/noise-joydivision.gif" width="200" height="180"><img src="images/noise-symetric.gif" width="200" height="180"><img src="images/pg_circles.gif" width="200" height="180"><img src="images/polar-noise.gif" width="200" height="180"><img src="images/radial-noise.gif" width="200" height="180"><img src="images/typo_reflexion.gif" width="200" height="180">
 
+##  1. <a name='Content'></a>Content
 
-## Contenu
+<!-- vscode-markdown-toc -->
+1. [Content](#Content)
+2. [The major differences between Processing and p5js](#ThemajordifferencesbetweenProcessingandp5js)
+	* 2.1. [Theoretical differences](#Theoreticaldifferences)
+	* 2.2. [In Practice](#InPractice)
+3. [A responsive web page - Drawing a circle that stays in the middle](#Aresponsivewebpage-Drawingacirclethatstaysinthemiddle)
+4. [Drawing a grid - long live for loops!](#Drawingagrid-longliveforloops)
+	* 4.1. [First grid](#Firstgrid)
+	* 4.2. [A grid of circles](#Agridofcircles)
+		* 4.2.1. [a little interaction change the size of the boxes](#alittleinteractionchangethesizeoftheboxes)
+		* 4.2.2. [center circles in our boxes](#centercirclesinourboxes) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_b_responsive_grid/)
+		* 4.2.3. [a grid centered in our page](#agridcenteredinourpage) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid/)
+5. [A little interaction with the mouse](#Alittleinteractionwiththemouse)
+	* 5.1. [A grid of circles that change size according to mouse position](#Agridofcirclesthatchangesizeaccordingtomouseposition) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_a_interactive_grid/)
+	* 5.2. [A grid of concentric circles](#Agridofconcentriccircles) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_b_triple-for/)
+	* 5.3. [A grid of interactive lines](#Agridofinteractivelines) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_d_triple-for-lines/)
+	* 5.4. [A grid of concentric circles 2](#Agridofconcentriccircles2) - - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_c_triple-for/)
+6. [Writing conditions with if()](#Writingconditionswithif)
+	* 6.1. [if-else and random() - randomSeed()](#if-elseandrandom-randomSeed) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_a_if/)
+	* 6.2. [Variation 1 with a nested if](#Variation1withanestedif) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_b_if/)
+	* 6.3. [Variation 2 with if - else if](#Variation2withif-elseif) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_c_if/)
+7. [Make some Noise !](#MakesomeNoise)
+	* 7.1. [noise 1 dimension](#noise1dimension) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_a_noise-1D/)
+	* 7.2. [noise 2 dimensions](#noise2dimensions) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_b_noise-2D/)
+	* 7.3. [noise 3 dimensions](#noise3dimensions) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_c_noise-3D/)
+	* 7.4. [Noise and polar coordinates](#Noiseandpolarcoordinates) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_d_noise-circle-rad-angle/)
+	* 7.5. [Noise and symetries](#Noiseandsymetries) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_e_noise-symetric/)
+	* 7.6. [Symmetrical noise and polar coordinates](#Symmetricalnoiseandpolarcoordinates) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_f_noise-circle-symetric/)
+	* 7.7. [Asymmetric noise and polar coordinates](#Asymmetricnoiseandpolarcoordinates) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_g_noise-circle-asymetric/)
+	* 7.8. [Interlude unknown pleasures](#Interludeunknownpleasures) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_h_joydivision/)
+8. [Rotate-translate](#Rotate-translate)
+	* 8.1. [Un exemple basique](#Unexemplebasique) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
+	* 8.2. [Using fonts](#Usingfonts) - [**DEMO1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_b_rotate_typo_reflection/) - [**DEMO2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
+9. [Drawing in layers](#Drawinginlayers) - [**DEMO 1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/) - [**DEMO 2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
 
-* [Les grandes différences entre processing et p5js](#Les-grandes-differences-entre-processing-et-p5js)
-    * [Les différences theoriques](#Les-differences-theoriques)
-    * [En pratique](#En-pratique)
-* [Une page web responsive - Dessiner un cercle qui reste au milieu](#Une-page-web-responsive---Dessiner-un-cercle-qui-reste-au-milieu)
-* [Dessiner une grille - vive les boucles for !](#Dessiner-une-grille---vive-les-boucles-for-!)
-    * [Première grille](#premiere-grille)
-    * [Une grille de cercles](#une-grille-de-cercles)
-        * [un peu d'interaction : une grille à différentes granularités](#un-peu-d'interaction-changer-la-taille-des-cases) 
-        * [des cercles centrés dans nos cases](#des-cercles-centres-dans-nos-cases) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_b_responsive_grid/)
-        * [une grille centrée dans notre page](#une-grille-centree-dans-notre-page) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid/)
-* [Un peu d'interaction avec la souris](#Un-peu-d'interaction-avec-la-souris)
-    * [Un grille de cercles qui changent de taille en fonction de la position de la souris](#Une-grille-de-cercles-qui-changent-de-taille-en-fonction-de-la-position-de-la-souris) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_a_interactive_grid/)
-    * [Une grille de cercles concentriques](#une-grille-de-cercles-concentriques) - [**DEMO**]()
-    * [Une grille de lignes interactives](#une-grille-de-lignes-interactives) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_d_triple-for-lines/)
-    * [Une grille de cercles concentriques 2](#Une-grille-de-cercles-concentriques-2) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_c_triple-for/)
-* [Ecrire des conditions avec if()](#Ecrire-des-conditions-avec-if())
-    * [if - else et random() - randomSeed()](#if-else-et-random()---randomSeed()) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_a_if/)
-    * [Variation 1 avec if imbriques](#Variation-1-avec-if-imbriques) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_b_if/)
-    * [Variation 2 avec if - else if](#Variation-2-avec-if---else-if) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_c_if/)
-* [Make some Noise !](#Make-some-Noise-!)
-    * [noise à une dimension](#noise-1-dimension) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_a_noise-1D/)
-    * [noise à deux dimensions](#noise-2-dimensions) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_b_noise-2D/)
-    * [noise à trois dimensions](#noise-3-dimensions) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_c_noise-3D/)
-    * [noise et coordonnées polaires](#noise-et-coordonnees-polaires) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_d_noise-circle-rad-angle/)
-    * [noise et symetries](#noise-et-symetries) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_e_noise-symetric/)
-    * [noise symétrique et coordonnées polaires](#Noise-symetrique-et-coordonnees-polaires) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_f_noise-circle-symetric/)
-    * [noise asymetrique et coordonnes polaires](#Noise-asymetrique-et-coordonnees-polaires) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_g_noise-circle-asymetric/)
-    * [interlude unknown pleasures](#interlude-unknown-pleasures) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_h_joydivision/)
-* [rotate() et translate()](https://github.com/b2renger/p5js-designing-interactive-patterns#rotate-translate)
-    * [un exemple basique](#un-exemple-basique) - [**DEMO**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
-    * [utilisation de fonts](#utilisation-de-fonts) - [**DEMO1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_b_rotate_typo_reflection/) - [**DEMO2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
-* [Dessiner dans des calques](#Dessiner-dans-des-calques) - [**DEMO 1**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/) - [**DEMO 2**](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
-* [References et liens](#References-et-liens)
-        
-    
-    
-## Les grandes differences entre processing et p5js
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
 
-### Les differences theoriques
 
-Je vous conseille de commencer par lire les [principes de bases](https://github.com/b2renger/Introduction_p5js#les-principes-de-bases) permettant de comprendre comment s'articule une page web entre fichier html et fichier(s) javascript et qui pose les principes fondamentaux de processing et donc de p5js.
 
-En réalité processing et p5js sont à la fois très similaires et très différents. Dans processing nous écrivons du code **java** et dans p5js nous écrivons du **javascript**. Java et javascript sont des langages fondamentalement différents :
+##  2. <a name='ThemajordifferencesbetweenProcessingandp5js'></a>The major differences between Processing and p5js
 
-- le java est compilé (quand vous cliquez sur la flèche votre code est "relu" par votre ordinateur et des erreurs vous sont éventuellement présenté, mais il est surtout transformé à ce moment en instructions exécutables = langage machine par votre processeur etc.) Le javascript est un langage interprété : il composé essentiellement de texte et il n'est pas précompilé avant son éxecution.
+###  2.1. <a name='Theoreticaldifferences'></a>Theoretical differences
 
-- le java est executé par une couche logiciel virtuelle, le javascript est éxecuté directement par le(s) navigateur(s).
-    
-- le java est un langage typé (il existe des types de données : *float*, *int*, *String*, *boolean* etc), le js ne comporte pas de type (tous ces types sont remplacé par un mot clé *let*).
+I recommend starting by reading the [basic principles](https://github.com/b2renger/Introduction_p5js#les-principes-de-bases) to understand how a web page is structured between HTML files and JavaScript files and which lays down the fundamental principles of Processing and thus of p5js.
 
-En pratique nous allons nous concentrer sur une sous partie de javascript avec la découverte de  p5js, comme l'on s'intéresse à une sous partie de java lorsque l'on écrit du code processing. 
+In reality, Processing and p5js are both very similar and very different. In Processing, we write **Java** code, and in p5js, we write **JavaScript**. Java and JavaScript are fundamentally different languages:
 
-[**home**](#contenu)<br>
+- Java is compiled (when you click the run button, your code is "read" by your computer, and any errors are presented to you, but more importantly, it is transformed at that moment into executable instructions = machine language by your processor, etc.) JavaScript is an interpreted language: it is essentially composed of text and is not precompiled before its execution.
 
-### En pratique
+- Java is executed by a virtual software layer, JavaScript is executed directly by the browser(s).
 
-1- Les types : plus de *float* etc. mais des *let*
+- Java is a typed language (there are data types: *float*, *int*, *String*, *boolean*, etc.), JS does not have types (all these types are replaced by a keyword *let*).
 
-2- La fonction [size()](https://processing.org/reference/size_.html) permettant de spécifier la taille de notre fenêtre est remplacée par la fonction [createCanvas()](https://p5js.org/reference/#/p5/createCanvas). En effet nous ne créeons plus une fenêtre mais un [**canvas**](https://en.wikipedia.org/wiki/Canvas_element) dans une page web. Le canvas est un élément HTML arrivé avec l'HTML5 permettant d'afficher des images dynamiques via l'éxecution de scripts javascript.
+In practice, we will focus on a subset of JavaScript with the discovery of p5js, just as we focus on a subset of Java when writing Processing code.
 
-3- Les points virgules à la fin de chaque instruction ne sont plus nécessaires ! mais nous allons quand même les conserver...
+[**home**](#content)<br>
 
-4- Le processus de "debugage" lié à la console (la partie dans laquelle s'affichent les messages d'erreurs en rouge) est aussi un peu différent. Afin de pouvoir accéder aux éventuels messages d'erreur, il faut faire un clique-droit sur notre page et cliquer sur "Inspecter", il faut ensuite cliquer sur l'onglet "console".
-Pour afficher des messages provenant de notre code dans cette même console, au lieu d'utiliser *println("mon message à afficher")*, nous utiliserons *console.log("mon message à afficher")*
+###  2.2. <a name='InPractice'></a>In Practice
 
-Il existe bien sûr d'autres différences mais elles sont moins impactantes. L'utilisation des fonctions de base de processing que vous connaissez déjà sont les mêmes ou différent de manière minime :
+1- Types: no more *float*, etc., but *let*
+
+2- The [size()](https://processing.org/reference/size_.html) function, which allows specifying the size of our window, is replaced by the [createCanvas()](https://p5js.org/reference/#/p5/createCanvas) function. Indeed, we no longer create a window but a [**canvas**](https://en.wikipedia.org/wiki/Canvas_element) on a web page. The canvas is an HTML element introduced with HTML5 that allows displaying dynamic images through the execution of JavaScript scripts.
+
+3- Semicolons at the end of each instruction are no longer necessary! But we will still keep them...
+
+4- The "debugging" process related to the console (the part where error messages are displayed in red) is also a bit different. To access potential error messages, you have to right-click on our page and click on "Inspect," then click on the "console" tab.
+To display messages from our code in this same console, instead of using *println("my message to display")*, we will use *console.log("my message to display")*
+
+Of course, there are other differences, but they are less impactful. The use of basic Processing functions that you already know are the same or differ minimally:
 
 [ellipse()](https://p5js.org/reference/#/p5/ellipse), [line()](https://p5js.org/reference/#/p5/line), [rect()](https://p5js.org/reference/#/p5/rect), [background()](https://p5js.org/reference/#/p5/background), [colorMode()](https://p5js.org/reference/#/p5/colorMode), [fill()](https://p5js.org/reference/#/p5/fill), [stroke()](https://p5js.org/reference/#/p5/stroke) etc.
 
-Nous allons donc maintenant nous intéresser plus directement au code et à la mise en place de nos premiers programmes. Nous devons cependant garder en tête que nos programmes sont exécutés dans un navigateur et que l'utilisateur peut changer la taille de sa fenêtre à tout moment et il ne faut pas que graphiquement cela change trop la donne : nous allons donc devoir travailler de manière **responsive** et donc d'exprimer les coordonnées de nos formes géométrique en fonction de la taille de notre canvas.
+We will now focus more directly on the code and the setup of our first programs. However, we must keep in mind that our programs are executed in a browser and the user can change the size of their window at any time, and we do not want this to change the outcome too much graphically: we will therefore have to work in a **responsive** manner and thus express the coordinates of our geometric shapes based on the size of our canvas.
 
-[**home**](#contenu)<br>
+[**home**](#content)<br>
 
-## Une page web responsive - Dessiner un cercle qui reste au milieu
+##  3. <a name='Aresponsivewebpage-Drawingacirclethatstaysinthemiddle'></a>A responsive web page - Drawing a circle that stays in the middle
 
-Tout est dit dans le titre !
+Everything is in the title!
 
-La première étape comme précisé précédement consiste à créer un **canvas** qui prendra toute la taille disponnible dans notre page web. Au lieu d'utiliser la fonction *size()* de processing nous allons utiliser la fonction [**createCanvas()**](https://p5js.org/reference/#/p5/createCanvas).
-Pour que ce canvas prenne toute la taille de notre fenêtre de navigateur nous allons lui passer deux variables [**windowWidth**](https://p5js.org/reference/#/p5/windowWidth) et [**windowHeight**](https://p5js.org/reference/#/p5/windowHeight). Comme précisé dans la documentation ces variables sont des variables système, c'est à dire qu'elles existent et sont accessibles partout dans notre code javascript et n'ont pas besoin d'être déclarées.
+The first step, as previously mentioned, is to create a **canvas** that will take up all the available space on our web page. Instead of using the *size()* function from Processing, we will use the [**createCanvas()**](https://p5js.org/reference/#/p5/createCanvas) function. To make this canvas occupy the entire size of our browser window, we will pass it two variables: [**windowWidth**](https://p5js.org/reference/#/p5/windowWidth) and [**windowHeight**](https://p5js.org/reference/#/p5/windowHeight). As specified in the documentation, these are system variables, meaning they exist and are accessible everywhere in our JavaScript code and do not need to be declared.
+
 
 ```javascript
 function setup() {
@@ -115,15 +122,14 @@ function draw(){
   background(180);
 }
 ```
+By typing or copying and pasting this small snippet of code, when you click the *play* button, you will see a magnificent gray page covering the entire surface of your window appear.
 
-En tapant ou en réalisant un copié/collé de ce petit bout de code, lorsque vous cliquerez sur le bouton *play* vous verrez apparaitre une magnifique page grise prenant toute la surface de votre fenêtre.
+Notice that if you resize your window, scroll bars will appear on the right and bottom for you to navigate your page. This indicates that your canvas is larger than the web page in which it is displayed. Indeed, the canvas is created in the `setup()` function, and thus only once when the page is first displayed or refreshed, retaining its initial size.
 
-Remarquez que si vous redimensionnez votre fenêtre des barres de "scroll" apparaitront à droite en bas pour vous déplacer dans votre page. Cela signifie que votre canvas et plus grand que la page web dans laquelle il s'affiche. En effet le canvas est crée dans le setup() et donc une seule fois au moment où la page est affichée ou actualisée et il garde sa taille initiale.
+You can try commenting out the line `createCanvas(windowWidth, windowHeight);` by placing "//" in front to deactivate it (lines of code preceded by two slashes are not executed by our browser) and uncommenting the line below it (by removing the two slashes preceding it). Then, you will see a gray square smaller than our browser window that also does not change size when the page is resized.
 
-Vous pouvez essayer de commenter la ligne *createCanvas(windowWidth, windowHeight);* en mettant "//" devant pour la desactiver (les lignes de code précédées par deux slash ne sont pas executées par notre navigateur) et dé-commenter la ligne ci-dessous (en enlevant les deux slashs la précédant). Vous verrez alors un carré gris plus petit que la fenêtre de notre navigateur qui ne changera pas de taille non plus quand la page est redimensionnée.
+Therefore, we need to be capable of resizing our canvas to the size of our window when the user changes its size. The [**windowResize()**](https://p5js.org/reference/#/p5/windowResized) function is precisely made for this! It allows for executing the code located between its braces '{}' when the user resizes their browser window. We then only need to call the [**resizeCanvas()**](https://p5js.org/reference/#/p5/resizeCanvas) function to resize our canvas to the new size of our window by calling the **windowWidth** and **windowHeight** variables again, which have changed value as a result of our user's action.
 
-Il faut donc que nous soyons capables de redimensionner notre canvas à la taille de notre fenêtre lorsque l'utilisateur change la taille de celle-ci. La fonction [**windowResize()**](https://p5js.org/reference/#/p5/windowResized) est justement faite pour cela ! Elle permet d'éxecuter le code situé entre ses accolades '{}' lorsque l'utilisateur redimensionne la fenêtre de son navigateur.
-Il ne nous reste alors plus qu'à appeler la fonction [**resizeCanvas**](https://p5js.org/reference/#/p5/resizeCanvas) pour redimensionner notre canvas à la nouvelle taille de notre fenêtre en faisant de nouveau appel aux variables **windowWidth** et **windowHeight** qui ont changé de valeur à la suite de l'action de notre utilisateur.
 
 ```javascript
 function setup() {
@@ -139,114 +145,123 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 ```
+So this time it's good! Our canvas stays the size of our browser window.
+We will now make it so that we draw a circle in the middle of our canvas and try to make sure it stays in the middle.
 
-Du coup cette fois c'est bon ! notre canvas reste à la taille de notre fenêtre de navigateur.
-Nous allons maintenant fait en sorte de dessiner un cercle au milieu de notre canvas et essayer de faire en sorte qu'il reste au milieu.
-
-Pour rappel le système de coordonnées de processing place l'origine de notre repère dans le coin supérieur gauche de notre canvas :
+As a reminder, the coordinate system of processing places the origin of our reference in the upper left corner of our canvas:
 
 https://www.openprocessing.org/sketch/388459
 
-Si nous voulons dessiner un cercle au milieu de notre fenêtre et qu'il reste au milieu il faut donc exprimer ses coordonnées en fonction de [**width**](https://p5js.org/reference/#/p5/width) et [**height**](https://p5js.org/reference/#/p5/height) qui sont la largeur et la hauteur de notre zone de dessin.
+If we want to draw a circle in the middle of our window and it stays in the middle, we must therefore express its coordinates as a function of [**width**](https://p5js.org/reference/#/p5/width) and [**height**](https://p5js.org/reference/#/p5/height) which are the width and height of our drawing area.
 
-En ajoutant un appel à la fonction [**ellipse()**](https://p5js.org/reference/#/p5/ellipse) dans le draw(), nous pouvons faire en sorte que notre cercle reste au milieu de notre fenêtre quelle que soit sa taille :
+By adding a call to the [**ellipse()**](https://p5js.org/reference/#/p5/ellipse) function in the draw(), we can make sure that our circle stays in the middle of our window regardless of its size:
+
 
 ``` javascript
 fill(255);
 ellipse(width*0.5, height*0.5, 50, 50);
 ```
-
-Si nous voulons que nos dessins / motifs soient responsifs et gardent un aspect similaire quelque soit la taille de notre fenêtre nous devons réussir à exprimer toutes les coordonnées de nos formes à l'aide de pourcentages (c'est à dire en multipliant ou *width* ou *height* par une valeur comprise entre 0 et 1)
+If we want our drawings/patterns to be responsive and keep a similar aspect ratio regardless of the size of our window, we must be able to express all the coordinates of our shapes using percentages (i.e. by multiplying either *width* or *height* by a value between 0 and 1)
 
 [**home**](#contenu)<br>
 
-## Dessiner une grille - vive les boucles for !
+##  4. <a name='Drawingagrid-longliveforloops'></a>Drawing a grid - long live for loops!
 
-### Premiere grille
+###  4.1. <a name='Firstgrid'></a>First grid
 
-Nous allons utiliser des boucles [**for()**](https://processing.org/reference/for.html). Le boucles for sont très pratiques pour automatiser une action qui va devoir se répéter plusieurs fois.
+We are going to use [**for()**](https://processing.org/reference/for.html) loops. For loops are very useful for automating an action that needs to be repeated several times.
 
-La syntaxe générique d'une boucle for ressemble à ceci :
+The generic syntax of a for loop looks like this:
 
-```javascript
-for ( /* écrire les conditions qui régissent l'execution*/){
-    // écrire le code à exécuter si les conditions sont respectées
-}
-```
-
-Les **conditions d'éxecution** se précisent en trois étapes séparées par des points virgules, ces étapes doivent être spécifiées entre les paranthèses suivant le mot clé **for** :
-- déclarer et initialiser une variable
-- faire un test sur cette variable pour savoir si on doit executer le code entre accolade.
-- manipuler la variable pour la prochaine execution.
-
-Par exemple, si vous écrivez ceci dans le setup :
 
 ```javascript
-for (let i = 0 ; i < 10 ; i = i+1){
-    println(i);
+for (/* write the conditions that govern execution */) {
+  // write the code to execute if the conditions are met
+}
+
+```
+The **execution conditions** are specified in three steps separated by semicolons, which must be specified between the parentheses following the keyword **for**:
+- declare and initialize a variable
+- perform a test on this variable to determine if the code inside the brackets should be executed
+- manipulate the variable for the next execution
+
+For example, if you write this in the setup:
+
+```javascript
+for (let i = 0; i < 10; i++) {
+  console.log(i);
 }
 ```
-Vous répeterez l'action "println(i)" dix fois; cela aura pour effet d'imprimer la valeur de la variable i dans la console tant que celle-ci est inférieur à 10.
+You will repeat the action "println(i)" ten times; this will result in printing the value of the variable i in the console as long as it is less than 10.
 
-Voici ce que l'ordinateur va comprendre :
+Here's what the computer will understand:
 
-1 - Première itération
-    - i vaut 0 
-    - 0 est inférieur à 10 
-    - j'imprime i (çàd 0) dans la console
-    - j'ajoute 1 à i
-    
-2 - Deuxième itération
-    - i vaut 1 (dernière étape de l'itération précédente)
-    - 1 est inférieur à 10
-    - j'imprime i (çàd 1) dans la console
-    - j'ajouter 1 à i (qui vaudra donc 2)
-    
+First iteration
+
+- i is equal to 0
+
+- 0 is less than 10
+
+- I print i (i.e., 0) in the console
+
+- I add 1 to i
+
+Second iteration
+
+- i is equal to 1 (from the previous iteration)
+- 1 is less than 10
+- I print i (i.e., 1) in the console
+- I add 1 to i (which will now be equal to 2)
+
 (..)
 
-11 - Onzième itération
-    - i vaut 10
-    - 10 n'est plus inférieur à 10
-    - je sors de la boucle et j'execute la prochaine ligne de code situé après l'accolade fermante.
-    
-En manipulant les condition d'initialisation, de fin et d'incrémentation de la boucle nous aurons la possibilité de créer bon nombre d'effets visuels. Commençons par essayer de dessiner des lignes verticales balayant l'écrant tous les 50 pixels.
+Eleventh iteration
+- i is equal to 10
+- 10 is no longer less than 10
+- I exit the loop and execute the next line of code located after the closing curly brace.
 
-Dans le draw() vous pouvez taper cette boucle :
+By manipulating the initialization, ending, and incrementation conditions of the loop, we will be able to create many visual effects. Let's start by trying to draw vertical lines that scan the screen every 50 pixels.
 
-```javascript
+In the draw() function, you can type this loop:
+
+```js
 for (let i = 0 ; i < width ; i += 50){
     line(i,0,i,height);
 }
 ```
 
-Vous obtiendrez ce genre de chose :
+You will obtain something like this:
+
 
 ![vert](images/vertical-lines.png)
 
-Vous devriez pouvoir écrire assez facilement une boucle qui vous permettrait d'obtenir une série de lignes horizontales aussi espacées de 50 pixels :
+To create a series of horizontal lines spaced 50 pixels apart, you can modify the previous loop as follows:
 
-![hor](images/horizontal-lines.png)
-
-Puis finalement une grille d'espacement 100 en combinant deux boucles for, l'une dans l'autre.
-
-![hor](images/grid.png)
-
-Remarquez ici que les coordonnées (i,j) qui sont calculées par l'imbrication de nos deux boucles nous donnent le point supérieur gauche de chaque case.
-
-```javascript
-for (let i = 0; i <= width; i += 100) {
-    for (let j = 0; j <= height; j+= 100) {
-        line(i,0,i,height);
-        line(0,j,width,j);
-    }
+```js
+for (let i = 0; i <= height; i += 50) {
+  line(0, i, width, i);
 }
 ```
+This will draw a line from the left edge of the canvas to the right edge, at every 50 pixel interval along the vertical axis.
+
+To create a grid with a spacing of 100 pixels, you can combine two for loops, one inside the other:
+
+
+```js
+for (let i = 0; i <= width; i += 100) {
+  for (let j = 0; j <= height; j += 100) {
+    line(i, 0, i, height);
+    line(0, j, width, j);
+  }
+}
+```
+This will draw a vertical line at every 100 pixel interval along the horizontal axis, and a horizontal line at every 100 pixel interval along the vertical axis. The coordinates (i, j) calculated by the nested loops give the top left corner of each grid square.
 
 [**home**](#contenu)<br>
 
-### Une grille de cercles 
+###  4.2. <a name='Agridofcircles'></a>A grid of circles 
 
-Nous allons maintenant essayer de dessiner une grille de cercles :
+We'll now try to draw a grid of circles:
 
 ![circle-grid](images/circlegrid.gif)
 
@@ -259,24 +274,24 @@ for (let i = 0; i <= width; i += 100) {
     }
 }
 ```
-La fonction ellipse() prenant comme paramètres les coordonnées centre du cercle, notre cercle est dessiné autour de chaque intersection.
+Since the ellipse() function takes the circle's center coordinates as parameters, our circle is drawn around each intersection.
 
 ![circles-inter](images/circles-intersection.png)
 
-Dans cet exemple nos cercles font une taille fixe de 100 pixels. Nous allons maintenant faire en sorte que ces cercles changent de taille à chaque fois que nous cliquons sur la souris.
+In this example, our circles have a fixed size of 100 pixels. We're now going to make these circles change size each time we click the mouse.
 
 [**home**](#contenu)<br>
 
-#### un peu d'interaction changer la taille des cases
+####  4.2.1. <a name='alittleinteractionchangethesizeoftheboxes'></a>a little interaction change the size of the boxes
 
-Tout d'abord il va nous falloir créer une variable qui sera la taille de chaque case et qui correspondra donc à la valeur dont nous augmentons chaque variable de la boucle for. Cette variable pourra par exemple s'appeler "slotSize" et nous l'initialiserons avec une valeur de 100.
+First of all, we'll need to create a variable which will be the size of each slot, and which will therefore correspond to the value by which we increase each variable in the for loop. This variable could be called "slotSize", for example, and we'll initialize it with a value of 100.
 
-Avant le setup() (et ceci pour que notre variable soit disponible dans tout notre programme), nous pouvons donc écrire cette ligne qui sert à déclarer et initialiser une variable.
+Before setup() (so that our variable is available throughout our program), we can write this line, which is used to declare and initialize a variable.
 
 ```javascript
 let slotSize = 100;
 ```
-Nous allons maintenant utiliser notre variable dans notre boucle for (qui se trouve dans le draw()) pour ajuster la taille de nos cases et de notre ellipse à la valeur contenue dans la variable slotSize (ici 100 pour l'instant mais nous allons pouvoir la changer ultérieurement) - il suffit de remplacer "100" par "slotSize" dans nos deux boucles for imbriquées :
+We're now going to use our variable in our for loop (found in draw()) to adjust the size of our boxes and ellipse to the value contained in the slotSize variable (here 100 for now, but we'll be able to change it later) - just replace "100" with "slotSize" in our two nested for loops:
 
 ```javascript
 for (let i = 0; i <= width; i += slotSize) {
@@ -287,27 +302,27 @@ for (let i = 0; i <= width; i += slotSize) {
     }
 }
 ```
-Il ne nous reste plus qu'à manipuler notre variable slotSize et lui donner de nouvelles valeurs : nous allons faire en sorte que cette valeur change pour une valeur aléatoire chaque fois que nous appuyons sur la souris. Pour cela il suffit d'utiliser la fonction [**mousePressed()**](https://p5js.org/reference/#/p5/mousePressed) : à chaque fois que nous appuyons sur la souris le code entre les accolades sera exécuté. Nous voulons alors utiliser [**random()**](https://p5js.org/reference/#/p5/random) pour attribuer à notre variable "slotSize" une nouvelle valeur aléatoire entre une valeur minimale et une valeur maximale.
+Now all we need to do is manipulate our slotSize variable and give it new values: we're going to make it change to a random value every time we press the mouse. To do this, we simply use the function [**mousePressed()**](https://p5js.org/reference/#/p5/mousePressed): each time we press the mouse, the code between the braces will be executed. We then want to use [**random()**](https://p5js.org/reference/#/p5/random) to assign our "slotSize" variable a new random value between a minimum and a maximum value.
 
 ```
 function mousePressed() {
     slotSize = random(10, 200);
 }
 ```
-Notez bien que mousePressed() est une nouvelle fonction qui doit donc se situer en dehors du setup() et du draw().
+Please note that mousePressed() is a new function and must therefore be located outside setup() and draw().
 
 
 
 [**home**](#contenu)
 
 
-#### des cercles centres dans nos cases
+####  4.2.2. <a name='centercirclesinourboxes'></a>center circles in our boxes
 
-Nous allons maintenant faire en sorte que nos cercles soient centrés dans nos cases. Nous allons donc manipuler les condition de démarrage et d'arrêt de nos boucles pour que "i" et "j" nous donnent le centre des cases plutôt que le coin supérieur gauche.
+We're now going to make sure that our circles are centered in our boxes. We're going to manipulate the start and stop conditions of our loops so that "i" and "j" give us the center of the boxes rather than the top left corner.
 
 ![circles-cente](images/circles-centered.png)
 
-Nos cases sont carrées et de taille "slotSize", il nous suffit donc d'ajouter la moitié de slotSize à i et à j pour obtenir le centre de chaque case.
+Our boxes are square and of "slotSize", so we simply add half of slotSize to i and j to obtain the center of each box.
 
 ```javascript
 fill(255);
@@ -325,45 +340,45 @@ for (let i = slotSize / 2; i <= width - slotSize / 2; i += slotSize) {
 }
 ```
 
-Remarquez que lorsque vous redimensionnez votre fenêtre, certains cercles apparaissent ou disparaissent en bordure et que notre grille n'est pas centrée. Nous allons essayer de remédier à cela.
+Notice that when you resize your window, some circles appear or disappear at the border and our grid is not centered. We'll try to remedy this.
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_b_responsive_grid/)
+You can find the program [here].(https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_b_responsive_grid/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_01_b_responsive_grid
+And the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_01_b_responsive_grid
 
 [**home**](#contenu)
 
-#### une grille centree dans notre page
+####  4.2.3. <a name='agridcenteredinourpage'></a>a grid centered in our page
 
-Il y a plusieures options ici : 
+There are several options here: 
 
-- soit nous connaissons le nombre de case que nous voulons afficher en largeur et hauteur et nous calculons la taille de nos incréments (la partie 'i = i+100') pour que le bon nombre de cases soit créé.
+- either we know the number of boxes we want to display in width and height and we calculate the size of our increments (the 'i = i+100' part) so that the right number of boxes is created.
 
-- soit nous connaissons la taille des cases que nous voulons afficher et nous calculons le nombre de cases en fonction de la taille de la fenêtre.
+- or we know the size of the boxes we want to display and calculate the number of boxes according to the size of the window.
 
-Vu ce que nous avons réalisé jusqu'à maintenant, nous allons opter pour la seconde option. D'ailleurs la description de ce que nous devons réaliser n'est pas tout à fait exacte. Il n'est pas garanti que le nombre aléatoire sur lequel nous tomberons en cliquant sur la souris soit un multiple de la taille de notre fenêtre ... surtout que ce nombre est potentiellement un nombre à virgule et que notre utilisateur peut changer la taille de la fenêtre comme bon lui semble ...
-c'est donc un peu plus compliqué ...
+Given what we've achieved so far, we'll opt for the second option. However, the description of what we have to do is not entirely accurate. There's no guarantee that the random number we'll come across when we click the mouse will be a multiple of our window size... especially as this number is potentially a decimal point and our user can change the window size as he sees fit ...
+so it's a little more complicated ...
 
-Il faut que nous calculions le nombre maximum de cases que l'on peut faire tenir dans notre fenêtre en fonction de la taille des cases et de la taille de notre fenêtre.
+We need to calculate the maximum number of boxes we can fit in our window, based on the size of the boxes and the size of our window.
 
-En fonction du résultat de ce calcul il nous restera un espace vide qui sera inférieur à la taille d'un case. Cette valeur (en pixel) de l'espace restant nous pourrons la diviser par deux pour créer une marge en haut et en bas et une marge à droite et à gauche.
+Depending on the result of this calculation, we'll be left with an empty space that's less than the size of a square. This value (in pixels) of the remaining space can be divided by two to create a top and bottom margin and a left and right margin.
 
-Il faut donc que nous commencions par déclarer des variables globales (tout en haut de notre programme) en dehors de toute accolade
+We therefore need to start by declaring global variables (at the very top of our program) outside any braces
 
 ```javascript
 let marginX;
 let marginY;
 ```
 
-Ensuite dans le setup(), nous devons calculer la taille de nos marges. Il faut diviser respectivement la largeur et la hauteur de notre fenêtre par la taille de nos cases. Il faut prendre la partie entière de cette division et la multiplier par la taille de chacune de nos cases. Si l'on soustrait ce résultat à chaque dimension de notre fenêtre on obtien en pixel l'espace restant en pixel un fois que l'on a affiché un maximum de case soit deux fois notre marge.
+Next, in setup(), we need to calculate the size of our margins. We need to divide the width and height of our window by the size of our boxes, respectively. Take the integer part of this division and multiply it by the size of each of our boxes. If we subtract this result from each dimension of our window, we obtain in pixels the space remaining once we've displayed the maximum number of squares, i.e. twice our margin.
 
 ```javascript
 marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
 marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
 ```
-Ce calcul doit être effectué dans le setup() pour que nôtre grille s'affiche correctement au chargement de notre page et il doit être refait à chaque fois que notre page change de taille (càd dans la fonction *windowResized()* après l'appel *resizeCanvas()*) mais aussi quand on change la taille de nos cases (càd dans la fonction *mousePressed()* après l'appel à *random()* pour spécifier une nouvelle taille de case).
+This calculation must be performed in setup() so that our grid is displayed correctly when our page loads, and it must be repeated every time our page changes size (i.e. in the *windowResized()* function after the *resizeCanvas()* call), as well as when we change the size of our boxes (i.e. in the *mousePressed()* function after the call to *random()* to specify a new box size).
 
-Il faut maintenant utiliser ces deux nouvelles variables dans les conditions de départ et d'arrêt de notre boucle for :
+We now need to use these two new variables in the start and stop conditions of our for loop:
 
 ```javascript
 for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -376,10 +391,10 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Et voilà nous arrivons enfin au résultat du gif affiché précédement. A partir maintenant le code que vous allez écrire ce situera principalement à l'intérieur de ces deux boucles for; il est possible de faire énormément de choses. Le code que nous avons écrit jusqu'à maintenant va être votre base de départ pour pouvoir créer des pavages géométriques tous plus beaux les uns que les autres !
+And now we've finally arrived at the result of the gif displayed earlier. From now on, the code you'll be writing will mainly be inside these two for loops; there's a lot you can do. The code we've written so far will be your starting point for creating geometrical tessellations, each one more beautiful than the last!
 
 
-Ce code sera la base de laquelle vous pour la plupart des programmes que nous crérons :
+This code will be the basis for most of the programs we create:
 
 ```javascript
 let slotSize = 100;
@@ -419,23 +434,23 @@ function windowResized() {
 }
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid/)
+You can find the program [here].(https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_01_c_responsive_grid/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_01_c_responsive_grid
+Aswell as the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_01_c_responsive_grid
 
 [**home**](#contenu)
 
-## Un peu d'interaction avec la souris
+##  5. <a name='Alittleinteractionwiththemouse'></a>A little interaction with the mouse
 
-### Une grille de cercles qui changent de taille en fonction de la position de la souris
+###  5.1. <a name='Agridofcirclesthatchangesizeaccordingtomouseposition'></a>A grid of circles that change size according to mouse position
 
-Notre prochaine programme est très simple et se base sur le code vu précédement, le voici :
+Our next program is very simple, based on the code we saw earlier:
 
 ![circle grid map mouse](images/circlegrid-size.gif)
 
-Il s'agit ici de dessiner un cercle dans chaque case et de faire correspondre sa taille à la distance qui sépare la souris du centre de chaque cercle : si la souris est proche, le cercle est gros, si elle est loin le cercle est petit.
+The idea here is to draw a circle in each box and match its size to the distance separating the mouse from the center of each circle: if the mouse is close, the circle is large, if it's far away, the circle is small.
 
-Pour dessiner des cercles dans chaque case c'est facile : il suffit d'appeler la fonction [ellipse()](https://p5js.org/reference/#/p5/ellipse) à l'intérieur de la double boucle for en utilisant pour coordonnées du centre de chaque ellipse les variables i et j qui varient au fil de l'exécution des boucles.
+Drawing circles in each box is easy: just call the function [ellipse()](https://p5js.org/reference/#/p5/ellipse) inside the double for loop, using the variables i and j for the coordinates of the center of each ellipse, which vary as the loops are executed.
 
 ```javascript
 for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -446,9 +461,9 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Pour calculer la distance il existe la fonction [**dist()**](https://p5js.org/reference/#/p5/dist), qui permet de calculer la distance entre deux points.
+To calculate the distance there's the function [**dist()**](https://p5js.org/reference/#/p5/dist), which calculates the distance between two points.
 
-Nous devons calculer la distance entre la souris et chacun des points de notre grille. Cela devra donc être fait pour chaque case, nous allons donc créer une variable que nous allons nommer 'd' pour stocker cette distance.
+We need to calculate the distance between the mouse and each of the points on our grid. This will have to be done for each square, so we'll create a variable called 'd' to store this distance.
 
 ```javascript
 for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -460,29 +475,29 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Maintenant il ne nous reste plus qu'à calculer la taille de nos cercles en fonction de la distance calculée. Pour cela nous allons utiliser un règle de trois ou règle de proportionalité dont le calcul peut-être effectué par la fonction [**map()**](https://p5js.org/reference/#/p5/map). **map()** prend 5 paramètre, le premier et la valeur que l'on souhaitre transformer, les deux suivant sont les valeurs minimales et maximales que cette valeur peut prendre, et les deux derniers sont les valeurs minimales et maximales que l'on veut en sortie.
+Now all we need to do is calculate the size of our circles as a function of the calculated distance. To do this, we'll use a rule of three or proportionality rule, calculated using the function [**map()**](https://p5js.org/reference/#/p5/map). **map()** takes 5 parameters, the first of which is the value we wish to transform, the next two are the minimum and maximum values this value can take, and the last two are the minimum and maximum values we wish to output.
 
-Les valeurs minimales que l'on souhaite en sortie sont "5" pixels et "slotSize" pixels : pour que si la souris soit pile sur le centre d'un cercle celui-ci prenne le maximum de taille possible dans sa case.
+The minimum output values we want are "5" pixels and "slotSize" pixels: so that if the mouse is right on the center of a circle, it takes up the maximum possible size in its slot.
 
-La valeur minimale que peut prendre la distance entre la souris et le centre d'un cercle est naturellement zéro, la distance maximale peut être résolue avec une application très simple du théorème de pythagore dans notre fenêtre de dessin. La plus grande distance possible dans notre fenêtre est le taille d'une diagonale (si notre souris est tout en haut à gauche on veut que notre point tout en bas à droite soit le plus petit possible). Il faut donc calculer la diagonale de notre fenêtre :
+The minimum distance between the mouse and the center of a circle is of course zero, while the maximum distance can be resolved by a simple application of the Pythagorean theorem in our drawing window. The greatest possible distance in our window is the size of a diagonal (if our mouse is at the top left, we want our point at the bottom right to be as small as possible). So we need to calculate the diagonal of our window:
 
 ```javascript
 let dmax = sqrt(width*width + height*height);
 ```
 
-On peut maintenant appliquer notre règle de trois ou "mapping" - en faisant attention au sens dans lequel on veut qu'il s'applique (quand la distance vaut 0, le cercle doit être de taille maximum) :
+We can now apply our rule of three or "mapping" - paying attention to the direction in which we want it to apply (when the distance is 0, the circle must be of maximum size):
 
 ```javascript
 let s = map(d, 0, dmax, slotSize, 1)
 ```
 
-On peut aussi combiner le calcul de 'd', 'dmax' et de 's' en une seule ligne si on le souhaite :
+You can also combine the calculation of 'd', 'dmax' and 's' in a single line if you wish:
 
 ```javascript
 let s = map(dist(i,j,mouseX,mouseY), 0, sqrt(width*width + height*height), slotSize, 1)
 ```
 
-Voici donc pour résumer le contenu du **draw()** permettant d'obtenir le résultat présenté dans le gif précédant :
+To summarize, here's the content of the **draw()** to obtain the result shown in the gif above:
 
 ```javascript
 background(0)
@@ -494,20 +509,20 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_a_interactive_grid/)
+You can find the program [here].(https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_a_interactive_grid/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_a_interactive_grid
+And the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_a_interactive_grid
 
 [**home**](#contenu)
 
-### Une grille de cercles concentriques
+###  5.2. <a name='Agridofconcentriccircles'></a>A grid of concentric circles
 
-Etant donné que plus on a de boucles for, plus on s'amuse ! nous allons rajouter une troisième boucle for à l'intérieur de nos deux boucles précédentes. Cela signifie que pour chaque case dessinée nous allons répéter plusieurs fois la même action.
+Since the more for loops we have, the more fun we have! we're going to add a third for loop inside our two previous loops. This means that for each square drawn, we'll repeat the same action several times.
 
 
 ![circle grid of co-centric circles](images/circle-grid-of-circles-overlapping.gif)
 
-En partant d'à peu près la même base que précédement, nous allons faire attention à modifier le remplissage de nos formes pour ne plus en avoir avec [**noFill()](https://p5js.org/reference/#/p5/noFill) - exactement comme dans processing et avoir un contour de forme blanc avec [**stroke()**](https://p5js.org/reference/#/p5/stroke), aussi comme dans processing.
+Starting from more or less the same basis as above, we'll take care to modify the filling of our shapes so that we no longer have any with [**noFill()](https://p5js.org/reference/#/p5/noFill) - exactly as in processing - and have a white shape outline with [**stroke()**](https://p5js.org/reference/#/p5/stroke), also as in processing.
 
 ```javascript
 background(0)
@@ -520,22 +535,22 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
     }
 }
 ```
-A l'intérieur de ces deux boucles for nous allons donc pouvoir en ajouter une troisième ! Cette troisième boucle va nous permettre de dessiner des cercles de même centre mais dont la taille diminue à chaque itération de la boucle :
+Within these two for loops, we can now add a third! This third loop will enable us to draw circles with the same center, but whose size decreases with each iteration of the loop:
 
 ```javascript
 for (let k = slotSize; k > 0; k = k - 10) {
     ellipse(i , j, k, k);                                                           
 }
 ```
-Nous allons maintenant faire en sorte que ce nombre de cercle co-centriques puisse changer et cela notament aléatoirement lorsque nous appuyons sur la souris.
+We're now going to make sure that this number of co-centric circles can change at random when we press the mouse.
 
-Nous allons donc créer une nouvelle variable tout en haut de notre programme (en dehors du setup() et du draw())
+We'll therefore create a new variable at the very top of our program (outside setup() and draw())
 
 ```javascript
 let niterations = 5;
 ```
 
-et nous allons l'utiliser pour contrôler l'incrément de "k" dans notre boucle for. Le nombre de fois que nous allons répéter l'action et "niterations", il faut donc diminiuer la taillde notre ellipse de "slotSize/niterations".
+and we're going to use it to control the increment of "k" in our for loop. The number of times we'll repeat the action is "niterations", so we need to reduce the size of our "slotSize/niterations" ellipse.
 
 ```javascript
 for (let k = slotSize; k > 0; k = k - slotSize/niterations) {
@@ -543,21 +558,21 @@ for (let k = slotSize; k > 0; k = k - slotSize/niterations) {
 }
 ```
 
-Maintenant nous pouvons faire appel à la fonction **random()** à l'intérieur de notre fonction **mousePressed()**, mais attention cette fois nous voulons un nombre entier, alors que random() renvoit par défaut des nombres à virgules (ou float). Pour remédier à cela il suffit de prendre la partie entière du nombre renvoyé par random() à l'aide de la fonction [**int()**](https://p5js.org/reference/#/p5/int).
+Now we can call up the **random()** function inside our **mousePressed()** function, but this time we want an integer, whereas random() returns comma (or float) numbers by default. To remedy this, we simply take the integer part of the number returned by random() using the function [**int()**](https://p5js.org/reference/#/p5/int).
 
 ```javascript
 niterations = int(random(2, 20))
 ```
-Pour arriver au résultat présenté dans le gif il nous suffit maintenant de manipuler la taille des cercles en fonction de la position de la souris dans la fenêtre. Cette taille doit changer pour chaque cercle, nous allons donc la calculer à l'intérieur des trois boucles.
+To achieve the result shown in the gif, all we need to do now is manipulate the size of the circles according to the position of the mouse in the window. This size must change for each circle, so we're going to calculate it inside the three loops.
 
-Nous n'allons d'ailleur pas directement calculer la taille de chaque ellipse, mais plutôt un coefficient multiplicateur par lequel nous allons multiplier la tailler déjà précalculé par notre boucle for('k')
+In fact, we're not going to calculate the size of each ellipse directly, but rather a multiplying coefficient by which we'll multiply the size already pre-calculated by our for('k') loop.
 
 ```javascript
 let s = map(mouseX, 0, width, 0.5, 5);
 ellipse(i , j , k *s, k*s);
 ```
 
-Voici donc le code complet du draw() représenté par le gif précédent.
+Here is the complete draw() code represented by the gif above.
 ```javascript
 background(0);
 noFill();
@@ -571,65 +586,67 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
     }
 }
 ```
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_b_triple-for/)
+You can find the programme [here](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_b_triple-for/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_b_triple-for
+And the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_b_triple-for
 
 [**home**](#contenu)
 
-### Une grille de lignes interactives
+###  5.3. <a name='Agridofinteractivelines'></a>A grid of interactive lines
 
-Nous allons maintenant nous nous attacher à réaliser ce motif :
+We are now going to work on creating this pattern:
+
 ![Moving lines patterns](images/moving-lines-pattern.gif)
     
-Ce motif est réalisé en reliant chaque coin de chaque case à un point se déplaçant à l'intérieur de chacune des case. La position de ce point est dépendante de la position de la souris dans la fenêtre : lorsque la souris est à droite de la fenêtre alors le point mobile est à droite de chacune des cases, lorsqu'elle est en haut de la fenêtre le point est aussi en haut de chaque case etc.
+This pattern is created by linking each corner of each square to a point moving inside each square. The position of this point depends on the position of the mouse in the window: when the mouse is on the right of the window, then the moving point is on the right of each of the squares, when it is at the top of the window, the point is also at the top of each square, and so on.
 
-Nous voulons donc "mapper" (avec la fonction map() du coup!) la position de notre souris qui se déplace dans toute la fenêtre à la position du point mobile se déplaçant dans sa case.  
+So we want to map (using the map() function!) the position of our mouse as it moves around the window to the position of the moving point as it moves around its box.  
 
-Nous allons donc devoir calculer un décalage ou "offset". De la même manière que précédement nous n'allons pas directement calculer le décalage mais plutôt un coefficient càd une valeur que nous allons multiplier par une autre pour obtenir ce décalage. 
+We therefore need to calculate an offset. In the same way as before, we are not going to calculate the offset directly but rather a coefficient, i.e. a value that we are going to multiply by another to obtain this offset.
 
-Nous voulons que lorsque notre souris se déplace sur la largeur ou la hauteur nous ayons un décalage centré autout de zéro.
+We want to have an offset centred around zero when our mouse moves across the width or height.
 
 ```javascript
 let xOffset = map(mouseX, 0, width, -0.5, 0.5)
 let yOffset = map(mouseY, 0, height, -0.5, 0.5)
 ```
 
-Ce calcul étant le même pour chaque case nous pouvons le faire dans le draw() mais juste avant nos boucles for.
+As this calculation is the same for each square, we can do it in the draw() function just before our for loops.
 
-Il ne nous reste plus qu'à dessiner nos lignes à l'aide de la fonction [**line()**](https://p5js.org/reference/#/p5/line). Il nous faut donc définir deux points pour chaque ligne : les coins de chaque case et le point mobile.
+Now all we need to do is draw our lines using the [**line()** function](https://p5js.org/reference/#/p5/line). We need to define two points for each line: the corners of each square and the moving point.
 
-Le point mobile à toujours pour coordonnées et ce dans chaque case :
+The moving point always has the coordinates :
 
 ```
 (i + xOffset * (slotSize), j + yOffset * (slotSize))
 ```
 
-(i,j) étant les coordonnées du centre d'une case on y ajoute ou on leur soustrait la moitié de la taille de notre case, en fonction de la valeur prise par 'xOffset' et 'yOffset' qui sont elles mêmes définies par la position de la souris dans la fenêtre.
+(i,j) being the co-ordinates of the centre of a square, we add to or subtract from them half the size of our square, depending on the value taken by 'xOffset' and 'yOffset', which are themselves defined by the position of the mouse in the window.
 
-Les coordonnées des points supérieur gauche de chaque case (on décale de la moitié de la taille de la case en abscisses et en ordonnées)
+The coordinates of the top left-hand points of each cell (offset by half the size of the cell on the x-axis and y-axis)
+
 ```
 (i - slotSize * 0.5, j - slotSize * 0.5)
 ```
 
-Il est alors assez facile de calculer les coordonnées de chacune des coins de chaque case :
+It is then quite easy to calculate the coordinates of each of the corners of each square:
 
-- coin supérieur droit :
+- top right corner :
 ```
 (i + slotSize * 0.5, j - slotSize * 0.5)
 ```
 
-- coin inférieur droit :
+- bottom right corner :
 ```
 (i + slotSize * 0.5, j + slotSize * 0.5)
 ```
 
-- coin inférieur gauche :
+- bottom left corner :
 ```
 (i - slotSize * 0.5, j + slotSize * 0.5)
 ```
 
-Il reste alors à dessiner les quatres lignes :
+All that remains is to draw the four lines:
 
 ```javascript
 for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -650,20 +667,20 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_d_triple-for-lines/)
+You can find the programme [here](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_d_triple-for-lines/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_d_triple-for-lines
+Aswell as the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_d_triple-for-lines
 
 
 [**home**](#contenu)
 
-### Une grille de cercles concentriques 2
+###  5.4. <a name='Agridofconcentriccircles2'></a>A grid of concentric circles 2
 
-Nous allons maintenant combiner les deux effets précédents : nous allons manipuler la position des centres de cercles co-centriques pour donner un effet de fausse 3D réalisée à partir de vraie 2D 
+We are now going to combine the two previous effects: we are going to manipulate the position of the centres of the co-centric circles to give a false 3D effect created from real 2D.
 
 ![circle grid of co-centric circles](images/circle-grid-of-circles.gif)
 
-Laissons donc tomber la partie de manipulation du diamètre de nos cercles :
+Let's drop the part about manipulating the diameter of our circles:
 
 ```javascript
 background(0);
@@ -678,22 +695,23 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-De la même façon que précédement nous allons calculer un décalage : 
+In the same way as above, we will calculate an offset: 
 
 ```javascript
 let xOffset = map(mouseX, 0, width, -0.5, 0.5)
 let yOffset = map(mouseY, 0, height, -0.5, 0.5)
 ```
 
-Suite à cela si nous observons bien notre animation, nous remarquons que le décalage est plus important pour les petits cercles - ceux proches du centre et inexistant pour les cercles les plus grands.
+If we look closely at our animation, we can see that the offset is greater for the smaller circles - those close to the centre - and non-existent for the larger circles.
 
-Pour pouvoir faire cela, il faut que nous fassions en sorte que quand la taille de notre cercle est maximale, la valeur par laquelle nous multiplierons notre offset soit nulle : pour annuler le décalage. Et inversement quand notre taille de cercle est minimale cette valeur soit plus grande pour avoir tout l'effet du décallage; cette valeur est donc 
+To be able to do this, we need to ensure that when the size of our circle is maximum, the value by which we multiply our offset is zero: to cancel out the offset. And conversely, when our circle size is minimal, this value must be greater to get the full effect of the offset; this value is therefore 
+
 
 ```javascript
 (slotSize - k)
 ```
 
-Il ne nous reste plus qu'à appliquer le résultat de nos calculs aux positions des centres de nos cercles.
+All that remains is to apply the results of our calculations to the positions of the centres of our circles.
 
 ```javascript
 let centerX = i + xOffset * (slotSize-k);
@@ -701,7 +719,7 @@ let centerY = j + yOffset * (slotSize-k);
 
 ```
 
-et voilà !
+and voilà !
 
 ```javascript
 let xOffset = map(mouseX, 0, width, -0.5, 0.5)
@@ -729,21 +747,21 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_c_triple-for/)
+You can find the programme [here](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_02_c_triple-for/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_c_triple-for
+And the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_02_c_triple-for
 
 
 
 [**home**](#contenu)
 
-## Ecrire des conditions avec if()
+##  6. <a name='Writingconditionswithif'></a>Writing conditions with if()
 
-Nous allons maintenant rester sur le même principe et voir comment une règle très simple peut nous apporter une multitude de motifs relativement variés : le principe est que dans chaque case nous allons au choix dessiner une des deux diagonales possible. 
+We're now going to stick to the same principle and see how a very simple rule can give us a multitude of relatively varied designs: the principle is that in each square we can choose to draw one of the two possible diagonals. 
 
 ![10print](images/10print.gif)
 
-Nous allons comme d'habitude partir de notre code de base
+As usual, we're going to start with our basic code
 
 ```javascript
 let slotSize = 100;
@@ -783,83 +801,82 @@ function windowResized() {
 }
 ```
 
-Pour rappel ce code nous permet d'obtenir une grille réactive aux changement de taille de notre fenêtre.
+As a reminder, this code allows us to obtain a grid that reacts to changes in the size of our window.
 
-Le code que nous allons écrire est assez simple, il s'agit de comprendre comme une condition **if()** s'écrit.
+The code we're going to write is fairly straightforward, involving understanding how a **if()** condition is written.
 
-Comme pour la boucle for, il faut comprendre la signification des symboles de ponctuation que nous utilisons : les parenthèses permettent de délimiter une condition / un test, et les accolades nous permettent de délimiter les actions à effectuer si notre condition est vraie :
+As with the for loop, you need to understand the meaning of the punctuation symbols we're using: brackets are used to delimit a condition/test, and braces are used to delimit the actions to be performed if our condition is true:
 
 ```javascript
-if( ma-condition-est-vraie ) {
-    // j'execute le code écrit ici.
+if( my-condition-is-true ) { 
+    // I execute the code written here 
 }
 ```
 
-Un **if(){}** peut être suivi d'un **else{}* dans le but de définir une autre action à effectuer si la condition est fausse.
+An **if(){}** can be followed by an **else{}** in order to define another action to be performed if the condition is false.
 
 ```javascript
-if( ma-condition-est-vraie ) {
-    // j'execute le code écrit ici.
+if( my-condition-is-true ) { 
+    // I execute the code written here. 
+} else{ 
+    // I execute this code instead 
+}
+```
+
+Conditions can also be chained:
+
+```javascript
+if( my-condition-is-true ) {
+    // I execute the code written here.
+}
+else if( another-condition-is-true){
+    // I run this
 }
 else{
-    // j'éxecute ce code plutôt
+    // I run this code instead
 }
 ```
 
-On peut aussi chaîner des conditions :
+Or inside one another :
 
 ```javascript
-if( ma-condition-est-vraie ) {
-    // j'execute le code écrit ici.
-}
-else if( une-autre-condition-est-vraie){
-    // j'éxecute ceci
-}
-else{
-    // j'éxecute ce code plutôt
-}
-```
-
-Où les imbriquer :
-
-```javascript
-if( ma-condition-est-vraie ) {
-    if( une-seconde-condition-est-vraie){
-    // j'éxecute ceci
+if( my-condition-is-true ) {
+    if( one-second-condition-is-true){
+    // I run this
     }
     else {
-    // j'éxecute cela
+    // I execute that
     }
 }
 else{
-    // j'éxecute ce code plutôt
+    // I run this code instead
 }
 ```
 
 
 [**home**](#contenu)
 
-### if-else et random() - randomSeed()
+###  6.1. <a name='if-elseandrandom-randomSeed'></a>if-else and random() - randomSeed()
 
-Dans notre premier exemple nous n'aurons qu'une condition simple à éxecuter : nous voulons aléatoirement dessiner l'une ou l'autre des diagonales.
+In our first example, we have just one simple condition to execute: we want to draw one or other of the diagonals at random.
 
-Dans chacune des case il faut donc déterminer les coordonnées des coins en fonction de (i,j) le point définissant le centre de notre case et 'slotSize' qui est la taille de notre case.
+In each of the boxes, we need to determine the coordinates of the corners as a function of (i,j) the point defining the centre of our box and 'slotSize', which is the size of our box.
 
-Ainsi la première diagonale - celle partant du coin inférieur gauche  s'écrit comme ceci : 
+So the first diagonal - the one starting from the bottom left corner - is written as follows: 
 
 ```javascript
 line(i - slotSize / 2, j - slotSize / 2, i + slotSize / 2, j + slotSize / 2)
 ```
 
-et la seconde - celle partant du coin supérieur gauche s'écrit comme ceci :
+and the second - the one starting from the top left corner - is written like this:
 
 ```javascript
 line(i - slotSize / 2, j + slotSize / 2, i + slotSize / 2, j - slotSize / 2)
 ```
 
-Il ne nous reste donc plus qu'à écrire une condition permettant de dessiner l'une ou l'autre de ces diagonales. Pour cela nous allons effectuer un test (i.e. écrire une condition) en utilisant la fonction [**random()**](https://p5js.org/reference/#/p5/random) que nous connaissons déjà. 
+All we need to do now is write a condition that allows us to draw one or other of these diagonals. To do this, we're going to run a test (i.e. write a condition) using the [**random()**](https://p5js.org/reference/#/p5/random) function that we already know. 
 
-Si nous voulons une distribution à peu près uniforme de chacune des deux diagonales, nous allons tout simplement vérifier si le résultat de 'random(1)' est supérieur ou non à '0.5'
+If we want a more or less uniform distribution of each of the two diagonals, we can simply check whether the result of 'random(1)' is greater than '0.5' or not.
 
 ```javascript
 if (random(1) > 0.5) {
@@ -869,7 +886,7 @@ if (random(1) > 0.5) {
 }
 ```
 
-et dessiner une des deux diagonales dans un cas, et l'autre sinon :
+and draw one of the two diagonals in one case, and the other otherwise :
 
 ```javascript
  if (random(1) > 0.5) {
@@ -879,35 +896,36 @@ et dessiner une des deux diagonales dans un cas, et l'autre sinon :
 }
 ```
 
-Malheureusement, random() nous renvoit par définition des résultats aléatoires. Cela signifie qu'à chaque fois qu'une image est calculée (à chaque fois que le draw() s'éxécute) un nouvelle valeur est tirée au sort et notre image ne cesse de changer.
+Unfortunately, random() by definition returns random results. This means that each time an image is calculated (each time draw() is executed) a new value is drawn at random and our image keeps changing.
+
+In reality, randomness doesn't really exist in computing. The random() functions in various languages all return a series of pseudo-random numbers, and although this may seem disappointing, it's actually quite practical in our case (incidentally, it also allows us to recreate a specific image even when using random() extensively).
 
 
+The random() function is therefore always accompanied by a [**randomSeed()**] function (https://p5js.org/reference/#/p5/randomSeed). 
 
-En réalité l'aléatoire n'existe pas réellement en informatique. Les fonctions random() de divers langages renvoient tous une suite de nombre pseudo aléatoire, même si cela peut paratire decevant c'est en réalité bien pratique dans notre cas (accessoirement cela permet aussi de recréer une image spécifique même en ayant recours de manière intensive à random()). 
+This function is used to give a seed to our random() function and for a given seed random() will always return the same sequence of random numbers.
 
-La fonction random() est donc toujours accompagnée d'une fonction [**randomSeed()**](https://p5js.org/reference/#/p5/randomSeed). Cette fonction permet de donner une "seed" à notre fonction random() et pour une "seed" donnée random() nous renverra toujous la même suite de nombres aléatoires.
-
-Nous allons donc créer une nouvelle variable tout en haut de notre programme (en dehors de setup() et de draw()):
+So we're going to create a new variable at the very top of our programme (outside setup() and draw()):
 
 ```javascript
 let seed;
 ```
 
-Dans le *setup()*, nous allons donner une nouvelle valeur initiale à cette variable :
+In *setup()*, we're going to give this variable a new initial value:
 
 ```javascript
 seed = random(9999)
 ```
 
-Ici nous utilisons random, mais pour obtenir une image précise on peut donner à "seed" un valeur précise.
+Here we use random, but to obtain a precise image we can give "seed" a precise value.
 
-Maintenant dans le *draw()* nous pouvons utiliser cette "seed" en faisant appel la fonction **randomSeed()**. Cet appel doit être fait à chaque "frame" mais n'a pas besoin d'être réalisé pour chaque case de notre grille, on peut donc le mettre tout en haut de notre *draw()*
+Now in *draw()* we can use this seed by calling the **randomSeed()** function. This call must be made for each frame but does not need to be made for each cell in our grid, so we can put it at the very top of our *draw()*.
 
 ```javascript
 randomSeed(seed)
 ```
 
-Nos images restent donc maintenant fixes quoiqu'il se passe. Pour revenir à un côté plus génératif nous pouvons maintenant changer notre seed à chaque fois que l'utilisateur appuie sur la souris et donc ajouter une ligne de code permettant de changer aléatoirement la "seed" dans la fonction *mousePressed()*
+So our images now remain fixed whatever happens. To return to a more generative side, we can now change our seed each time the user presses the mouse, and so add a line of code to randomly change the seed in the *mousePressed()* function.
 
 ```javascript
 function mousePressed(){
@@ -915,13 +933,13 @@ function mousePressed(){
 }
 ```
 
-Nous pouvons aussi rendre aléatoire l'épaisseur du trait quand l'utilisateur clique sur la souris
+We can also randomise the thickness of the line when the user clicks the mouse
 
 ```javascript
 strokeWeight(random(20))
 ```
 
-Voici donc l'intégralité du programme génératif :
+Here is the complete generative programme:
 
 ```javascript
 let slotSize = 50;
@@ -976,15 +994,16 @@ function windowResized() {
     marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
 }
 ```
-    Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_a_if/)
 
-    Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_03_a_if  
+You can find the programme [here](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_a_if/)
 
-    [**home**](#contenu)
+And the code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_03_a_if  
 
-### Variation 1 avec if imbriques
+[**home**](#contenu)
 
-Comme précisé précédement nous pouvons aussi imbriquer des if entre eux. Nous pourrions par exemple faire en sorte que certaines lignes soient rouges et d'autres blanches assez facilement :
+###  6.2. <a name='Variation1withanestedif'></a>Variation 1 with a nested if 
+
+As mentioned above, we can also nest if test into one another. We could, for example, make some lines red and others white quite easily:
 
 ![10-print2](images/10print-2.png)
 
@@ -1011,15 +1030,15 @@ Comme précisé précédement nous pouvons aussi imbriquer des if entre eux. Nou
 
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_b_if/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_b_if/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_03_b_if
+And code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_03_b_if
 
 [**home**](#contenu)
 
-### Variation 2 avec if - else if
+###  6.3. <a name='Variation2withif-elseif'></a>Variation 2 with if - else if
 
-Avec l'utilisation de plusieures condition s'enchainant il est aussi relativement simple d'arriver à dessiner en labyrinthe, et ne choisissant de ne dessiner qu'une paroie de chaque case (soit celle du dessus, soit celle du dessous, celle de gauche ou celle de droite) :
+Using several conditions in sequence, it's also relatively easy to draw a labyrinth, choosing to draw only one side of each square (either the top, bottom, left or right):
 
 ![10-pint_3](images/10print-3.png)
 
@@ -1036,72 +1055,72 @@ if (rd < 0.25) {
 }
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_c_if/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_03_c_if/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_a_noise-1D
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_a_noise-1D
 
 [**home**](#contenu)
 
-## Make some Noise !
+##  7. <a name='MakesomeNoise'></a>Make some Noise !
 
-Nous allons maintenant à nous intéresser à la notion de [**noise()**](https://p5js.org/reference/#/p5/noise)
+We will now look at the notion of [**noise()**](https://p5js.org/reference/#/p5/noise)
 
-Le noise est une notion relativement compliquée; elle est reliée à la notion de *random()* mais est prévue pour générer des résultats moins aléatoire et plus proches les uns des autres. En réalité le noise est très imprégnée de la notion de "seed", évoquée précédement.
+Noise is a relatively complicated concept; it is related to the notion of *random()* but is intended to generate results that are less random and closer together. In reality, noise is very much imbued with the notion of 'seed', mentioned earlier..
 
-Elle a été crée en 1983 par [Ken Perlin](https://en.wikipedia.org/wiki/Perlin_noise) dont le but était de créer un algorithme capable de reproduire des textures ou surface à l'aspect naturel. Il existe plusieurs types de noise, mais nous allons nous intéresser à l'unique version implémentée dans p5js.
+It was created in 1983 by [Ken Perlin](https://en.wikipedia.org/wiki/Perlin_noise) whose aim was to create an algorithm capable of reproducing natural-looking textures or surfaces. There are several types of noise, but we're going to focus on the only version implemented in p5js.
 
-Si vous avez lu la référence, il faut comprendre que le noise peut-être utilisé jusqu'à 3 dimensions (nous allons voir cela plus en détail) et qu'il renvoit des valeurs comprises entre 0 et 1. Une notion plus subtile qu'il faut comprendre et qu'il faut "passer" au moins une variable (ou une dimension) à la fonction *noise()*, plus l'écart entre les différentes variables que nous passeront sera important plus le résultat sera proche de la fonction *random()*, plus l'écart sera petit plus le résultat sera lisse.
+If you've read the reference, you'll understand that noise can be used in up to 3 dimensions (we'll look at this in more detail later) and that it returns values between 0 and 1. A more subtle concept to understand is that we need to "pass" at least one variable (or dimension) to the *noise()* function. The greater the difference between the different variables we pass, the closer the result will be to the *random()* function, and the smaller the difference, the smoother the result will be.
 
 [**home**](#contenu)<br>
 
-### noise 1 dimension
+###  7.1. <a name='noise1dimension'></a>noise 1 dimension
 
-Nous allons commencer par ne passer qu'une seule valeur à notre fonction noise, celle d'un temps qui se déroule pour obtenir ce genre de résultat :
+We're going to start by passing just one value to our noise function, that of a time that elapses to obtain this type of result:
 
 ![noise-1D](images/noise-1D.gif)
 
-A partir de la même notion de temps nous allons créer un décalage en X et en Y depuis le centre de la case à l'aide de la fonction noise. Nous partirons de notre code habituel d'une grille de cases.
+Using the same notion of time, we're going to create an offset in X and Y from the centre of the square using the noise function. We'll start with our usual code for a grid of boxes.
 
-Nous devons donc commencer par déclare une variable qui permettra créer un écoulement de temps. Cette variable nous sera utile dans notre *draw()* et nous voulons l'augmenter petit à petit, il faut donc qu'elle soit globale et donc créee en dehors de tout autre bloc de code (*setup()* ou *draw()*)
+So we need to start by declaring a variable that will allow us to create a time flow. This variable will be useful in our *draw()* and we want to increase it little by little, so it needs to be global and therefore created outside any other block of code (*setup()* or *draw()*).
 
 ```javascript
 let time = 0;
 ```
 
-Ensuite nous allons incrémenter cette valeur à chaque itération de la fonction *draw()*
+We will then increment this value at each iteration of the *draw()* function.
 
 ```javascript
 time += 0.005;
 ```
-Nous allons utiliser cette valeur pour notre *noise()*, pensez donc bien que vous pouvez la changer : si vous augmenter le temps de manière plus importante le résultat sera plus sacadé, il sera plus lisse sinon.
+We're going to use this value for our *noise()*, so remember that you can change it: if you increase the time more, the result will be more jerky, otherwise it will be smoother.
 
-Maintenant à l'intérieur de notre double boucle for et ce donc pour chaque case, nous allons calculer deux valeurs de noise :
+Now, in our double for loop, we're going to calculate two noise values for each square:
 
 ```
 let n1 = noise(time)
 let n2 = noise(time + 10)
 ```
- Nous donnons ici deux valeurs différentes pour que les mouvemement ne soient pas identiques en effet nous allons utiliser 'n1' pour calculer un décalage horizontal par rapport au centre de notre case et 'n2' pour calculer un décalage vertical. Si jamais nous avions fournit la même valeur (soit 'time' pour 'n2' à la place de 'time+10') notre décallage aurait été identique en X et en Y à chaque image et nous n'aurions alors pu dessiner qu'une diagonale.
+ Here we give two different values so that the movements are not identical: we will use 'n1' to calculate a horizontal offset in relation to the centre of our square and 'n2' to calculate a vertical offset. If we had supplied the same value (i.e. 'time' for 'n2' instead of 'time+10') our offset would have been identical in X and Y for each image and we would only have been able to draw a diagonal.
  
- Avant de dessiner il ne nous reste donc plus qu'à calculer un décalage pour que notre dessin reste à l'intérieur de notre case, comme d'habitude pour cela nous allons utiliser la fonction *map()* , en nous souvenant que le résultat de *noise()* est toujours compris entre 0 et 1: 
+ As usual, we'll use the *map()* function, remembering that the result of *noise()* is always between 0 and 1:
  
 ```javascript
 let xoffset = map(n1, 0, 1, -slotSize/2, slotSize/2)
 let yoffset = map(n2, 0, 1, -slotSize/2, slotSize/2)  
 point(i+xoffset, j+yoffset)
 ```
-Nous remarquons ici que le dessin dans chacune de nos cases est identique. Nous pouvons donc remédier à cela en utilisant une dimention supplémentaire pour notre fonction *noise()*.
+Here we notice that the design in each of our boxes is identical. We can remedy this by using an extra dimension for our *noise()* function.
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_a_noise-1D/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_a_noise-1D/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_a_noise-1D
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_a_noise-1D
 
 [**home**](#contenu)<br>
 
 
-### noise 2 dimensions
+###  7.2. <a name='noise2dimensions'></a>noise 2 dimensions
 
-Pour obtenir un résultat différent dans chaque case nous allons passer un deuxième argument à notre noise.
+To obtain a different result in each box, we're going to pass a second argument to our noise.
 
 ![noise-2D](images/noise-2D.gif)
 
@@ -1112,57 +1131,55 @@ let xoffset = map(n1, 0, 1, -slotSize/2, slotSize/2)
 let yoffset = map(n2, 0, 1, -slotSize/2, slotSize/2)
 point(i+xoffset, j+yoffset)
 ```
-Ici nous passons 'i' et 'j' directement comme argument pour chacun des calcul le résultat dans chaque case est donc différent.
+Here we pass 'i' and 'j' directly as arguments for each of the calculations, so the result in each cell is different.
 
-Mais nous pouvons faire en sorte d'obtenir différents résultats :
+But we can achieve different results:
 
 ```javascript
 let n1 = noise(time , i) 
 let n2 = noise(time + 10 , i) 
 ```
-Par exemple en utilisant 'i' deux fois le résultat sera le même dans chaque colonne.
-De manière similaire en passant 'j' deux fois le résultat sera le même sur chaque ligne. Si vous passez 'i+j' le résultat sera le même sur chaque diagonale !
+For example, if you pass 'i' twice, the result will be the same in each column; similarly, if you pass 'j' twice, the result will be the same in each row. If you pass 'i+j' the result will be the same on each diagonal!
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_b_noise-2D/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_b_noise-2D/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_b_noise-2D
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_b_noise-2D
 
 [**home**](#contenu)<br>
 
 
-### noise 3 dimensions
+###  7.3. <a name='noise3dimensions'></a>noise 3 dimensions
 
-Pour cette 3ème dimension nous allons changer de mode de représentation. Au lieu de calculer un décalage en x et y d'un point qui se déplace en laissant une trainée, nous allons maintenant calculer la taille d'un rectangle qui sera dessiné dans chaque case.
+For this 3rd dimension, we're going to change the way we represent it. Instead of calculating the x and y offset of a point that moves and leaves a trail, we're now going to calculate the size of a rectangle that will be drawn in each square.
 
 ![noise-3D](images/noise-3D.gif)
 
-Du point de vue du code pas grand chose ne change. Nous avons toujours besoin de notre variable 'time' et de notre double boucle for.
+From a code point of view, not much changes. We still need our 'time' variable and our double for loop.
 
-Afin de dessiner nos carrés en spécifiant le centre plutôt que le point supérieur gauche nous allons appeler la fonction [**rectMode()**](https://p5js.org/reference/#/p5/rectMode) dans le *setup()*
+In order to draw our squares by specifying the centre rather than the top left point, we are going to call the function [**rectMode()**](https://p5js.org/reference/#/p5/rectMode) dans le *setup()*
 
 ```javascript
 rectMode(CENTER)
 ```
 
-Dans la double boucle for, nous pouvons maintenant calculer une nouvelle variable que nous utiliserons comme la taille de nos carrés, puis dessiner nos carrés :
+In the double for loop, we can now calculate a new variable that we will use as the size of our squares, and then draw our squares:
 
 ```javascript
 let s = noise(i, j, time) * slotSize*1.25
 rect(i, j, s, s)
 ```
 
-Si nous faisons cela le résultat est relativement différent du résultat du gif présenté plus haut.
-En observant de plus près le gif, vous remarquerez que les carrés qui sont proches les uns des autres ont des tailles similaires, ici ce n'est pas le cas.
+If we do this, the result is quite different from the result of the gif shown above. If you look more closely at the gif, you'll notice that the squares that are close to each other have similar sizes, but this isn't the case here.
 
-En se rappelant comment fonctionne *noise()* cela signifierait donc que les valeurs qui séparent les appels successifs à *noise()* présentent des écarts trop grands. Ce n'est pas le cas de time (comme vu précédement), mais entre deux éxecution  du code à l'intérieur des boucles for i a potentiellement augmenté de 'slotSize' et j aussi.
+Remembering how *noise()* works, this would mean that the values between successive calls to *noise()* are too far apart. This is not the case for time (as we saw earlier), but between two executions of the code inside the for loops i has potentially increased by 'slotSize' and so has j.
 
-Pour obtenir un résultat plus proche du gif on va donc diviser i et j par une valeur suffisament important pour que cet écart réduise :
+To obtain a result closer to the gif, we'll divide i and j by a value large enough to reduce this gap:
 
 ```javascript
 let s = noise(i/100, j/100, time) * slotSize*1.25
 rect(i, j, s, s)
 ```
-Enfin afin d'avoir un rendu différent à chaque fois que nous appuyons sur la souris, nous allons créer une variable qui s'appelera 'divisor' et qui changera de valeur à chaque fois que l'utilisateur appuiera sur la souris.
+Finally, in order to have a different rendering each time we press the mouse, we're going to create a variable called 'divisor' which will change value each time the user presses the mouse.
 
 ```javascript
 let slotSize = 10;
@@ -1220,26 +1237,26 @@ function windowResized() {
 }
 }
 ```
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_c_noise-3D/)
+[Live Example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_c_noise-3D/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_c_noise-3D
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_c_noise-3D
 
 [**home**](#contenu)<br>
 
 
-### Noise et coordonnees polaires
+###  7.4. <a name='Noiseandpolarcoordinates'></a>Noise and polar coordinates
 
 ![polar noise](images/polar-noise.gif)
 
-Les coordonnées polaire sont une autre façon de définir l'emplacement d'un point dans l'espace en deux dimensions.
+Polar coordinates are another way of defining the location of a point in two-dimensional space.
 
-Au lieu de donner une coordonnée en X (l'abscisse) et une en Y (l'ordonnée), nous allons donner un angle et un rayon. [Les coordonnées polaire](https://fr.wikipedia.org/wiki/Coordonn%C3%A9es_polaires) sur wikipédia.
+Instead of giving an X coordinate (the abscissa) and a Y coordinate (the ordinate), we'll give an angle and a radius. [Polar coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system) on wikipedia.
 
-Ce système de coordonnée est très pratique pour décrire cercles et autres spirales. Pour obtenir les motifs présentés ci-dessus, nous faisons simplement varier l'angle et le rayon à l'aide d'un noise puis nous dessiner une ligne émanant du centre de notre case vers le point que nous déplaçons dans la case à l'aide des coordoonnées polaire.
+This coordinate system is very useful for describing circles and other spirals. To obtain the patterns shown above, we simply vary the angle and radius using a noise and then draw a line emanating from the centre of our square to the point that we move in the square using polar coordinates.
 
-Processing ou p5js ne nous donnent pas la possibilité de dessiner des points en utilisant les coordonnées polaires, nous devons donc convertir les coordonnées polaires en coordonnées cartésiennes avant de pouvoir dessiner nos lignes.
+Processing or p5js don't give us the option of drawing points using polar coordinates, so we have to convert polar coordinates into Cartesian coordinates before we can draw our lines.
 
-Heureusement il existe des formules mathématiques pour faire cette conversion. Ainsi un point exprimé en coordonnées polaire avec un angle 'theta' et un rayon 'r' aura pour coordoonées cartésienne dans un repère ce centre (x0, y0)
+Fortunately, there are mathematical formulae for making this conversion. Thus a point expressed in polar coordinates with an angle 'theta' and a radius 'r' will have as its Cartesian coordinates in a reference frame this centre (x0, y0)
 
 ```
 x = x0 + cos(theta) * r
@@ -1248,64 +1265,67 @@ et
 ```
 y = y0 + sin(theta) * r
 ```
-Vous pouvez aussi vous référer à [cet exemple](https://www.openprocessing.org/sketch/151087) qui détaille le cercle trigonométrique et les fonction trigonométriques de base.
+You can also refer to [this example](https://www.openprocessing.org/sketch/151087) which explains the trigonometric circle and the basic trigonometric functions.
 
-Une fois cela établie, il est assez simple d'arriver au résultat escompté :
+Once this has been established, it is quite simple to achieve the desired result:
 
-D'abord nous devons pour chaque case (et ce donc à l'intérieur de la double boucle for) calculer un rayon et un angle dont les valeurs sont animées par un appel à la fonction *noise()*
+First of all, we need to calculate a radius and an angle for each square (inside the double for loop), the values of which are animated by a call to the *noise()* function.
 
 ```javascript
 let angle = noise(time/2 , i , j) 
 let r = noise(time , i , j) 
 ```
 
-*noise()* renvoyant des valeurs entre 0 et 1, nous allons multiplier ces valeurs pour que notre angle balaye bien toute la circonférence d'un cercle (voire même deux) et que notre rayon puisse bien couvrir toute la largeur et la hauteur de chaque case
+Since *noise()* returns values between 0 and 1, we're going to multiply these values so that our angle sweeps the entire circumference of a circle (or even two circles) and so that our radius covers the entire width and height of each square.
 
 ```javascript
 let angle = noise(time/2 , i , j) * TWO_PI * 2
 let r = noise(time , i , j) * slotSize *0.5 
 ```
 
-ensuite nous appliquons nos formules de trigonométrie :
+then we apply our trigonometry formulas:
 
 ```javascript
 let xpos = i + cos(angle) * r
 let ypos = j + sin(angle) * r
 ```
 
-puis nous dessinons nos lignes reliant le centre de chaque case à nos points calculés en coordonnées polaires
+then we draw our lines linking the centre of each square to our points calculated in polar coordinates
 
 ```javascript
 line(xpos,ypos, i,j)
 ```
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_d_noise-circle-rad-angle/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_d_noise-circle-rad-angle/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_d_noise-circle-rad-angle
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_d_noise-circle-rad-angle
 
 [**home**](#contenu)<br>
 
-### Noise et symetries
+###  7.5. <a name='Noiseandsymetries'></a>Noise and symetries
 
-Le noise peut paraitre un peu compliqué à maitriser mais en comprenant bien son fonctionnement il est possible de créer des comportements symétriques.
+Noise may seem a little complicated to master, but if you understand how it works, you can create symmetrical behaviour.
 
 ![symetric noise](images/noise-symetric.gif)
 
-Dans cet exemple le principe est de dans chaque case dessiner un ligne animée par du noise sans effacer le background d'une répétition du *draw()* à une autre.
+In this example, the principle is to draw a noise-animated line in each square without erasing the background from one *draw()* repetition to the next.
 
-Comme précédement nous aurons besoin de créer une variable 'time' tout en haut de notre programme :  
+As before, we need to create a 'time' variable at the top of our program:  
 ```javascript
 let time = 0
-````
-Puis nous allons augmenter sa valeur petit à petit dans le *draw()* :
+```
+
+Then we are going to increase its value little by little in *draw()* :
+
 ```javascript
 time += 0.005;
 ```
-cette écriture est équivalente à 
+this is equivalent to
+
 ```javascript
 time = time + 0.005
 ```
 
-Du coup dans chaque case nous allons utiliser une boucle for pour parcourir la largeur de chacune de nos cases :
+So in each box we are going to use a for loop to go through the width of each of our boxes:
 
 ```javascript
 for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
@@ -1313,35 +1333,35 @@ for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
 }
 ```
 
-à chaque itération de cette boucle *for()* nous allons donc dessiner un point dont l'abscisse sera 'k' et dont l'ordonnée sera calculée par un noise.
+At each iteration of this *for()* loop, we will draw a point whose abscissa will be 'k' and whose ordinate will be calculated by a noise.
 
 ```javascript
 let h = noise(time, k / 100)
 point(k+i,h+j)
 ```
-Ce calcul nous donne pour chaque case des sortes de vagues dont le point de départ (à gauche) et le point d'arrivée (à droite) ne correspondent pas d'une case à l'autre. Nous allons donc faire en sorte que ce soit le cas en nous aidant d'une fonction sinusoidale. 
+This calculation gives us a kind of wave for each square, where the starting point (on the left) and the end point (on the right) do not correspond from one square to the next. We're going to make sure that this is the case by using a sinusoidal function. 
 
 ![sinus](images/sinus-wiki.png)
 
-L'avantage des fonctions sinusoidales est qu'elles sont périodiques (elles se répetent dans le temps à intervalles réguliers ici entre sin(0) et sin(2*PI)) et qu'elles sont symétriques. Un autre avantage est que le résultat de ces fonctions est forcément compris entre -1 et 1, l'écart entre deux valeurs successives est donc relativement ramassé et nous pouvons donc utiliser ce résultat directement en paramètre de noise en obtenant un résultat relativement lisse. 
+The advantage of sinusoidal functions is that they are periodic (they repeat over time at regular intervals, in this case between sin(0) and sin(2*PI)) and that they are symmetrical. Another advantage is that the result of these functions is necessarily between -1 and 1, so the difference between two successive values is relatively small and we can use this result directly as a noise parameter, obtaining a relatively smooth result. 
 
-Nous allons donc utiliser deux variables pour animer notre noise. La première sera donc le temps et la deuxième sera le résultat du calcul d'un sinus. Nous allons donc 'mapper' notre abscisse (soit 'k') pour obtenir une valeur comprise entre 0 et PI et utiliser le sinus de ce résultat comme paramètre de notre noise. Puis nous allons finalement calculer l'abscisse de notre point en utilisant encore une fois la fonction map.
+So we're going to use two variables to animate our noise. The first will be time and the second will be the result of a sine calculation. So we're going to 'map' our abscissa (i.e. 'k') to obtain a value between 0 and PI and use the sine of this result as a parameter for our noise. Then we'll finally calculate the abscissa of our point, once again using the map function.
 
 ```javascript
-// abscisse dans notre case -> une valeur entre et PI
+// abscissa in our box -> a value between and PI
 let inc = map(k, -slotSize*0.5, slotSize*0.5, 0, PI) 
 // noise
 let n = noise((sin(inc) ), time)
-// résultat de noise -> une valeur comprise entre le haut et le bas de notre case
+// noise result -> a value between the top and bottom of our box
 let h = map(n, 0, 1, -slotSize*0.5 , slotSize*0.5)
 
 point(k+i, h+j)
 ```
-Pour obtenir le résultat présenté en début de paragraphe il faut cependant que nous dessinions une ligne continue en lieu est place d'une succession de points.
+To obtain the result shown at the beginning of this paragraph, however, we need to draw a continuous line instead of a succession of points.
 
-Pour cela nous allons utiliser [curveVertex()](https://p5js.org/reference/#/p5/curveVertex) combinée à [beginShape()](https://p5js.org/reference/#/p5/beginShape) et [endShape()](https://p5js.org/reference/#/p5/endShape). Ces fonctions nous permettent de créer une courbe dont tous les points sont reliés entre eux. *beginShape()* permet de préciser que nous allons commencer à dessiner une forme; à partir de l'appel de cette fonction nous pourrons préciser les différents points qui composent cette courbe à l'aide de *curveVertex()* puis nous pouvons terminer notre forme en appelant *endShape()*.
+To do this we're going to use [curveVertex()](https://p5js.org/reference/#/p5/curveVertex) combined with [beginShape()](https://p5js.org/reference/#/p5/beginShape) and [endShape()](https://p5js.org/reference/#/p5/endShape). These functions allow us to create a curve whose points are all connected. *beginShape()* is used to specify that we are going to start drawing a shape; once this function has been called, we can specify the various points that make up this curve using *curveVertex()* and then we can finish our shape by calling *endShape()*.
 
-Dans notre cas tous les points seront ajouté dans notre boucle for qui parcourt notre case horizontalement. Nous allons donc encadrer notre boucle for par *beginShape()* et *endShape()* et remplacer les appels à *point()* par des appels à *curveVertex()*.
+In our case, all the points will be added to our for loop, which runs horizontally through our box. We'll therefore surround our for loop with *beginShape()* and *endShape()* and replace calls to *point()* with calls to *curveVertex()*.
 
 ```javascript    
 beginShape()
@@ -1353,19 +1373,19 @@ for (let k = - slotSize * 0.5; k < slotSize *0.5 ; k ++){
 }
 endShape()
 ```
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_e_noise-symetric/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_e_noise-symetric/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_e_noise-symetric
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_e_noise-symetric
 
 [**home**](#contenu)<br>
 
-### Noise symetrique et coordonnees polaires
+###  7.6. <a name='Symmetricalnoiseandpolarcoordinates'></a>Symmetrical noise and polar coordinates
 
-Nous allons dans ce paragraphe combiner nos connaissance sur les coordonées polaires et le noise pour arriver à ce résultat :
+In this paragraph we will combine our knowledge of polar coordinates and noise to arrive at this result:
 
 ![noisy symetric circle](images/radial-noise.gif)
 
-Nous allons commencer par créer une boucle for pour parcourir toute la périphérie d'un cercle, c'est à dire une boucle démarrant à 0 et finissant à 2 fois pi :
+We'll start by creating a for loop to traverse the entire periphery of a circle, i.e. a loop starting at 0 and ending at 2 times pi :
 
 ```javascript
 for (let angle = 0 ; angle <= TWO_PI *2; angle = angle + PI * 0.05){
@@ -1373,27 +1393,28 @@ for (let angle = 0 ; angle <= TWO_PI *2; angle = angle + PI * 0.05){
 }
 ```
 
-dans cette boucle nous allons calculer une valeur de rayon afin de pouvoir utiliser le système de coordonnées polaire afin de déterminer la position des points. Cette valeur va dépendre d'un noise : dans chaque case nous voulons une forme différente, mais nous voulons une forme symétrique. Nous allons donc utiliser un paramètre qui va être unique pour chaque case et qui évoluera en fonction du temps et deux paramètres qui boucleront et donc en utilisant des fonction sinusoïdales.
+In this loop we're going to calculate a radius value so that we can use the polar coordinate system to determine the position of the points. This value will depend on a noise: in each square we want a different shape, but we want a symmetrical shape. So we're going to use a parameter that will be unique for each square and that will evolve as a function of time, and two parameters that will loop, using sinusoidal functions.
 
-Le premier paramètres sera donc dépendant du temps 'time' et nous allons ajouter 'i' et 'j' pour que dans chaque case la valeur de ce premier paramètre soit différent :
+The first parameter will therefore depend on 'time' and we are going to add 'i' and 'j' so that in each cell the value of this first parameter is different:
+
 ```javascript
 noise(time + i +j*10)
 ```
 
-Les deux paramètres suivants utiliseront 'cos()' et 'sin()', ensuite pour pouvoir définir un rayon qui puisse potentiellement prendre toute la case nous allons multiplier le résultat de *noise()* qui est compris entre 0 et 1 par 'slotSize/2'
+The next two parameters will use 'cos()' and 'sin()', then to be able to define a radius that can potentially take up the whole square we will multiply the result of *noise()* which is between 0 and 1 by 'slotSize/2'.
 
 ```javascript
 let r = noise(time + i + j *10, cos(angle) , sin(angle) )* slotSize *0.5
 ```
 
-A l'aide de la formule permettant de convertir des coordonnées polaires en coordonnées cartésiennes, nous allons donc pouvoit définir les positions de chaque point qui va composer notre forme :
+Using the formula for converting polar co-ordinates into Cartesian co-ordinates, we can now define the positions of each point that makes up our shape:
 
 ```javascript
 let xpos = i + cos(angle) *r
 let ypos = j + sin(angle) *r
 ```
 
-Il ne nous reste plus qu'à dessiner notre forme à l'aide de *curveVertex()* :
+Now all we need to do is draw our shape using *curveVertex()* :
 
 ```javascript
 beginShape()
@@ -1406,70 +1427,72 @@ for (let angle = 0 ; angle <= TWO_PI *2; angle = angle + PI * 0.05){
 endShape()
 ```
 
-Par rapport au gif, il nous reste à gérer la couleur. Nous voulons dans chaque case une couleur différente, nous allons donc définir une liste de couleurs dans lesquelles nous pourrons venir piocher aléatoirement. Pour cela nous allons utiliser les couleurs sous forme hexadécimale que nous allons ranger dans un tableau. En js pour faire ceci il suffit de définir une nouvelle variable et de mettre de stocker à l'intérieur un tableau définit par un crochet ouvrant **[** et un crochet fermant **]**. Chaque code couleur sera encadré par des apostrophes et séparé par des virgules
+Compared to the gif, we still need to manage the colour. We want each box to have a different colour, so we're going to define a list of colours from which we can pick at random. To do this we're going to use colours in hexadecimal form, which we'll arrange in an array. To do this in js, all you have to do is define a new variable and store it inside an array defined by an opening bracket **[** and a closing bracket **]**. Each colour code will be enclosed in apostrophes and separated by commas.
 
 ```javascript
 let colors = ['#72d6c9','#ffc785', '#df7599', '#7189bf']
 ```
 
-Pour accéder à une couleur de cette liste il faut encore utiliser des crochets et mettre l'index de la position de la couleur que nous souhaitons utiliser. Par exemple
+To access a colour from this list, use square brackets and index the position of the colour you want to use. For example
 
 ```javascript
 colors[0] // sera '#72d6c9'
 colors[3] // sera '#7189bf'
 ```
 
-Maintenant nous pouvons dans chaque case (et donc à l'intérieur de la double boucle for) et avant la boucle permettant de dessiner notre forme nous allons créer une variable nommée 'c' qui va être tirée au sort parmis notre liste de couleurs.
+Now we can create a variable called 'c' in each box (and therefore inside the double for loop) and before the loop used to draw our shape, which will be drawn at random from our list of colours.
 
-Pour l'instant nous avons 4 couleurs dans notre liste, il faut donc que nous tirions au sort un index qui doit être un nombre entier :
+At the moment we have 4 colours in our list, so we need to draw an index which must be an integer:
 
 ```javascript
 int(random(4))
 ```
 
-Pour obtenir notre couleur nous allons donc stocker dans notre variable 'c' nous allons donc utiliser le résultat de ce calcul et le placer entre crochets :
+To obtain our colour, we will store the result of this calculation in our variable 'c' and place it between square brackets:
 
 ```javascript
 let c = colors[int(random(4))]
 ```
-Nous pouvons aussi récupérer automatiquement la taille d'une liste (i.e le nombre d'élément qui la compose) en utilisant 'colors.length', idéalement c'est une bonne idée d'utiliser cette technique, car cela nous permettra de pouvoir ajouter ou enlever des couleurs à notre tableau sans avoir à modifier le code :
+We can also automatically retrieve the size of a list (i.e. the number of elements in it) using 'colors.length'. Ideally, it's a good idea to use this technique, as it will allow us to add or remove colours from our array without having to modify the code:
 
 ```javascript
 let c = colors[int(random(colors.length))]
 stroke(c)
 ```
 
-Nous allons aussi vouloir utiliser un peu de transparence, malheureusement lorsque nous utilisons une couleur sous la forme hexadécimale, il n'est pas possible d'ajouter un second paramètre pour gérer la transparence.
+We're also going to want to use a bit of transparency, but unfortunately when we use a colour in hexadecimal form, it's not possible to add a second parameter to manage transparency.
 
-Il faut donc que nous utilisions la syntaxe classique pour *stroke()* avec 4 paramètres, les fonctions [red()](https://p5js.org/reference/#/p5/red), [green()](https://p5js.org/reference/#/p5/green) et [blue()](https://p5js.org/reference/#/p5/blue) vont nous permettre d'extraire les composantes rouges, vertes et bleues de couleurs :
+We therefore need to use the classic syntax for *stroke()* with 4 parameters, the functions [red()](https://p5js.org/reference/#/p5/red), [green()](https://p5js.org/reference/#/p5/green) and [blue()](https://p5js.org/reference/#/p5/blue) will enable us to extract the red, green and blue components of colours :
 
 ```javascript
 stroke(red(c), green(c), blue(c), 25)
 ```
 
-Pour obtenir chaque couleur nous utilisons *random()* dans le *draw()*, pour que nos couleurs ne changent pas à chaque répétition nous allons donc ré-utiliser *randomSeed()*. Il faut donc que nous définissions une 'seed' avec une variable globale (tout en haut de notre programme)
+To obtain each colour we use *random()* in the *draw()*, so that our colours don't change with each repetition we'll re-use *randomSeed()*. We therefore need to define a seed with a global variable (at the top of our programme)
 
 ```javascript
 let seed
 ```
 
-Dans le *setup()* nous devons l'initialiser :
+In the *setup()* we need to initialise it:
+
 ```javascript
 seed = random(9999)
 ```
 
-Dans le *draw()* nous pouvons donc l'utiliser conjointement avec *randomSeed()*
+In *draw()* we can therefore use it in conjunction with *randomSeed()*.
+
 ```javascript
 randomSeed(seed)
 ```
 
-et pour garder notre côté génératif nous allons changer cette valeur à chaque fois que l'utilisateur appuie sur la souris. Nous allons donc ajouter la ligne suivante dans *mousePressed()* :
+and to keep things generative we're going to change this value each time the user presses the mouse. So we'll add the following line to *mousePressed()* :
 
 ```javascript
 seed = random(9999)
 ```
 
-Et voici donc le code final de notre exemple :
+So here is the final code for our example:
 
 ```javascript
 let slotSize = 100;
@@ -1535,51 +1558,51 @@ function windowResized() {
     marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
 }
 ```
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_f_noise-circle-symetric/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_f_noise-circle-symetric/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_f_noise-circle-symetric
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_f_noise-circle-symetric
 
 [**home**](#contenu)<br>
 
-### Noise asymetrique et coordonnees polaires
+###  7.7. <a name='Asymmetricnoiseandpolarcoordinates'></a>Asymmetric noise and polar coordinates
 
-Modifions un peu notre code afin d'avoir un résultat assymétrique :
+Let's modify our code a little to get an asymmetrical result:
 
-![assymétric noise](images/noise-asymetric.gif)
+![assymetric noise](images/noise-asymetric.gif)
 
-Les modifications à apporter sont minimes, ici nous allons juste changer un peu les paramètres de notre *noise()*
+The changes to be made are minimal; here we're just going to change the parameters of our *noise()* a little.
 
 ```javascript
 let r = noise(time + i + j, cos(angle) + 1, sin(angle) + 1) * slotSize * 0.5
 ```
 
-Nous allons aussi en profiter pour passer en mode de couleurs HSB dans le *setup()*
+We're also going to take advantage of this to switch to HSB colour mode in the *setup()* function.
 
 ````
 colorMode(HSB, 360, 100, 100)
 ````
 
-et nous allons faire dépendre la couleur de notre ligne de la valeur du rayon :
+and we are going to make the colour of our line depend on the value of the radius :
 
 ```javascript
 let h = map(r, 0, slotSize * 0.5, 160, 220)
 stroke(h, 50, 100, 1)
 ```
 
-Vous pouvez retrouver le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_g_noise-circle-asymetric/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_g_noise-circle-asymetric/)
 
-Ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_g_noise-circle-asymetric
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_g_noise-circle-asymetric
 
 [**home**](#contenu)<br>
 
-### Interlude unknown pleasures
+###  7.8. <a name='Interludeunknownpleasures'></a>Interlude unknown pleasures
 
-Écartons nous un peu de nos préocupations habituelles (grilles et pavages) pour continuer un peu sur la notion de noise et recréer un visuel proche de la pochette de l'album "unknown pleasures" de Joydivision.
+Let's move away from our usual preoccupations (grids and cobblestones) to continue with the notion of noise and recreate a visual close to the cover of Joydivision's 'unknown pleasures' album.
 
 ![joydivision](images/joydivision.jpg)
 ![joy](images/noise-joydivision.gif)
 
-Ici nous allons utiliser des marges fixes, nous allons utiliser une fonction *noise()* dépendante du temps et nous allons permettre à l'utilisateur de changer la densité de lignes affichées horizontalement par un click de souris :
+Here we're going to use fixed margins, we're going to use a time-dependent *noise()* function and we're going to allow the user to change the density of lines displayed horizontally with a click of the mouse:
 
 ```javascript
 let ySpacing = 25;
@@ -1588,7 +1611,7 @@ let marginY = 200;
 let time = 0
 ```
 
-Notre *setup()* est tout ce qu'il y a de plus classique :
+Our *setup()* is as classic as it gets:
 
 ```javascript
 function setup() {
@@ -1598,7 +1621,7 @@ function setup() {
 }
 ```
 
-et nous utilisons les fonctions classiques *mousePressed()* et *windowResized()* :
+and we use the classic *mousePressed()* and *windowResized()* functions:
 
 ```javascript
 function mousePressed() {
@@ -1611,7 +1634,7 @@ function windowResized() {
 }
 ```
 
-Notre *draw()* comportera nos attributs classiques de dessin et l'incrémentation de notre variable 'time' :
+Our *draw()* will contain our classic drawing attributes and the incrementation of our 'time' variable:
 
 ```javascript
 function draw() {
@@ -1625,7 +1648,7 @@ function draw() {
 }
 ```
 
-Pour obtenir notre visuel, nous allons recréer une logique similaire à un exemple vu précédement : nous devons parcourir toute la largeur de notre fenêtre (moins les marges) avec une boucle for et créer des "montagnes" de *noise()* :
+To obtain our visual, we're going to recreate a logic similar to an example seen earlier: we have to traverse the entire width of our window (minus the margins) with a for loop and create "mountains" of *noise()* :
 
 ```javascript
 beginShape()
@@ -1637,23 +1660,22 @@ for (let i = marginX / 2; i < width - marginX / 2; i += 1) {
 endShape()
 ```
 
-L'astuce ici est d'arriver à écraser nos "vagues" à la gauche et à la droite de l'image. Nous allons devoir mutliplier notre 'offset' par une valeur qui sera très proche de 0 à droite et à gauche de l'image et proche de 1 au centre.
+The trick here is to crush our 'waves' on the left and right of the image. We'll need to mutliply our 'offset' by a value that will be very close to 0 on the right and left of the image and close to 1 in the centre.
 
-Pour cela nous allons devoir, comme précédement lorsque nous souhaitions obtenir un forme symétrique,
-mapper l'abscisse à une valeur que nous allons pouvoir utiliser dans une fonction sinusoïdale 
+To do this, we're going to have to map the abscissa to a value that we can use in a sinusoidal function, as we did earlier when we wanted to obtain a symmetrical shape.
 
 ```javascript
 let t = map(i, marginX/2, width-marginX/2,PI, PI*2)
 ```
 
-Pour accentuer la courbe de notre fonction sinus, nous allons la mutliplier plusieurs fois par elle même à l'aide de la fonction [pow()](https://p5js.org/reference/#/p5/pow), en faisant cela il va falloir augmenter drastiquement la valeur de sortie de 'offset' pour compenser cet écrasement :
+To accentuate the curve of our sine function, we're going to flatten it several times by itself using the [pow()] function (https://p5js.org/reference/#/p5/pow). By doing this, we'll have to drastically increase the output value of 'offset' to compensate for this flattening:
 
 ```javascript
 let offset = map(n, 0, 1, 0, - 1000000)
 offset = offset *pow(sin(t)/PI, 8)
 ```
 
-Chaque ligne sera donc composée de ce code :
+Each line will therefore consist of this code:
 
 ```javascript
 beginShape()
@@ -1666,7 +1688,7 @@ for (let i = marginX / 2; i < width - marginX / 2; i += 1) {
 endShape()
 ```
 
-Il suffit maintenant de répéter cela verticalement :
+Now all you have to do is repeat this vertically:
 
 ```javascript
  for (let j = marginY / 2 + slotSize / 2; j < height - marginY / 2; j += ySpacing) {
@@ -1684,9 +1706,9 @@ Il suffit maintenant de répéter cela verticalement :
 ```
 
 
-Vous pouvez tester le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_h_joydivision/)
+[Live Example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_04_h_joydivision/)
 
-et consulter le code qui y est associé :
+and code :
 https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_04_h_joydivision
 
 
@@ -1694,60 +1716,61 @@ https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sket
 
 [**home**](#contenu)<br>
 
-## Rotate-translate
+##  8. <a name='Rotate-translate'></a>Rotate-translate
 
-Nous allons maintenant nous intéresser aux transformations de l'espace, c'est à dire l'utilisation de fonction qui vont nous permettre de manipuler notre système de coordonnées pour nous offrir plus de souplesse dans la manière dont nous pourrons positionner et manipuler des formes.
+We're now going to look at transformations of space, in other words the use of functions that will allow us to manipulate our coordinate system to give us greater flexibility in the way we can position and manipulate shapes.
 
-### Un exemple basique
+###  8.1. <a name='Unexemplebasique'></a>Un exemple basique
 
-Nous allons nous attacher à recréer cet exemple :
+We are going to recreate this example:
 
 ![rotate translate basic](images/rotate_translate.gif)
 
-Cette animation est composée de deux éléments, deux carrés par case. Le premier tourne autour de son centre qui coincide avec le centre de chaque case en fonction de la position de la souris en abscisses et change de taille en fonction de la position de la souris en ordonnées.
-Le second, deux fois plus petit, lui, va tourner autour du centre de la case avec un décalage qui va dépendre de sa position dans la grille.
+This animation is made up of two elements, two squares per square. The first rotates around its centre, which coincides with the centre of each square depending on the position of the mouse on the x-axis, and changes size depending on the position of the mouse on the y-axis.
 
-Commençons par dessiner le premier carré. Afin de pouvoir faire tourner un carré autour de son centre, nous allons utiliser la fonction [**rectMode()**](https://p5js.org/reference/#/p5/rectMode) que nous avons déjà vu, et deux nouvelles fonctions : [**rotate()**](https://p5js.org/reference/#/p5/rotate) et [**translate()**](https://p5js.org/reference/#/p5/translate).
+The second, twice as small, will rotate around the centre of the square with an offset that depends on its position in the grid.
 
-Vous l'aurez compris **rotate()** permet d'effectuer des rotation et **translate()** permet d'effectuer des translation; mais ces rotations et rotation s'appliquent à notre repère et pas aux formes que nous allons dessiner directement.
+Let's start by drawing the first square. To rotate a square around its centre, we're going to use the [**rectMode()**](https://p5js.org/reference/#/p5/rectMode) function we've already seen, and two new functions: [**rotate()**](https://p5js.org/reference/#/p5/rotate) and [**translate()**](https://p5js.org/reference/#/p5/translate).
 
-On peut voir cela comme le fait d'avoir un stylo au dessus de la feuille et que pour dessiner au lieu de déplacer le stylo on déplacerait la feuille. Pour mieux comprendre, je vous invite à regarder ce programme : 
+As you will have realised, **rotate()** allows you to rotate and **translate()** allows you to translate; but these rotations and rotations apply to our frame of reference and not to the shapes we are going to draw directly.
+
+You can think of it as having a pen on top of a sheet of paper, but to draw, instead of moving the pen, you move the paper. For a better understanding, I invite you to watch this programme: 
 
 https://www.openprocessing.org/sketch/388513
 
-Les différents carrés sont dessinés avec la même instruction à chaque fois :
+The different squares are drawn with the same instruction each time:
 
 ```javascript
 rect(50, 100, 25,25)
 ```
 
-Le carré noir est dans le système de coordonnées d'origine.
+The black square is in the original coordinate system.
 
-Le carré rouge est dessiné après avoir transformé ce système à l'aide de la fonction :
-
-```javascript
-translate(mouseX,mouseY)
-```
-
-Le carré bleu est dessiné après avoir successivement appelé :
+The red square is drawn after transforming this system using the function :
 
 ```javascript
 translate(mouseX,mouseY)
 ```
 
-et
+The blue square is drawn after successively calling :
+
+```javascript
+translate(mouseX,mouseY)
+```
+
+and
 
 ```javascript
 rotate(PI/5)
 ```
 
-Notre principal problème avec les fonctions **translate()** et **rotate()** et qu'elles impactent toutes les formes que nous allons dessiner après les avoir appelées. Il nous faut donc un moyen de limiter leur champ d'action : c'est à cela que servent les fonctions [**push()**](https://p5js.org/reference/#/p5/push) et [**pop()**](https://p5js.org/reference/#/p5/pop)
+Our main problem with the **translate()** and **rotate()** functions is that they affect all the shapes we draw after calling them. So we need a way of limiting their scope: that's what the [**push()**](https://p5js.org/reference/#/p5/push) and [**pop()**](https://p5js.org/reference/#/p5/pop) functions are for.
 
-Tous les appels faits à *rotate()* et *translate()* qui sont situés entre *push()* et *pop()* n'ont d'action que entre ces deux mots clés.
+All calls to *rotate()* and *translate()* which are located between *push()* and *pop()* only have an action between these two keywords.
 
-Dans le cadre de l'objectif que l'on s'est fixé s'est parfait pour pouvoir appliquer des transformations dans chaque case de notre grille sans que les autres ne soient impactées.
+In the context of the objective we set ourselves, it's perfect to be able to apply transformations in every square of our grid without the others being affected.
 
-A l'intérieur de notre double boucle for utilisée habituellement, nous allons donc encadrer tout notre code entre un *push()* et un *pop()*.
+So, within our usual double for loop, we're going to enclose all our code between a *push()* and a *pop()*.
 
 ```javascript
  for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -1759,24 +1782,24 @@ A l'intérieur de notre double boucle for utilisée habituellement, nous allons 
 }
 ```
 
-Pour faire tourner un rectangle autour de son centre, il faut que nous fixions sont mode de dessin à l'aide de *rectMode()*, puis nous allons d'abord placer notre repère au centre de la case puis luis appliquer une rotation. (Si nous avions d'abord appliqué une rotation avant d'appliquer notre translation notre forme aurait tourné autour du coin supérieur gauche de notre case).
+To rotate a rectangle around its centre, we need to set its drawing mode using *rectMode()*, then we'll first place our reference point at the centre of the square and then apply a rotation. (If we had first applied a rotation before applying our translation, our shape would have rotated around the top left corner of our square).
 
-Pour calculer les valeurs de taille de notre carré et de rotation nous allons utiliser la fonction *map()* pour transformer les valeurs de la souris en valeur utiles pour animer notre rotation et notre modification de taille.
+To calculate the size and rotation values for our square, we're going to use the *map()* function to transform the mouse values into useful values for animating our rotation and size modification.
 
 ```javascript
 let angle = map(mouseX, 0, width, 0, TWO_PI)
 let s = map(mouseY, 0, height, 25, slotSize*2)
 ```
 
-Puis nous alllons appliquer les tranformations de l'espace décrites juste avant
+Then we're going to apply the space transformations described just before
 
 ```javascript
-translate(i,j) // déplacer notre repère au centre de la case
-rotate(angle) // le faire tourner de la valeur 'angle'
+translate(i,j) // move our marker to the centre of the square
+rotate(angle) // rotate it by the 'angle' value'
 rect(0, 0, s, s);
 ```
 
-Ce qui nous laisse avec ce code pour la première partie de notre animation :
+That leaves us with this code for the first part of our animation:
 
 ```javascript
 for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -1795,14 +1818,15 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
 }
 ```
 
-Pour la seconde partie de l'animation nous allons créer une seconde double boucle. Mais cette fois-ci au lieu de dessiner notre rectangle au milieu de notre repère (i.e aux coordonnées (0,0)) comme précédément nous allons le décaler. Ce décalage sera propotionel à sa position dans la grille (c'est à dire le numéro de la case) et nous allons donc utiliser encore une fois la fonction *map()*
+For the second part of the animation, we're going to create a second double loop. But this time, instead of drawing our rectangle in the middle of our reference frame (i.e. at co-ordinates (0,0)) as before, we're going to shift it. This offset will be proportional to its position in the grid (i.e. the number of the cell), so once again we're going to use the *map()* function.
 
 ```javascript
 let xOffset = map (i, marginX/2, width-marginX/2, -slotSize*0.5 , slotSize *0.5)
 let yOffset = map (j, marginY/2, height-marginY/2, -slotSize*0.5 , slotSize *0.5)
 ```
 
-Si notre carré et tout à gauche de la grille, il sera aussi par défaut tout à gauche de sa case et s'il est tout en haut il sera aussi tout en haut de sa case.
+If our square is at the very left of the grid, it will also be at the very left of its square by default, and if it is at the very top, it will also be at the very top of its square.
+
 
 ```javascript
 for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize) {
@@ -1819,36 +1843,33 @@ for (let i = marginX / 2 + slotSize / 2; i < width - marginX / 2; i += slotSize)
         }
 }
 ```
-*rotate()* et *translate()* peuvent être combinés à l'infini avec *push()* et *pop()* pour obtenir toutes sortes d'effets qui peuvent être intéressant pour créer des "pinceaux" (brushes) : https://b2renger.github.io/Introduction_p5js/01_dessiner_04/index.html
+*rotate()* and *translate()* can be combined endlessly with *push()* and *pop()* to obtain all sorts of effects that can be interesting for creating brushes: https://b2renger.github.io/Introduction_p5js/01_dessiner_04/index.html
 
 
-Vous pouvez tester le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_a_rotate/)
 
-et consulter le code qui y est associé :
+and full code :
 https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_05_a_rotate
-
-
 
 
 [**home**](#contenu)<br>
 
-### Utilisation de fonts
+###  8.2. <a name='Usingfonts'></a>Using fonts
 
-Nous allons continuer dans cette même logique, mais cette fois nous allons essayer de construire des motifs avec de la typographie :
+We're going to continue in the same vein, but this time we're going to try to build patterns using typography:
 
 ![typo relexion](images/typo_reflexion.gif)
 
-Cette animation est composée de deux lettres, qui se déplacent dans une case. La position de la souris en ordonnées conditionne la rotation de nos lettres, la position de la souris en abscisses détermine la translation de nos lettres le long des abscisses justement, mais en restant à l'intérieur de la case.
-Ces transformations s'appliquent à notre première lettre telles quelles et sont réléchies suivant un axe de symétrie horizontal pour dessiner notre seconde lettre.
+This animation is made up of two letters that move within a square. The position of the mouse on the ordinate determines the rotation of our letters, and the position of the mouse on the abscissa determines the translation of our letters along the abscissa, but remaining inside the square. These transformations are applied to our first letter as they are and are reflected along a horizontal axis of symmetry to draw our second letter.
 
-Commençons par notre première lettre. Ici rien de bien nouveau si ce n'est les fonction [**text()**](https://p5js.org/reference/#/p5/text),
-[**textSize()**](https://p5js.org/reference/#/p5/textSize) et [**textAlign()**](https://p5js.org/reference/#/p5/textAlign), qui sont assez transparentes.
+Let's start with our first letter. There's nothing really new here apart from the [**text()**](https://p5js.org/reference/#/p5/text), [**textSize()**](https://p5js.org/reference/#/p5/textSize) and [**textAlign()**](https://p5js.org/reference/#/p5/textAlign) functions, which are fairly transparent.
 
-Comme précédement nous allons encadrer tout le code que nous allons taper dans notre double boucle for entre un appel à *push()* et un appel à *pop()*.
+As before, we're going to frame all the code we type in our double for loop between a call to *push()* and a call to *pop()*.
 
-Nous devons ensuite spécifier nos paramètres pour dessiner notre texte : sa taille (*textSize()*) et son indentation (*textAlign()*)
+We then need to specify our parameters for drawing our text: its size (*textSize()*) and indentation (*textAlign()*).
 
-Puis nous pouvons déplacer notre repère au centre de notre case (avec *translate()*). Ensuite nous calculerons en décalage en abscisse (*map()) et une rotation (*map()*) que nous appliquerons à notre texte :
+Then we can move our reference frame to the centre of our square (using *translate()*). Next, we'll calculate an abscissa shift (*map()) and a rotation (*map()*), which we'll apply to our text:
+
 
 ```javascript
 for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
@@ -1871,9 +1892,9 @@ for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
 }
 ```
 
-Ce code nous permet donc de dessiner notre premier caractère dans chaque case. Nous allons maintenant dessiner son symétrique. 
+This code allows us to draw our first character in each cell. We're now going to draw its symmetrical counterpart.
 
-Pour cela nous allons devoir effectuer de nouvelles transformation de l'espace et donc nous assurer que nos premières transformations sont bien circonscrites à notre premier caractère. Nous allons donc encadrer tout le code qui le concerne d'un *push()* et d'un *pop()*
+To do this, we're going to have to carry out some new transformations of the space and therefore make sure that our first transformations are limited to our first character. So we're going to surround all the code that concerns it with a *push()* and a *pop()*.
 
 ```javascript
 
@@ -1900,7 +1921,7 @@ for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
 }
 ```
 
-Afin de réaliser notre réflexion nous allons utiliser la fonction [**scale()**](https://p5js.org/reference/#/p5/scale) qui permet de réaliser une transformation d'échelle indépendement sur l'axe des abscisses ou sur l'axe des ordoonées. Par exemple
+To do this, we'll use the [**scale()**](https://p5js.org/reference/#/p5/scale) function, which can be used to perform a scale transformation independently on the x-axis or the y-axis. For example
 
 ```javascript
 scale(1,1) // correspond au mode par défaut
@@ -1908,13 +1929,13 @@ scale(2, 0.5) // toutes les grandeurs de l'axe des abscisses seront multipliées
               // toutes les grandeurs de l'axes des ordonnées seront divisées par deux.
 ```
 
-Ainsi pour effectuer une symétrie d'axe vertical il suffit d'utiliser :
+So to perform a vertical axis symmetry, simply use :
 
 ```javascript
 scale(-1,1)
 ```
 
-Nous n'avons donc plus qu'à reproduire les même opérations que précédement mais en ayant changé la façon dont le programme va les intépréter à l'aide de scale.
+All we have to do now is reproduce the same operations as before, but change the way the program interprets them using scale.
 
 ```javascript
 push()
@@ -1925,7 +1946,7 @@ text("%", 0, 0) // dessiner le caractère '%'
 pop()
 ```
 
-Nous obtenons donc nos deux formes réléchies de cette manière :
+We therefore obtain our two forms reflected in this way:
 
 ```javascript
 for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
@@ -1958,22 +1979,22 @@ for (var x = -slotSize ; x < width + slotSize; x += slotSize) {
 }
 ```
 
-*push()* et *pop()* s'appliquant à toutes les transformations de l'espace, ils s'appliquent aussi à *scale()* : il faut donc bien penser à mettre *scale(-1,1)* après *push()* et avant *pop()*
+As *push()* and *pop()* apply to all transformations of space, they also apply to *scale()*: you should therefore remember to put *scale(-1,1)* after *push()* and before *pop()*.
 
-Il nous reste maintenant à être capable de changer dynamiquement le caractère que nous dessinons ainsi que la police et la couleur (même si pour la couleur cela a déjà été fait précédement)  
+Now we need to be able to dynamically change the character we're drawing, as well as the font and colour (although we've already done this for the colour).
 
-Afin de pouvoir changer le caractère utilisé pour le dessin à chaque fois que l'utilisateur appuie, sur une touche du clavier. Il faut que nous déclarions une variable globale (et ce donc tout en haut de notre programme).
+In order to be able to change the character used for drawing each time the user presses a key on the keyboard. We need to declare a global variable (at the very top of our program).
 
 ```javascript
 let c = '%'
 ```
 
-Nous allons donc maintenant pouvoir utiliser cette variable pour dessiner notre texte en rapplaçant '%' par 'c' dans l'appel à la fonction *text()*
+We can now use this variable to draw our text by replacing '%' with 'c' in the call to the *text()* function.
 
 ```javascript
 text(c, 0, 0)
 ```
-Il ne nous reste plus qu'à modifier cette valeur quand l'utilisateur appuie sur une touche du clavier à l'aide de la fonction [**keyTyped()**](https://p5js.org/reference/#/p5/keyTyped)
+All we need to do now is change this value when the user presses a key on the keyboard, using the [**keyTyped()**] function (https://p5js.org/reference/#/p5/keyTyped).
 
 ```javascript
 function keyTyped() {
@@ -1981,64 +2002,64 @@ function keyTyped() {
 }
 ```
 
-Attachons nous maintenant à pouvoir changer la police utilisée. Pour cela nous allons utiliser des polices déjà disponibles en ligne via [google fonts](https://fonts.google.com/).
+Now we need to change the font used. To do this, we're going to use fonts already available online via [google fonts](https://fonts.google.com/).
 
-Ce site nous permet de choisir via une multitude de police et nous fournit même du code pour insérer ce polices dans nos pages web.
+This site allows us to choose from a multitude of fonts and even provides us with code to insert these fonts into our web pages.
 
 ![googlefonts](images/googlefonts.png)
 
-Il suffit de clicker sur les '+' en haut à droite de chaque case pour ajouter une police à notre liste de police. Une fois notre choix fait nous pouvons cliquer sur la barre noire en bas de notre fenêtre pour consulter le code pour insérer nos polices.
+Simply click on the '+' at the top right of each box to add a font to our font list. Once we've made our choice, we can click on the black bar at the bottom of our window to view the code for inserting our fonts.
 
 ![googlefonts selection](images/googlefonts-selection.png)
 
-Vous remarquez une chaine de code html que nous allons utiliser. Lorsque l'on code avec un fichier html comme un developpeur classique il suffit d'ajouter le code fournit au fichier "index.html" que nous utilisons.
+You will notice a string of html code that we are going to use. When you code with an html file like a traditional developer, all you have to do is add the code provided to the "index.html" file we're using.
 
-Ici étant donné que nous travaillons avec openprocessing, nous n'avons pas accès à notre fichier html, nous allons donc le modifier à l'éxecution avec un peu de code javascript.
+Here, because we're working with openprocessing, we don't have access to our html file, so we're going to modify it at runtime with a bit of javascript code.
 
-Nous devons d'abord créer un nouvel élément de type "link" :
+First we need to create a new element of type "link" :
 
 ```javascript
-let link = document.createElement('link'); // on crée un nouvel 'élément link'
+let link = document.createElement('link'); // create a new 'link element'
 ```
-et nous allons peupler les champs nécessaires à cette balise avec les données fournies par google-fonts.
+and we're going to populate the fields required for this tag with the data provided by google-fonts.
 
 ```javascript
-let fontList  = "https://fonts.googleapis.com/css?family=Monoton|East+Sea+Dokdo|Fascinate+Inline|Righteous"; // on ajoute en source la lib (lien cdn)
+let fontList  = "https://fonts.googleapis.com/css?family=Monoton|East+Sea+Dokdo|Fascinate+Inline|Righteous"; // 
 link.href = fontList
 link.rel="stylesheet"
 ```
 
-Il nous reste alors à accoler l'objet link que nous avons créée à notre page web :
+We then need to attach the link object we've created to our web page:
 
 ```javascript
 document.body.appendChild(link);
 ```
 
-Pour utiliser nos polices, nous allons créer un tableau remplit avec les noms des polices qui nous intéressent pour ensuite pouvoir tirer au sort quelle police nous utilisons.
+To use our fonts, we're going to create a table filled with the names of the fonts we're interested in so that we can draw lots to decide which font we use.
 
 ```javascript
 let fonts = ["Monoton", "East Sea  Dokdo", "Fascinate Inline ", "Righteous"]
 ```
 
-Dès le *setup()* nous pouvons tirer au sort une première font à utiliser pour dessiner notre texte.
+From the *setup()* we can randomly select a first font to use to draw our text.
 
 ```javascript
 let f = fonts[int(random(fonts.length))]
 ```
 
-Il ne nous reste alors plus qu'à appliquer cette police à l'aide de la fonction [**textFont()**](https://p5js.org/reference/#/p5/textFont)
+All that remains is to apply this font using the [**textFont()**] function (https://p5js.org/reference/#/p5/textFont).
 
 ```javascript
 textFont(f)
 ```
 
-Nous pourrons répéter cette action à chaque fois que notre utilisateur cliques sur sa souris en copiant ces deux lignes de code dans la fonction *mousePressed()* déjà bien connue.
+We can repeat this action every time our user clicks their mouse by copying these two lines of code into the familiar *mousePressed()* function.
 
-En ré-appliquant les techniques que nous connaissons déjà pour changer les couleurs de manière aléatoire à l'aide d'une palette de couleur nous aboutissons à ce code :
+By re-applying the techniques we already know for changing colours randomly using a colour palette, we end up with this code:
 
 ```javascript
-let link = document.createElement('link'); // on crée un nouvel 'élément link'
-let fontList  = "https://fonts.googleapis.com/css?family=Monoton|East+Sea+Dokdo|Fascinate+Inline|Righteous"; // on ajoute en source la lib (lien cdn)
+let link = document.createElement('link'); 
+let fontList  = "https://fonts.googleapis.com/css?family=Monoton|East+Sea+Dokdo|Fascinate+Inline|Righteous"; 
 link.href = fontList
 link.rel="stylesheet"
 document.body.appendChild(link);
@@ -2137,46 +2158,46 @@ function windowResized() {
 }
 ```
 
-Vous pouvez tester le programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
 
-et consulter le code qui y est associé :
+Code
 https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_05_b_rotate_typo_reflection
 
 
-J'ai réalisé une seconde variation utilisant les coordonnées polaire que vous pouvez tester [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
+I've created a second variation using polar coordinates that you can try out [here](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_05_c_rotate_typo_polar/)
 
-et vous pouvez aussi consulter le code qui y est associé :
+and you can also consult the associated code :
 https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html
 
 [**home**](#contenu)<br>
 
 
-## Dessiner dans des calques
+##  9. <a name='Drawinginlayers'></a>Drawing in layers
 
-Pour plusieurs raisons il peut-être intéressant d'avoir recours à des calques. p5js permet cela en utilisant ce que nous appelons des "offscreen graphics" : il est possible de dessiner dans une image qui n'est pas affichée et que nous pourrons afficher ultérieument avec la fonction [**image()**](https://p5js.org/reference/#/p5/image).
+For a number of reasons, it can be useful to use layers. p5js allows this by using what we call "offscreen graphics": it is possible to draw in an image that is not displayed and that we can display later using the [**image()**] function (https://p5js.org/reference/#/p5/image).
 
-Il est possible de créer un tel objet avec la fonction [**createGraphics()**](https://p5js.org/reference/#/p5/createGraphics)
+You can create such an object using the [**createGraphics()**] function (https://p5js.org/reference/#/p5/createGraphics).
 
-Nous allons apprendre à nous en servir pour recréer ce type d'effet :
+We're going to learn how to use it to recreate this type of effect:
 
 ![pg circles](images/pg_circles.gif)
 
-Pour ce faire nous allons créer une variable globale pour stocker notre image
+To do this, we're going to create a global variable to store our image
 
 ```javascript
 let pg
 ```
 
-Puis dans le *setup()* nous allons pouvoir dans ce calque dessiner une ellipse positioner en haut au centre de la fenêtre. Puisque cette ellipse se dessine en précisant les coordonnées de son centre, elle sera alors coupée.
+Then in *setup()* we can draw an ellipse in this layer, positioned at the top centre of the window. Since this ellipse is drawn by specifying the co-ordinates of its centre, it will then be cut.
 
-Initialisons déjà notre calque pour qu'il fasse la taille d'une case :
+Let's initialise our layer so that it is the size of a square:
 
 ```javascript
 pg = createGraphics(slotSize, slotSize)
 pg.pixelDensity(1)
 ```
 
-Nous pouvons maintenant dessiner à l'intérieur comme d'habitude, en faisant juste précéder toutes les instruction de dessin de 'pg.'. Toutes les notions vues précédement s'appliquent de la même façon dans un calque.
+We can now draw inside as usual, just preceding all drawing instructions with 'pg. All the concepts discussed above apply in the same way to a layer.
 
 ```javascript
 pg.fill(0, 0, 0, 150)
@@ -2184,19 +2205,19 @@ pg.noStroke()
 pg.ellipse(0, slotSize / 2, slotSize * 0.65, slotSize * 0.65)
 ```
 
-Ce genre de technique va nous permettre de créer des images que l'ont va pouvoir afficher dans chaque case et au besoin pivoter.
+This kind of technique allows us to create images that can be displayed in each box and rotated if necessary.
 
-Dans notre animation utilisant des cercles, le principe est de dessiner une ellipse en haut au milieu de notre case, de part la taille du calque notre ellipse sera coupée. Nous garderons un fond transparent et nous feront pivoter notre calque pour dans chaque case dessiner 4 demies ellipses. En utilisant une combinaisons de *translate()* et de *rotate()* nous pourrons obtenir l'effet souhaité.
+In our animation using circles, the principle is to draw an ellipse at the top in the middle of our box, due to the size of the layer our ellipse will be cut off. We will keep a transparent background and rotate our layer to draw 4 half ellipses in each square. By using a combination of *translate()* and *rotate()* we can achieve the desired effect.
 
-Pour afficher nos calques nous allons utiliser la fonction [**image()**](https://p5js.org/reference/#/p5/image). Cette fonction permet d'afficher une image à l'écran. Elle peut prendre jusqu'à cinq paramètres : le premier est le nom de l'image à afficher, les deux suivant sont les coordonnées du point supérieur gauche de l'image et optionnellement on peut préciser la largeur et la hauteur de l'image que l'on souhaite afficher (au risque de déformer l'image originale).
+To display our layers we will use the [**image()**] function (https://p5js.org/reference/#/p5/image). This function is used to display an image on the screen. It can take up to five parameters: the first is the name of the image to be displayed, the next two are the coordinates of the top left point of the image and optionally you can specify the width and height of the image you wish to display (at the risk of distorting the original image).
 
-Depuis le début nous utilisons le centre de nos cases comme point de dessin, nous allons donc utiliser la fonction [**imageMode()**](https://p5js.org/reference/#/p5/imageMode), afin de pouvoir spécifier le centre de nos image comme point d'ancrage (de dessin), plutôt que le coin supérieur gauche. Nous allons effectuer cette manipulation dans le *setup()*
+Since the beginning we've been using the centre of our boxes as the drawing point, so we're going to use the [**imageMode()**](https://p5js.org/reference/#/p5/imageMode) function, so that we can specify the centre of our image as the anchor (drawing) point, rather than the top left corner. We'll do this in *setup()*.
 
 ```javascript
 imageMode(CENTER)
 ```
 
-Ensuite dans le *draw()* nous allons dessiner notre premier calque de manière classique à l'intérieur de notre double boucle for
+Then, in *draw()*, we're going to draw our first layer in the classic way inside our double for loop
 
 ```javascript
  for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
@@ -2208,7 +2229,7 @@ Ensuite dans le *draw()* nous allons dessiner notre premier calque de manière c
 }                                                                                
 ```
 
-Nous allons maintenant superposer une seconde image mais cette fois si qui aura tourné autour de son centre d'un quart de tour. Etant donné que nous allons tourner autour du centre de notre image nous devons d'abord nous placer au centre de notre case à l'aide de *translate()* puis ensuite utiliser *rotate()*
+We're now going to superimpose a second image, but this time one which has rotated around its centre by a quarter turn. Since we're going to rotate around the centre of our image, we first need to position ourselves at the centre of our square using *translate()* and then use *rotate()*.
 
 ```javascript
  for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
@@ -2227,7 +2248,8 @@ Nous allons maintenant superposer une seconde image mais cette fois si qui aura 
 }                                                                                
 ```
 
-Nous allons répéter cette opération encore deux fois :
+We will repeat this operation twice more:
+
 ```javascript
 for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
         for (var y = -slotSize * 5; y < height + slotSize * 5; y += slotSize * 1) {
@@ -2256,14 +2278,14 @@ for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
 
 }
 ```
-Il nous reste maintenant à créer notre effet de décalage dépendant de la position de la souris. Comme d'habitude il s'agit de calculer deux coefficients de décalage : un en abscisses, et un en ordonnées. Cette opération devra se faire tout en haut du *draw()*
+Now we need to create our offset effect, which depends on the position of the mouse. As usual, we need to calculate two offset coefficients: one for the x-axis and one for the y-axis. This operation should be performed at the very top of *draw()*.
 
 ```javascript
 let offsetX = map(mouseY, 0, width, -1, 1)
 let offsetY = map(mouseX, 0, height, -1, 1)
 ```
 
-Nous allons donc les utiliser pour positionner nos images dans chaque case, en utilisant le deuxième et troisième paramètre de notre fonction *image()* : en multipliant 'xOffset' ou 'yOffset' par 'slotSize', nous obtiendrons une image qui glissera d'une case vers la gauche / vers le haut si notre souris et à gauche / en haut de notre fenêtre ou d'une case vers la droite / vers le bas si notre souris est à droite / en bas de notre fenêtre.
+So we're going to use them to position our images in each box, using the second and third parameters of our *image()* function: multiply 'xOffset' or 'yOffset' by 'slotSize' to obtain an image that will slide one box to the left/up if our mouse is on the left/top of our window, or one box to the right/down if our mouse is on the right/bottom of our window.
 
 ```javascript
 offsetX = map(mouseY, 0, width, -1, 1)
@@ -2296,9 +2318,9 @@ for (var x = -slotSize * 5; x < width + slotSize * 5; x += slotSize * 1) {
         }
 }
 ```
-Remarquez cependant que lorsque nous cliquons sur la souris pour redimensionner les cases de notre grille, les calques ne s'adaptent pas automatiquement. Nous pourrions utiliser les quatrièmes et cinquièmes paramètres d' *image()*, mais cela risquerait de produire des images pixelisée (particulièrement si notre calque et plus petit que nos cases et que les calques auront donc à être agrandis).
+Note, however, that when we click the mouse to resize the squares in our grid, the layers don't adapt automatically. We could use the fourth and fifth parameters of *image()*, but this would risk producing pixelated images (particularly if our layer is smaller than our squares and the layers therefore have to be enlarged).
 
-Nous allons donc redessiner le contenu de nos calques à chaque fois que l'utilisateur appuiera sur la souris :
+We are therefore going to redraw the contents of our layers each time the user presses the mouse:
 
 ```javascript
 function mouseReleased() {
@@ -2320,24 +2342,24 @@ function mouseReleased() {
 }
 ```
 
-Vous pourrez retrouver la démo interactive de programme [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/)
+[Live example](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_a_layers_half-cirdles/)
 
-ainsi que le code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_06_a_layers_half-cirdles
+Code : https://github.com/b2renger/p5js-designing-interactive-patterns/tree/master/sketch_06_a_layers_half-cirdles
 
 
-Vous pouvez aussi consulter une seconde variation autour de cette idée de superposition de grilles [ici](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
+You can also consult a second variation based on this idea of superimposed grids [here](https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html)
 
-et le code associé :
+and the associated code :
 https://b2renger.github.io/p5js-designing-interactive-patterns/sketch_06_b_layers_supperpositions/index.html
 
 [**home**](#contenu)<br>
 
-# References et liens
-Mon travail graphique sur teia (beaucoup de motifs au début) : https://teia.art/b2renger
+# References and links
+My graphic work on teia (lots of patterns at first): https://teia.art/b2renger
 
-Mon travail graphique sur fxhash : https://www.fxhash.xyz/u/b2renger
+My graphic work on fxhash : https://www.fxhash.xyz/u/b2renger
 
-Beaucoup de code d'expérimentation et d'exemples qui ont servi à ces travaux : https://github.com/b2renger/p5js_patterns
+A lot of experimental code and examples were used in this work: https://github.com/b2renger/p5js_patterns
 
 [**home**](#contenu)<br>
 
