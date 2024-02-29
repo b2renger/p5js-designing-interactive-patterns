@@ -1,3 +1,7 @@
+🇬🇧 [English version](
+https://github.com/b2renger/p5js-designing-interactive-patterns/blob/english/README.md)
+🇬🇧
+
 # p5js-designing-interactive-patterns
 
 P5js est un projet issu de processing qui est un langage de programmation basé sur java orienté vers la création graphique et interactive. P5js a pour but de transposer l'esprit de processing au web et donc au langage javascript. C'est un framework simple d'accès pour les débutants avec une bonne documentation et une communauté active. 
